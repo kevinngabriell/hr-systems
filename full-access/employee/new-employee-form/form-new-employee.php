@@ -95,6 +95,15 @@ if(isset($_POST['submit'])){
         $message = "Silahkan pilih agama karyawan !!";
         echo "<script type='text/javascript'>alert('$message');</script>";
     } else {
+
+        $check_ktp_is_unique = "SELECT employee_identity FROM employee WHERE employee_identity = '$employee_identity_number'";
+        $check_ktp_is_unique = mysqli_query($connect, $check_ktp_is_unique);
+
+        while ($check_ktp_rows = $check_ktp_is_unique->fetch_assoc()){
+            $message = "Nomor KTP telah terdaftar silahkan coba lagi !!";
+            echo "<script type='text/javascript'>alert('$message');</script>";
+        }
+
         //get length of ktp number
         $employee_identity_length = strlen($employee_identity_number);
 

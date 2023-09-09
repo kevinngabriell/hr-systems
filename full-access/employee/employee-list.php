@@ -313,6 +313,14 @@ while ($company_data_row = $company_data_result->fetch_assoc()){
                     </tr>
                 </thead>
                 <tbody>
+                    <?php
+
+                        $employee_list_query = "SELECT em.id, em.employee_name, dept.department_name, DATEDIFF(now(), em.employee_start_date) as start_date, es.employee_status_name FROM employee em JOIN department dept ON dept.department_id = em.department_id JOIN employee_status es ON es.employee_status_id = em.employee_status_id;";
+                        $employee_list_result = mysqli_query($connect, $employee_list_query);
+
+                        while($employee_rows = mysqli_fetch_array($employee_list_result)){
+
+                    ?>
                     <tr>
                         <td>
                             <div class="d-flex align-items-center">
@@ -323,47 +331,33 @@ while ($company_data_row = $company_data_result->fetch_assoc()){
                                     class="rounded-circle"
                                 />
                                 <div class="ms-3">
-                                    <a href="employee-details/employee-details.php" style="text-decoration: none;">
-                                        <p>John Doe</p>
+                                    <a href="employee-details/employee-details.php?employee_id=<?php echo $employee_rows['id']; ?>" style="text-decoration: none;">
+                                        <p><?php echo $employee_rows['employee_name'] ?></p>
                                     </a>
                                 </div>
                             </div>
                         </td>
                         <td>
-                            <p>Finance & Accouting</p>
+                            <p><?php echo $employee_rows['department_name'] ?></p>
                         </td>
                         <td>
-                            <p>2 tahun 5 bulan</p>
+                            <p>
+                                <?php 
+                                    if($employee_rows['start_date'] > 0){
+                                        echo $employee_rows['start_date'];
+                                    } else {
+                                        echo '0';
+                                    }
+                                ?> 
+                            hari</p>
                         </td>
                         <td>
-                            <p>Fulltime</p>
+                            <p><?php echo $employee_rows['employee_status_name'] ?></p>
                         </td>
                     </tr>
-
-                    <tr>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <img
-                                    src="https://mdbootstrap.com/img/new/avatars/8.jpg"
-                                    alt=""
-                                    style="width: 45px; height: 45px"
-                                    class="rounded-circle"
-                                />
-                                <div class="ms-3">
-                                    <p>John Doe</p>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <p>Finance & Accouting</p>
-                        </td>
-                        <td>
-                            <p>2 tahun 5 bulan</p>
-                        </td>
-                        <td>
-                            <p>Fulltime</p>
-                        </td>
-                    </tr>
+                    <?php
+                        }
+                    ?>
                 </tbody>
             </table>
 

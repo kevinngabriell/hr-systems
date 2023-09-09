@@ -19,6 +19,7 @@ if(isset($_POST['submit'])){
 
   //check is there any data value or not
   if($user_row > 0){
+
     //checking password by decrypt 
     if(password_verify($password, $user_row['password'])){
       //looking for department
