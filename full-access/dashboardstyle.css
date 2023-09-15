@@ -417,3 +417,24 @@ line-height: normal;
     font-weight: 300;
     line-height: normal;
 }
+
+.card-employee-menu-title{
+    color: #000;
+    text-align: center;
+    font-family: Nokora;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.card-employee-menu-desc{
+    margin-top: 2%;
+    color: #8C8C8C;
+    text-align: center;
+    font-family: Nokora;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}

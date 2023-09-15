@@ -128,138 +128,170 @@ if (isset($_POST['submit'])) {
         <div class="row h-100">
             <!-- column left side all -->
             <div class="col-2" style="margin-left: 1%; margin-right: 1%">
-                <!-- row left side company profile-->
-                <div class="row row-company-name-and-logo">
-                    <!-- column for company logo -->
-                    <div class="col-4">
-                        <img src="../../../Assets/company-logo.png" alt="" />
-                    </div>
-                    <!-- column for company name and address -->
-                    <div class="col">
-                        <div class="company-name">
-                            <?= $company_name_printed ?>
-                        </div>
-                        <div class="company-address">
-                            <?= $company_address_printed ?>
-                        </div>
-                    </div>
+            <!-- row left side company profile-->
+            <div class="row row-company-name-and-logo">
+                <!-- column for company logo -->
+                <div class="col-4">
+                <img src="../../../Assets/company-logo.png" alt="" />
                 </div>
+                <!-- column for company name and address -->
+                <div class="col">
+                <div class="company-name">
+                    <?= $company_name_printed ?>
+                </div>
+                <div class="company-address">
+                    <?= $company_address_printed ?>
+                </div>
+                </div>
+            </div>
 
-                <!-- main menu text -->
-                <div class="main-menu-text">Main Menu</div>
+            <!-- main menu text -->
+            <div class="main-menu-text">Menu utama</div>
 
-                <!-- Navigation links in sidebar-->
-                <a href="../../dashboard.php" class="sidebar-menu">
-                    <div class="row row-sidebar-menu-inactive">
-                        <div class="col-3">
-                            <img src="../../../Assets/Asset20.png" alt="" class="img-right-side" />
-                        </div>
-                        <div class="col">Dashboard</div>
-                    </div>
-                </a>
+            <!-- Navigation links in sidebar-->
+            <a href="../../dashboard.php" class="sidebar-menu">
+                <div class="row row-sidebar-menu-inactive">
+                <div class="col-3">
+                    <img
+                    src="../../../Assets/Dashboard-Inactive.png"
+                    alt=""
+                    class="img-right-side"
+                    />
+                </div>
+                <div class="col">Beranda</div>
+                </div>
+            </a>
 
-                <!-- Navigation links in sidebar-->
-                <a href="../employee.php" class="sidebar-menu">
-                    <div class="row row-sidebar-menu">
-                        <div class="col-3">
-                            <img src="../../../Assets/Asset21.png" alt="" class="img-right-side" />
-                        </div>
-                        <div class="col">Employee</div>
-                    </div>
-                </a>
+            <!-- Navigation links in sidebar-->
+            <a href="../employee.php" class="sidebar-menu">
+                <div class="row row-sidebar-menu">
+                <div class="col-3">
+                    <img
+                    src="../../../Assets/Asset21.png"
+                    alt=""
+                    class="img-right-side"
+                    />
+                </div>
+                <div class="col">Karyawan</div>
+                </div>
+            </a>
 
-                <!-- Navigation links in sidebar-->
-                <a href="../../payroll.php" class="sidebar-menu">
-                    <div class="row row-sidebar-menu-inactive">
-                        <div class="col-3">
-                            <img src="../../../Assets/Asset11.png" alt="" class="img-right-side" />
-                        </div>
-                        <div class="col">Payroll</div>
-                    </div>
-                </a>
+            <!-- Navigation links in sidebar-->
+            <a href="../../payroll.php" class="sidebar-menu">
+                <div class="row row-sidebar-menu-inactive">
+                <div class="col-3">
+                    <img
+                    src="../../../Assets/Payroll-Inactive.png"
+                    alt=""
+                    class="img-right-side"
+                    />
+                </div>
+                <div class="col">Gaji</div>
+                </div>
+            </a>
 
-                <!-- Navigation links in sidebar-->
-                <a href="../../performance.php" class="sidebar-menu">
-                    <div class="row row-sidebar-menu-inactive">
-                        <div class="col-3">
-                            <img src="../../../Assets/Asset9.png" alt="" class="img-right-side" />
-                        </div>
-                        <div class="col">Performance</div>
-                    </div>
-                </a>
+            <!-- Navigation links in sidebar-->
+            <a href="../../performance.php" class="sidebar-menu">
+                <div class="row row-sidebar-menu-inactive">
+                <div class="col-3">
+                    <img src="../../../Assets/Performance-Inactive.png" alt="" class="img-right-side" />
+                </div>
+                <div class="col">Performa</div>
+                </div>
+            </a>
 
-                <!-- Navigation links in sidebar-->
-                <a href="../../training.php" class="sidebar-menu">
-                    <div class="row row-sidebar-menu-inactive">
-                        <div class="col-3">
-                            <img src="../../../Assets/Asset16.png" alt="" class="img-right-side" />
-                        </div>
-                        <div class="col">Training</div>
-                    </div>
-                </a>
+            <!-- Navigation links in sidebar-->
+            <a href="../../training.php" class="sidebar-menu">
+                <div class="row row-sidebar-menu-inactive">
+                <div class="col-3">
+                    <img
+                    src="../../../Assets/Training-Inactive.png"
+                    alt=""
+                    class="img-right-side"
+                    />
+                </div>
+                <div class="col">Pelatihan</div>
+                </div>
+            </a>
 
-                <!-- Navigation links in sidebar-->
-                <a href="../../event.php" class="sidebar-menu">
-                    <div class="row row-sidebar-menu-inactive">
-                        <div class="col-3">
-                            <img src="../../../Assets/Asset8.png" alt="" class="img-right-side" />
-                        </div>
-                        <div class="col">Event</div>
-                    </div>
-                </a>
+            <!-- Navigation links in sidebar-->
+            <a href="../../event.php" class="sidebar-menu">
+                <div class="row row-sidebar-menu-inactive">
+                <div class="col-3">
+                    <img src="../../../Assets/Event-Inactive.png" alt="" class="img-right-side" />
+                </div>
+                <div class="col">Acara</div>
+                </div>
+            </a>
 
-                <!-- Navigation links in sidebar-->
-                <a href="../../report.php" class="sidebar-menu">
-                    <div class="row row-sidebar-menu-inactive">
-                        <div class="col-3">
-                            <img src="../../../Assets/Asset12.png" alt="" class="img-right-side" />
-                        </div>
-                        <div class="col">Report</div>
-                    </div>
-                </a>
+            <!-- Navigation links in sidebar-->
+            <a href="../../report.php" class="sidebar-menu">
+                <div class="row row-sidebar-menu-inactive">
+                <div class="col-3">
+                    <img
+                    src="../../../Assets/Report-Inactive.png"
+                    alt=""
+                    class="img-right-side"
+                    />
+                </div>
+                <div class="col">Laporan</div>
+                </div>
+            </a>
 
-                <!-- main menu text -->
-                <div class="mt-4 main-menu-text">Settings</div>
+            <!-- main menu text -->
+            <div class="mt-4 main-menu-text">Pengaturan</div>
 
-                <!-- Navigation links in sidebar-->
-                <a href="../../company-setting.php" class="sidebar-menu">
-                    <div class="row row-sidebar-menu-inactive">
-                        <div class="col-3">
-                            <img src="../../../Assets/Asset14.png" alt="" class="img-right-side" />
-                        </div>
-                        <div class="col">Company Settings</div>
-                    </div>
-                </a>
+            <!-- Navigation links in sidebar-->
+            <a href="../../company-setting.php" class="sidebar-menu">
+                <div class="row row-sidebar-menu-inactive">
+                <div class="col-3">
+                    <img
+                    src="../../../Assets/CompanySetting-Inactive.png"
+                    alt=""
+                    class="img-right-side"
+                    />
+                </div>
+                <div class="col">Perusahaan</div>
+                </div>
+            </a>
 
-                <!-- Navigation links in sidebar-->
-                <a href="../../structure.php" class="sidebar-menu">
-                    <div class="row row-sidebar-menu-inactive">
-                        <div class="col-3">
-                            <img src="../../../Assets/Asset13.png" alt="" class="img-right-side" />
-                        </div>
-                        <div class="col">Structure</div>
-                    </div>
-                </a>
+            <!-- Navigation links in sidebar-->
+            <a href="../../structure.php" class="sidebar-menu">
+                <div class="row row-sidebar-menu-inactive">
+                <div class="col-3">
+                    <img
+                    src="../../../Assets/Structure-Inactive.png"
+                    alt=""
+                    class="img-right-side"
+                    />
+                </div>
+                <div class="col">Struktur</div>
+                </div>
+            </a>
 
-                <!-- Navigation links in sidebar-->
-                <a href="../../attandance-setting.php" class="sidebar-menu">
-                    <div class="row row-sidebar-menu-inactive">
-                        <div class="col-3">
-                            <img src="../../../Assets/Asset7.png" alt="" class="img-right-side" />
-                        </div>
-                        <div class="col">Attandance Setting</div>
-                    </div>
-                </a>
+            <!-- Navigation links in sidebar-->
+            <a href="../../attandance-setting.php" class="sidebar-menu">
+                <div class="row row-sidebar-menu-inactive">
+                <div class="col-3">
+                    <img src="../../../Assets/Attandance-Inactive.png" alt="" class="img-right-side" />
+                </div>
+                <div class="col">Kehadiran</div>
+                </div>
+            </a>
 
-                <!-- Navigation links in sidebar-->
-                <a href="../../logout.php" class="sidebar-menu">
-                    <div class="row row-sidebar-menu-logout">
-                        <div class="col-3">
-                            <img src="../../../Assets/Asset15.png" alt="" class="img-right-side" />
-                        </div>
-                        <div class="col">Logout</div>
-                    </div>
-                </a>
+            <!-- Navigation links in sidebar-->
+            <a href="../../logout.php" class="sidebar-menu">
+                <div class="row row-sidebar-menu-logout">
+                <div class="col-3">
+                    <img
+                    src="../../../Assets/Asset15.png"
+                    alt=""
+                    class="img-right-side"
+                    />
+                </div>
+                <div class="col">Logout</div>
+                </div>
+            </a>
             </div>
 
             <!-- right side column -->

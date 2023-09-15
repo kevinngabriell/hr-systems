@@ -226,10 +226,54 @@ while ($company_data_row = $company_data_result->fetch_assoc()) {
 
         <div class="row d-flex align-items-center justify-content-center"
           style="text-align: center; margin-top: auto; margin-bottom: auto;">
-          <img src="../Assets/Asset29.png" alt="" style="width: 30%;">
-          <p class="under-construction-text">Under Construction</p>
-          <p class="under-construction-text-desc">Halaman ini sedang dalam proses pengembangan dan akan segera hadir
-            dalam waktu dekat</p>
+          <div class="col">
+            <a href="" style="text-decoration: none;">
+              <div class="card card-style-1">
+                <div class="card-employee-menu-title mt-3">
+                  Departemen
+                </div>
+                <div class="card-employee-menu-desc mb-3">
+                  Menu untuk menambah departemen pada struktur organisasi perusahaan.
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col">
+            <a href="" style="text-decoration: none;">
+              <div class="card card-style-1">
+                <div class="card-employee-menu-title mt-3">
+                  Divisi
+                </div>
+                <div class="card-employee-menu-desc mb-3">
+                  Menu untuk menambah divisi pada struktur organisasi perusahaan.
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col">
+          <a href="" style="text-decoration: none;">
+              <div class="card card-style-1">
+                <div class="card-employee-menu-title mt-3">
+                  Soon
+                </div>
+                <div class="card-employee-menu-desc mb-3">
+                Menu ini sedang dalam proses pengembangan dan akan tampil dalam waktu dekat
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col">
+          <a href="" style="text-decoration: none;">
+              <div class="card card-style-1">
+                <div class="card-employee-menu-title mt-3">
+                  Soon
+                </div>
+                <div class="card-employee-menu-desc mb-3">
+                Menu ini sedang dalam proses pengembangan dan akan tampil dalam waktu dekat
+                </div>
+              </div>
+            </a>
+          </div>
         </div>
 
 

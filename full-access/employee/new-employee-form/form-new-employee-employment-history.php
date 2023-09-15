@@ -159,19 +159,19 @@ if(isset($_POST['submit'])){
             </div>
 
             <!-- main menu text -->
-            <div class="main-menu-text">Main Menu</div>
+            <div class="main-menu-text">Menu utama</div>
 
             <!-- Navigation links in sidebar-->
             <a href="../../dashboard.php" class="sidebar-menu">
                 <div class="row row-sidebar-menu-inactive">
                 <div class="col-3">
                     <img
-                    src="../../../Assets/Asset20.png"
+                    src="../../../Assets/Dashboard-Inactive.png"
                     alt=""
                     class="img-right-side"
                     />
                 </div>
-                <div class="col">Dashboard</div>
+                <div class="col">Beranda</div>
                 </div>
             </a>
 
@@ -185,7 +185,7 @@ if(isset($_POST['submit'])){
                     class="img-right-side"
                     />
                 </div>
-                <div class="col">Employee</div>
+                <div class="col">Karyawan</div>
                 </div>
             </a>
 
@@ -194,12 +194,12 @@ if(isset($_POST['submit'])){
                 <div class="row row-sidebar-menu-inactive">
                 <div class="col-3">
                     <img
-                    src="../../../Assets/Asset11.png"
+                    src="../../../Assets/Payroll-Inactive.png"
                     alt=""
                     class="img-right-side"
                     />
                 </div>
-                <div class="col">Payroll</div>
+                <div class="col">Gaji</div>
                 </div>
             </a>
 
@@ -207,9 +207,9 @@ if(isset($_POST['submit'])){
             <a href="../../performance.php" class="sidebar-menu">
                 <div class="row row-sidebar-menu-inactive">
                 <div class="col-3">
-                    <img src="../../../Assets/Asset9.png" alt="" class="img-right-side" />
+                    <img src="../../../Assets/Performance-Inactive.png" alt="" class="img-right-side" />
                 </div>
-                <div class="col">Performance</div>
+                <div class="col">Performa</div>
                 </div>
             </a>
 
@@ -218,12 +218,12 @@ if(isset($_POST['submit'])){
                 <div class="row row-sidebar-menu-inactive">
                 <div class="col-3">
                     <img
-                    src="../../../Assets/Asset16.png"
+                    src="../../../Assets/Training-Inactive.png"
                     alt=""
                     class="img-right-side"
                     />
                 </div>
-                <div class="col">Training</div>
+                <div class="col">Pelatihan</div>
                 </div>
             </a>
 
@@ -231,9 +231,9 @@ if(isset($_POST['submit'])){
             <a href="../../event.php" class="sidebar-menu">
                 <div class="row row-sidebar-menu-inactive">
                 <div class="col-3">
-                    <img src="../../../Assets/Asset8.png" alt="" class="img-right-side" />
+                    <img src="../../../Assets/Event-Inactive.png" alt="" class="img-right-side" />
                 </div>
-                <div class="col">Event</div>
+                <div class="col">Acara</div>
                 </div>
             </a>
 
@@ -242,29 +242,29 @@ if(isset($_POST['submit'])){
                 <div class="row row-sidebar-menu-inactive">
                 <div class="col-3">
                     <img
-                    src="../../../Assets/Asset12.png"
+                    src="../../../Assets/Report-Inactive.png"
                     alt=""
                     class="img-right-side"
                     />
                 </div>
-                <div class="col">Report</div>
+                <div class="col">Laporan</div>
                 </div>
             </a>
 
             <!-- main menu text -->
-            <div class="mt-4 main-menu-text">Settings</div>
+            <div class="mt-4 main-menu-text">Pengaturan</div>
 
             <!-- Navigation links in sidebar-->
             <a href="../../company-setting.php" class="sidebar-menu">
                 <div class="row row-sidebar-menu-inactive">
                 <div class="col-3">
                     <img
-                    src="../../../Assets/Asset14.png"
+                    src="../../../Assets/CompanySetting-Inactive.png"
                     alt=""
                     class="img-right-side"
                     />
                 </div>
-                <div class="col">Company Settings</div>
+                <div class="col">Perusahaan</div>
                 </div>
             </a>
 
@@ -273,12 +273,12 @@ if(isset($_POST['submit'])){
                 <div class="row row-sidebar-menu-inactive">
                 <div class="col-3">
                     <img
-                    src="../../../Assets/Asset13.png"
+                    src="../../../Assets/Structure-Inactive.png"
                     alt=""
                     class="img-right-side"
                     />
                 </div>
-                <div class="col">Structure</div>
+                <div class="col">Struktur</div>
                 </div>
             </a>
 
@@ -286,9 +286,9 @@ if(isset($_POST['submit'])){
             <a href="../../attandance-setting.php" class="sidebar-menu">
                 <div class="row row-sidebar-menu-inactive">
                 <div class="col-3">
-                    <img src="../../../Assets/Asset7.png" alt="" class="img-right-side" />
+                    <img src="../../../Assets/Attandance-Inactive.png" alt="" class="img-right-side" />
                 </div>
-                <div class="col">Attandance Setting</div>
+                <div class="col">Kehadiran</div>
                 </div>
             </a>
 

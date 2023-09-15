@@ -227,7 +227,7 @@ while ($company_data_row = $company_data_result->fetch_assoc()){
                 <!-- first column of top navbar -->
                 <div class="col">
                     <a href="employee.php" class="nav-item nav-text-dashboard"
-                    >Employee</a
+                    >Karyawan</a
                     >
                 </div>
                 <!-- second column of top navbar -->

@@ -15,12 +15,15 @@ include("../Conn/connection.php");
 $username = $_SESSION['username'];
 
 //retrieve company name
-$company_data_query = "SELECT cy.company_name, cy.company_address FROM users us JOIN company cy ON us.company_id = cy.company_id;";
+$company_data_query = "SELECT cy.company_id, cy.company_name, cy.company_address FROM users us JOIN company cy ON us.company_id = cy.company_id WHERE us.username = '$username';";
 $company_data_result = $connect->query($company_data_query);
 
 while ($company_data_row = $company_data_result->fetch_assoc()){
   $company_name_printed = $company_data_row['company_name'];
   $company_address_printed = $company_data_row['company_address'];
+  $company_id_printed = $company_data_row['company_id'];
+
+
 }
 
 

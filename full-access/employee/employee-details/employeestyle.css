@@ -1,5 +1,5 @@
 body{
-    background: #EBEDF5;
+    background: #fff;
 }
 
 .row-company-name-and-logo{
@@ -47,7 +47,7 @@ body{
     margin-bottom: 5%;
     padding-top: 5%;
     padding-bottom: 5%;
-    background: #2F5A76;
+    background: #4EC3FC;
     display: flex;
     align-items: center;
     color: white;
@@ -70,7 +70,7 @@ body{
     padding-bottom: 5%;
     display: flex;
     align-items: center;
-    color: #78879B;
+    color: #ddd;
     font-family: Nokora;
     font-size: 16px;
     font-style: normal;
