@@ -71,7 +71,7 @@ while ($company_data_row = $company_data_result->fetch_assoc()){
           </div>
 
           <!-- main menu text -->
-          <div class="main-menu-text">Main Menu</div>
+          <div class="main-menu-text">Menu utama</div>
 
           <!-- Navigation links in sidebar-->
           <a href="dashboard.php" class="sidebar-menu">
@@ -83,7 +83,7 @@ while ($company_data_row = $company_data_result->fetch_assoc()){
                   class="img-right-side"
                 />
               </div>
-              <div class="col">Dashboard</div>
+              <div class="col">Beranda</div>
             </div>
           </a>
 
@@ -92,12 +92,12 @@ while ($company_data_row = $company_data_result->fetch_assoc()){
             <div class="row row-sidebar-menu-inactive">
               <div class="col-3">
                 <img
-                  src="../Assets/Asset10.png"
+                  src="../Assets/Employee-Inactive.png"
                   alt=""
                   class="img-right-side"
                 />
               </div>
-              <div class="col">Employee</div>
+              <div class="col">Karyawan</div>
             </div>
           </a>
 
@@ -106,12 +106,12 @@ while ($company_data_row = $company_data_result->fetch_assoc()){
             <div class="row row-sidebar-menu-inactive">
               <div class="col-3">
                 <img
-                  src="../Assets/Asset11.png"
+                  src="../Assets/Payroll-Inactive.png"
                   alt=""
                   class="img-right-side"
                 />
               </div>
-              <div class="col">Payroll</div>
+              <div class="col">Gaji</div>
             </div>
           </a>
 
@@ -119,9 +119,9 @@ while ($company_data_row = $company_data_result->fetch_assoc()){
           <a href="performance.php" class="sidebar-menu">
             <div class="row row-sidebar-menu-inactive">
               <div class="col-3">
-                <img src="../Assets/Asset9.png" alt="" class="img-right-side" />
+                <img src="../Assets/Performance-Inactive.png" alt="" class="img-right-side" />
               </div>
-              <div class="col">Performance</div>
+              <div class="col">Performa</div>
             </div>
           </a>
 
@@ -130,12 +130,12 @@ while ($company_data_row = $company_data_result->fetch_assoc()){
             <div class="row row-sidebar-menu-inactive">
               <div class="col-3">
                 <img
-                  src="../Assets/Asset16.png"
+                  src="../Assets/Training-Inactive.png"
                   alt=""
                   class="img-right-side"
                 />
               </div>
-              <div class="col">Training</div>
+              <div class="col">Pelatihan</div>
             </div>
           </a>
 
@@ -143,9 +143,9 @@ while ($company_data_row = $company_data_result->fetch_assoc()){
           <a href="event.php" class="sidebar-menu">
             <div class="row row-sidebar-menu-inactive">
               <div class="col-3">
-                <img src="../Assets/Asset8.png" alt="" class="img-right-side" />
+                <img src="../Assets/Event-Inactive.png" alt="" class="img-right-side" />
               </div>
-              <div class="col">Event</div>
+              <div class="col">Acara</div>
             </div>
           </a>
 
@@ -154,29 +154,29 @@ while ($company_data_row = $company_data_result->fetch_assoc()){
             <div class="row row-sidebar-menu-inactive">
               <div class="col-3">
                 <img
-                  src="../Assets/Asset12.png"
+                  src="../Assets/Report-Inactive.png"
                   alt=""
                   class="img-right-side"
                 />
               </div>
-              <div class="col">Report</div>
+              <div class="col">Laporan</div>
             </div>
           </a>
 
           <!-- main menu text -->
-          <div class="mt-4 main-menu-text">Settings</div>
+          <div class="mt-4 main-menu-text">Pengaturan</div>
 
           <!-- Navigation links in sidebar-->
           <a href="company-setting.php" class="sidebar-menu">
             <div class="row row-sidebar-menu-inactive">
               <div class="col-3">
                 <img
-                  src="../Assets/Asset14.png"
+                  src="../Assets/CompanySetting-Inactive.png"
                   alt=""
                   class="img-right-side"
                 />
               </div>
-              <div class="col">Company Settings</div>
+              <div class="col">Perusahaan</div>
             </div>
           </a>
 
@@ -185,12 +185,12 @@ while ($company_data_row = $company_data_result->fetch_assoc()){
             <div class="row row-sidebar-menu-inactive">
               <div class="col-3">
                 <img
-                  src="../Assets/Asset13.png"
+                  src="../Assets/Structure-Inactive.png"
                   alt=""
                   class="img-right-side"
                 />
               </div>
-              <div class="col">Structure</div>
+              <div class="col">Struktur</div>
             </div>
           </a>
 
@@ -198,9 +198,9 @@ while ($company_data_row = $company_data_result->fetch_assoc()){
           <a href="attandance-setting.php" class="sidebar-menu">
             <div class="row row-sidebar-menu-inactive">
               <div class="col-3">
-                <img src="../Assets/Asset7.png" alt="" class="img-right-side" />
+                <img src="../Assets/Attandance-Inactive.png" alt="" class="img-right-side" />
               </div>
-              <div class="col">Attandance Setting</div>
+              <div class="col">Kehadiran</div>
             </div>
           </a>
 
@@ -214,7 +214,7 @@ while ($company_data_row = $company_data_result->fetch_assoc()){
                   class="img-right-side"
                 />
               </div>
-              <div class="col">Logout</div>
+              <div class="col">Keluar</div>
             </div>
           </a>
         </div>
@@ -285,7 +285,7 @@ while ($company_data_row = $company_data_result->fetch_assoc()){
                             <!-- image asset attandance -->
                             <img src="../Assets/Asset2.png" class="image-card-style-1">
                             <!-- text attandance -->
-                            <div class="title-card-style-1">Employee Attandance</div>
+                            <div class="title-card-style-1">Kehadiran</div>
                             <!-- count total employee attandance -->
                             <div class="value-card-style-1">40</div>
                             <!-- percatange row -->
@@ -312,7 +312,7 @@ while ($company_data_row = $company_data_result->fetch_assoc()){
                             <!-- late asset image -->
                             <img src="../Assets/Asset1.png" class="image-card-style-1">
                             <!-- text employee late -->
-                            <div class="title-card-style-1">Employee Late</div>
+                            <div class="title-card-style-1">Keterlambatan</div>
                             <!-- value employee late -->
                             <div class="value-card-style-1">40</div>
                             <!-- row percantage employee late -->
@@ -339,7 +339,7 @@ while ($company_data_row = $company_data_result->fetch_assoc()){
                 <!-- employee status card -->
                 <div class="card card-style-2">
                     <!-- title status card -->
-                    <div class="title-card-style-2">Employee Status</div>
+                    <div class="title-card-style-2">Status karyawan</div>
                     <!-- value total employee status -->
                     <div class="row mt-3">
                         <div class="col">
@@ -437,7 +437,7 @@ while ($company_data_row = $company_data_result->fetch_assoc()){
                             <!-- image asset for absence -->
                             <img src="../Assets/Asset3.png" class="image-card-style-1">
                             <!-- label for absence -->
-                            <div class="title-card-style-1">Employee Absence</div>
+                            <div class="title-card-style-1">Absen</div>
                             <!-- count value for absence -->
                             <div class="value-card-style-1">40</div>
                             <!-- row percentage absence -->
@@ -462,7 +462,7 @@ while ($company_data_row = $company_data_result->fetch_assoc()){
                             <!-- overtime image -->
                             <img src="../Assets/Asset4.png" class="image-card-style-1">
                             <!-- overtime label -->
-                            <div class="title-card-style-1">Employee Overtime</div>
+                            <div class="title-card-style-1">Lembur</div>
                             <!-- employee overtime count -->
                             <div class="value-card-style-1">40</div>
                             <!-- percentage employee overtime -->

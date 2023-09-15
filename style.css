@@ -1,5 +1,5 @@
 .col-right-side{
-    background: #F3D1AB;
+    background: #fff;
 }
 
 .login-title{
@@ -27,7 +27,7 @@
 }
 
 .trouble-text{
-    color: #000;
+    color: red;
     text-align: center;
     font-family: Nokora;
     font-size: 15px;
@@ -40,12 +40,12 @@
 }
 
 .btn-signin{
-    width: 50%;
+    width: 100%;
     border-radius: 15px;
     border: 0.3px solid #959595;
-    background: #E8AD6C;
+    background: #4EC3FC;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    color: #000;
+    color: #fff;
     text-align: center;
     font-family: Nokora;
     font-size: 22px;
@@ -55,7 +55,17 @@
 }
 
 .btn-signin:hover{
-    background: #E8AD6C;
+    background: #4EC3FC;
+    color: #fff;
+}
+
+.label-form {
+    color: #747474;
+    /* font-family: Work Sans; */
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px; 
 }
 
 @media screen and (max-width: 192px) {

@@ -76,7 +76,7 @@ while ($company_data_row = $company_data_result->fetch_assoc()){
                 <div class="row row-sidebar-menu-inactive">
                 <div class="col-3">
                     <img
-                    src="../../../Assets/Asset20.png"
+                    src="../../../Assets/Asset38.png"
                     alt=""
                     class="img-right-side"
                     />

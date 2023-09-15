@@ -73,7 +73,7 @@ $employee_id = $_GET['employee_id'];
                 <a href="../../dashboard.php" class="sidebar-menu">
                     <div class="row row-sidebar-menu-inactive">
                         <div class="col-3">
-                            <img src="../../../Assets/Asset20.png" alt="" class="img-right-side" />
+                            <img src="../../../Assets/Asset38.png" alt="" class="img-right-side" />
                         </div>
                         <div class="col">Dashboard</div>
                     </div>
