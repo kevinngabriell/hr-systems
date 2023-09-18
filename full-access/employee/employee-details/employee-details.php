@@ -322,7 +322,7 @@ $employee_id = $_GET['employee_id'];
             function resetPass() {
                 //alert('hi');
 
-                response = confirm("Apakah anda yakin ingin melakukan reset password ?employee_id??");
+                response = confirm("Apakah anda yakin ingin melakukan reset password ?");
                 if (response) {
                     // add code if the user pressed the Ok button
                     window.location.href = "reset-pass-backend.php?employee_id=<?php echo $employee_id ?>";

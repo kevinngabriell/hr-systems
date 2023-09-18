@@ -23,6 +23,14 @@ while ($company_data_row = $company_data_result->fetch_assoc()){
   $company_address_printed = $company_data_row['company_address'];
 }
 
+$user_data_query = "SELECT em.employee_name, ecd.employee_email FROM users us JOIN employee em ON us.employee_id = em.id JOIN employee_contact_details_db ecd ON us.employee_id = ecd.id WHERE us.username = '$username';";
+$user_data_results = $connect->query($user_data_query);
+
+while ($user_data_row = $user_data_results->fetch_assoc()) {
+  $employee_name_printed = $user_data_row['employee_name'];
+  $employee_email_printed = $user_data_row['employee_email'];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -128,7 +136,7 @@ while ($company_data_row = $company_data_result->fetch_assoc()){
             <div class="row row-sidebar-menu-inactive">
               <div class="col-3">
                 <img
-                  src="../Assets/Training-Inactive.png.png"
+                  src="../Assets/Training-Inactive.png"
                   alt=""
                   class="img-right-side"
                 />
@@ -196,7 +204,7 @@ while ($company_data_row = $company_data_result->fetch_assoc()){
           <a href="attandance-setting.php" class="sidebar-menu">
             <div class="row row-sidebar-menu">
               <div class="col-3">
-                <img src="../Assets/Asset32.png" alt="" class="img-right-side" />
+                <img src="../Assets/Asset7.png" alt="" class="img-right-side" />
               </div>
               <div class="col">Kehadiran</div>
             </div>
@@ -260,9 +268,20 @@ while ($company_data_row = $company_data_result->fetch_assoc()){
                   </div>
                   <!-- profile name and email -->
                   <div class="col">
-                    <div class="profile-name">Kevin Gabriel</div>
-                    <div class="profile-email">kevingabriel@xyz.com</div>
+                  <div class="profile-name">
+                    <?php echo $employee_name_printed ?>
                   </div>
+                  <div class="profile-email">
+                    <?php
+                    if ($employee_email_printed == NULL) {
+                      echo "Email belum terdata";
+                    } else {
+                      echo $employee_email_printed;
+                    }
+
+                    ?>
+                  </div>
+                </div>
                 </div>
               </div>
             </div>

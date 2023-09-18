@@ -23,13 +23,20 @@ while ($company_data_row = $company_data_result->fetch_assoc()) {
     $company_address_printed = $company_data_row['company_address'];
 }
 
-$user_data_query = "SELECT em.employee_name, ecd.employee_email FROM users us JOIN employee em ON us.employee_id = em.id JOIN employee_contact_details_db ecd ON us.employee_id = ecd.id WHERE us.username = '$username';";
-$user_data_results = $connect->query($user_data_query);
+//retrieve company list
+$company_db_query = "SELECT * FROM company;";
+$company_db_result = mysqli_query($connect, $company_db_query);
 
-while ($user_data_row = $user_data_results->fetch_assoc()) {
-    $employee_name_printed = $user_data_row['employee_name'];
-    $employee_email_printed = $user_data_row['employee_email'];
+//submit action
+if(isset($_POST['submit'])){
+
+    $company_name = $_POST['comp_name'];
+    $department_name = $_POST['dept_name'];
+
+   
+
 }
+
 
 ?>
 
@@ -39,10 +46,10 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Employee HR Systems</title>
+    <title>Company Setting HR Systems</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
-    <link rel="stylesheet" href="employeestyle.css" />
+    <link rel="stylesheet" href="companysettingstyle.css" />
     <!-- font link -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -86,10 +93,10 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
                 </a>
 
                 <!-- Navigation links in sidebar-->
-                <a href="employee.php" class="sidebar-menu">
-                    <div class="row row-sidebar-menu">
+                <a href="../employee/employee.php" class="sidebar-menu">
+                    <div class="row row-sidebar-menu-inactive">
                         <div class="col-3">
-                            <img src="../../Assets/Asset21.png" alt="" class="img-right-side" />
+                            <img src="../../Assets/Employee-Inactive.png" alt="" class="img-right-side" />
                         </div>
                         <div class="col">Karyawan</div>
                     </div>
@@ -150,9 +157,9 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
 
                 <!-- Navigation links in sidebar-->
                 <a href="../company-setting.php" class="sidebar-menu">
-                    <div class="row row-sidebar-menu-inactive">
+                    <div class="row row-sidebar-menu">
                         <div class="col-3">
-                            <img src="../../Assets/CompanySetting-Inactive.png" alt="" class="img-right-side" />
+                            <img src="../../Assets/Asset33.png" alt="" class="img-right-side" />
                         </div>
                         <div class="col">Perusahaan</div>
                     </div>
@@ -179,12 +186,12 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
                 </a>
 
                 <!-- Navigation links in sidebar-->
-                <a href="../../logout.php" class="sidebar-menu">
+                <a href="../logout.php" class="sidebar-menu">
                     <div class="row row-sidebar-menu-logout">
                         <div class="col-3">
                             <img src="../../Assets/Asset15.png" alt="" class="img-right-side" />
                         </div>
-                        <div class="col">Logout</div>
+                        <div class="col">Keluar</div>
                     </div>
                 </a>
             </div>
@@ -198,7 +205,7 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
                     <div class="row row-right-navbar">
                         <!-- first column of top navbar -->
                         <div class="col">
-                            <a href="employee.php" class="nav-item nav-text-dashboard">Karyawan</a>
+                            <a href="../company-setting.html" class="nav-item nav-text-dashboard">Company Setting</a>
                         </div>
                         <!-- second column of top navbar -->
                         <div class="col">
@@ -225,140 +232,76 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
                                 </div>
                                 <!-- profile name and email -->
                                 <div class="col">
-                                    <div class="profile-name">
-                                        <?php echo $employee_name_printed ?>
-                                    </div>
-                                    <div class="profile-email">
-                                        <?php
-                                        if ($employee_email_printed == NULL) {
-                                            echo "Email belum terdata";
-                                        } else {
-                                            echo $employee_email_printed;
-                                        }
-
-                                        ?>
-                                    </div>
+                                    <div class="profile-name">Kevin Gabriel</div>
+                                    <div class="profile-email">kevingabriel@xyz.com</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </nav>
 
-                <div class="row mt-3">
-                    <div class="col">
-                        <a href="employee-request-list.php" style="text-decoration: none;">
-                            <div class="card card-employee-menu">
-                                <div class="card-employee-menu-title">
-                                    Permintaan
-                                </div>
-                                <div class="card-employee-menu-desc">
-                                    Menu ini digunakan untuk mengajukan permintaan karyawan baru dan melihat permintaan
-                                    tiap departemen
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col">
-                        <a href="" style="text-decoration: none;">
-                            <div class="card card-employee-menu">
-                                <div class="card-employee-menu-title">
-                                    Pelamar
-                                </div>
-                                <div class="card-employee-menu-desc">
-                                    Menu ini digunakan untuk melihat jumlah pelamar yang sudah melamar dalam setiap
-                                    departemen
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col">
-                        <a href="employee-list.php" style="text-decoration: none;">
-                            <div class="card card-employee-menu">
-                                <div class="card-employee-menu-title">
-                                    Karyawan
-                                </div>
-                                <div class="card-employee-menu-desc">
-                                    Menu ini digunakan untuk melihat dan mengatur data karyawan secara keseluruhan dalam
-                                    perusahaan
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col">
-                        <a href="" style="text-decoration: none;">
-                            <div class="card card-employee-menu">
-                                <div class="card-employee-menu-title">
-                                    Permohonan
-                                </div>
-                                <div class="card-employee-menu-desc">
-                                    Menu ini digunakan untuk melihat dan mengatur data karyawan secara keseluruhan dalam
-                                    perusahaan
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+                <div class="row d-flex " style="margin-top: auto; margin-bottom: auto;">
+                    <form action="" method="post">
 
-                <div class="row mt-3">
-                    <div class="col">
-                        <a href="" style="text-decoration: none;">
-                            <div class="card card-employee-menu">
-                                <div class="card-employee-menu-title">
-                                    Soon
-                                </div>
-                                <div class="card-employee-menu-desc">
-                                    Menu ini sedang dalam proses pengembangan dan akan tampil dalam waktu dekat
-                                </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="">Perusahaan</label>
+                                <select class="mt-2 form-select" name="comp_name" id="comp_name">
+                                    <?php
+                                    while ($company_rows = mysqli_fetch_array($company_db_result, MYSQLI_ASSOC)):
+                                        ?>
+                                        <option value="<?php echo $company_rows["company_id"] ?>">
+                                            <?php echo $company_rows["company_name"] ?>
+                                        </option>
+                                        <?php
+                                    endwhile;
+                                    ?>
+                                </select>
                             </div>
-                        </a>
-                    </div>
-                    <div class="col">
-                        <a href="" style="text-decoration: none;">
-                            <div class="card card-employee-menu">
-                                <div class="card-employee-menu-title">
-                                    Soon
-                                </div>
-                                <div class="card-employee-menu-desc">
-                                    Menu ini sedang dalam proses pengembangan dan akan tampil dalam waktu dekat
-                                </div>
+                            <div class="col-3">
+                                <label for="">Departemen</label>
+                                <input class="mt-2 form-control" type="text" name="dept_name" id="dept_name">
                             </div>
-                        </a>
-                    </div>
-                    <div class="col">
-                        <a href="" style="text-decoration: none;">
-                            <div class="card card-employee-menu">
-                                <div class="card-employee-menu-title">
-                                    Soon
-                                </div>
-                                <div class="card-employee-menu-desc">
-                                    Menu ini sedang dalam proses pengembangan dan akan tampil dalam waktu dekat
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col">
-                        <a href="" style="text-decoration: none;">
-                            <div class="card card-employee-menu">
-                                <div class="card-employee-menu-title">
-                                    Soon
-                                </div>
-                                <div class="card-employee-menu-desc">
-                                    Menu ini sedang dalam proses pengembangan dan akan tampil dalam waktu dekat
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+                        </div>
+
+                        <button type="submit" class="btn mt-4 btn-submit-add-division align-items-end" id="submit"
+                            name="submit">Submit</button>
+
+                    </form>
                 </div>
 
 
 
             </div>
         </div>
+    </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-            crossorigin="anonymous"></script>
 
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+
+
+
+    <script>
+        var chrt = document.getElementById("chartId").getContext("2d");
+        var chartId = new Chart(chrt, {
+            type: 'doughnut',
+            data: {
+                labels: ["HTML", "CSS", "JAVASCRIPT", "CHART.JS", "JQUERY", "BOOTSTRP"],
+                datasets: [{
+                    label: "online tutorial subjects",
+                    data: [20, 40, 13, 35, 20, 38],
+                    backgroundColor: ['yellow', 'aqua', 'pink', 'lightgreen', 'gold', 'lightblue'],
+                    hoverOffset: 5
+                }],
+            },
+            options: {
+                responsive: false,
+            },
+        });
+    </script>
 </body>
 
 </html>

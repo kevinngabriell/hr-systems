@@ -33,6 +33,14 @@ $provinces_query = "SELECT * FROM provinsi_db";
 $provinces_result = mysqli_query($connect, $provinces_query);
 $provinces_result_now = mysqli_query($connect, $provinces_query);
 
+$user_data_query = "SELECT em.employee_name, ecd.employee_email FROM users us JOIN employee em ON us.employee_id = em.id JOIN employee_contact_details_db ecd ON us.employee_id = ecd.id WHERE us.username = '$username';";
+$user_data_results = $connect->query($user_data_query);
+
+while ($user_data_row = $user_data_results->fetch_assoc()) {
+    $employee_name_printed = $user_data_row['employee_name'];
+    $employee_email_printed = $user_data_row['employee_email'];
+}
+
 //check if next button
 if (isset($_POST['submit'])) {
 
@@ -101,170 +109,138 @@ if (isset($_POST['submit'])) {
         <div class="row h-100">
             <!-- column left side all -->
             <div class="col-2" style="margin-left: 1%; margin-right: 1%">
-            <!-- row left side company profile-->
-            <div class="row row-company-name-and-logo">
-                <!-- column for company logo -->
-                <div class="col-4">
-                <img src="../../../Assets/company-logo.png" alt="" />
+                <!-- row left side company profile-->
+                <div class="row row-company-name-and-logo">
+                    <!-- column for company logo -->
+                    <div class="col-4">
+                        <img src="../../../Assets/company-logo.png" alt="" />
+                    </div>
+                    <!-- column for company name and address -->
+                    <div class="col">
+                        <div class="company-name">
+                            <?= $company_name_printed ?>
+                        </div>
+                        <div class="company-address">
+                            <?= $company_address_printed ?>
+                        </div>
+                    </div>
                 </div>
-                <!-- column for company name and address -->
-                <div class="col">
-                <div class="company-name">
-                    <?= $company_name_printed ?>
-                </div>
-                <div class="company-address">
-                    <?= $company_address_printed ?>
-                </div>
-                </div>
-            </div>
 
-            <!-- main menu text -->
-            <div class="main-menu-text">Menu utama</div>
+                <!-- main menu text -->
+                <div class="main-menu-text">Menu utama</div>
 
-            <!-- Navigation links in sidebar-->
-            <a href="../../dashboard.php" class="sidebar-menu">
-                <div class="row row-sidebar-menu-inactive">
-                <div class="col-3">
-                    <img
-                    src="../../../Assets/Dashboard-Inactive.png"
-                    alt=""
-                    class="img-right-side"
-                    />
-                </div>
-                <div class="col">Beranda</div>
-                </div>
-            </a>
+                <!-- Navigation links in sidebar-->
+                <a href="../../dashboard.php" class="sidebar-menu">
+                    <div class="row row-sidebar-menu-inactive">
+                        <div class="col-3">
+                            <img src="../../../Assets/Dashboard-Inactive.png" alt="" class="img-right-side" />
+                        </div>
+                        <div class="col">Beranda</div>
+                    </div>
+                </a>
 
-            <!-- Navigation links in sidebar-->
-            <a href="../employee.php" class="sidebar-menu">
-                <div class="row row-sidebar-menu">
-                <div class="col-3">
-                    <img
-                    src="../../../Assets/Asset21.png"
-                    alt=""
-                    class="img-right-side"
-                    />
-                </div>
-                <div class="col">Karyawan</div>
-                </div>
-            </a>
+                <!-- Navigation links in sidebar-->
+                <a href="../employee.php" class="sidebar-menu">
+                    <div class="row row-sidebar-menu">
+                        <div class="col-3">
+                            <img src="../../../Assets/Asset21.png" alt="" class="img-right-side" />
+                        </div>
+                        <div class="col">Karyawan</div>
+                    </div>
+                </a>
 
-            <!-- Navigation links in sidebar-->
-            <a href="../../payroll.php" class="sidebar-menu">
-                <div class="row row-sidebar-menu-inactive">
-                <div class="col-3">
-                    <img
-                    src="../../../Assets/Payroll-Inactive.png"
-                    alt=""
-                    class="img-right-side"
-                    />
-                </div>
-                <div class="col">Gaji</div>
-                </div>
-            </a>
+                <!-- Navigation links in sidebar-->
+                <a href="../../payroll.php" class="sidebar-menu">
+                    <div class="row row-sidebar-menu-inactive">
+                        <div class="col-3">
+                            <img src="../../../Assets/Payroll-Inactive.png" alt="" class="img-right-side" />
+                        </div>
+                        <div class="col">Gaji</div>
+                    </div>
+                </a>
 
-            <!-- Navigation links in sidebar-->
-            <a href="../../performance.php" class="sidebar-menu">
-                <div class="row row-sidebar-menu-inactive">
-                <div class="col-3">
-                    <img src="../../../Assets/Performance-Inactive.png" alt="" class="img-right-side" />
-                </div>
-                <div class="col">Performa</div>
-                </div>
-            </a>
+                <!-- Navigation links in sidebar-->
+                <a href="../../performance.php" class="sidebar-menu">
+                    <div class="row row-sidebar-menu-inactive">
+                        <div class="col-3">
+                            <img src="../../../Assets/Performance-Inactive.png" alt="" class="img-right-side" />
+                        </div>
+                        <div class="col">Performa</div>
+                    </div>
+                </a>
 
-            <!-- Navigation links in sidebar-->
-            <a href="../../training.php" class="sidebar-menu">
-                <div class="row row-sidebar-menu-inactive">
-                <div class="col-3">
-                    <img
-                    src="../../../Assets/Training-Inactive.png"
-                    alt=""
-                    class="img-right-side"
-                    />
-                </div>
-                <div class="col">Pelatihan</div>
-                </div>
-            </a>
+                <!-- Navigation links in sidebar-->
+                <a href="../../training.php" class="sidebar-menu">
+                    <div class="row row-sidebar-menu-inactive">
+                        <div class="col-3">
+                            <img src="../../../Assets/Training-Inactive.png" alt="" class="img-right-side" />
+                        </div>
+                        <div class="col">Pelatihan</div>
+                    </div>
+                </a>
 
-            <!-- Navigation links in sidebar-->
-            <a href="../../event.php" class="sidebar-menu">
-                <div class="row row-sidebar-menu-inactive">
-                <div class="col-3">
-                    <img src="../../../Assets/Event-Inactive.png" alt="" class="img-right-side" />
-                </div>
-                <div class="col">Acara</div>
-                </div>
-            </a>
+                <!-- Navigation links in sidebar-->
+                <a href="../../event.php" class="sidebar-menu">
+                    <div class="row row-sidebar-menu-inactive">
+                        <div class="col-3">
+                            <img src="../../../Assets/Event-Inactive.png" alt="" class="img-right-side" />
+                        </div>
+                        <div class="col">Acara</div>
+                    </div>
+                </a>
 
-            <!-- Navigation links in sidebar-->
-            <a href="../../report.php" class="sidebar-menu">
-                <div class="row row-sidebar-menu-inactive">
-                <div class="col-3">
-                    <img
-                    src="../../../Assets/Report-Inactive.png"
-                    alt=""
-                    class="img-right-side"
-                    />
-                </div>
-                <div class="col">Laporan</div>
-                </div>
-            </a>
+                <!-- Navigation links in sidebar-->
+                <a href="../../report.php" class="sidebar-menu">
+                    <div class="row row-sidebar-menu-inactive">
+                        <div class="col-3">
+                            <img src="../../../Assets/Report-Inactive.png" alt="" class="img-right-side" />
+                        </div>
+                        <div class="col">Laporan</div>
+                    </div>
+                </a>
 
-            <!-- main menu text -->
-            <div class="mt-4 main-menu-text">Pengaturan</div>
+                <!-- main menu text -->
+                <div class="mt-4 main-menu-text">Pengaturan</div>
 
-            <!-- Navigation links in sidebar-->
-            <a href="../../company-setting.php" class="sidebar-menu">
-                <div class="row row-sidebar-menu-inactive">
-                <div class="col-3">
-                    <img
-                    src="../../../Assets/CompanySetting-Inactive.png"
-                    alt=""
-                    class="img-right-side"
-                    />
-                </div>
-                <div class="col">Perusahaan</div>
-                </div>
-            </a>
+                <!-- Navigation links in sidebar-->
+                <a href="../../company-setting.php" class="sidebar-menu">
+                    <div class="row row-sidebar-menu-inactive">
+                        <div class="col-3">
+                            <img src="../../../Assets/CompanySetting-Inactive.png" alt="" class="img-right-side" />
+                        </div>
+                        <div class="col">Perusahaan</div>
+                    </div>
+                </a>
 
-            <!-- Navigation links in sidebar-->
-            <a href="../../structure.php" class="sidebar-menu">
-                <div class="row row-sidebar-menu-inactive">
-                <div class="col-3">
-                    <img
-                    src="../../../Assets/Structure-Inactive.png"
-                    alt=""
-                    class="img-right-side"
-                    />
-                </div>
-                <div class="col">Struktur</div>
-                </div>
-            </a>
+                <!-- Navigation links in sidebar-->
+                <a href="../../structure.php" class="sidebar-menu">
+                    <div class="row row-sidebar-menu-inactive">
+                        <div class="col-3">
+                            <img src="../../../Assets/Structure-Inactive.png" alt="" class="img-right-side" />
+                        </div>
+                        <div class="col">Struktur</div>
+                    </div>
+                </a>
 
-            <!-- Navigation links in sidebar-->
-            <a href="../../attandance-setting.php" class="sidebar-menu">
-                <div class="row row-sidebar-menu-inactive">
-                <div class="col-3">
-                    <img src="../../../Assets/Attandance-Inactive.png" alt="" class="img-right-side" />
-                </div>
-                <div class="col">Kehadiran</div>
-                </div>
-            </a>
+                <!-- Navigation links in sidebar-->
+                <a href="../../attandance-setting.php" class="sidebar-menu">
+                    <div class="row row-sidebar-menu-inactive">
+                        <div class="col-3">
+                            <img src="../../../Assets/Attandance-Inactive.png" alt="" class="img-right-side" />
+                        </div>
+                        <div class="col">Kehadiran</div>
+                    </div>
+                </a>
 
-            <!-- Navigation links in sidebar-->
-            <a href="../../logout.php" class="sidebar-menu">
-                <div class="row row-sidebar-menu-logout">
-                <div class="col-3">
-                    <img
-                    src="../../../Assets/Asset15.png"
-                    alt=""
-                    class="img-right-side"
-                    />
-                </div>
-                <div class="col">Logout</div>
-                </div>
-            </a>
+                <!-- Navigation links in sidebar-->
+                <a href="../../logout.php" class="sidebar-menu">
+                    <div class="row row-sidebar-menu-logout">
+                        <div class="col-3">
+                            <img src="../../../Assets/Asset15.png" alt="" class="img-right-side" />
+                        </div>
+                        <div class="col">Logout</div>
+                    </div>
+                </a>
             </div>
 
             <!-- right side column -->
@@ -303,8 +279,19 @@ if (isset($_POST['submit'])) {
                                 </div>
                                 <!-- profile name and email -->
                                 <div class="col">
-                                    <div class="profile-name">Kevin Gabriel</div>
-                                    <div class="profile-email">kevingabriel@xyz.com</div>
+                                    <div class="profile-name">
+                                        <?php echo $employee_name_printed ?>
+                                    </div>
+                                    <div class="profile-email">
+                                        <?php
+                                        if ($employee_email_printed == NULL) {
+                                            echo "Email belum terdata";
+                                        } else {
+                                            echo $employee_email_printed;
+                                        }
+
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>

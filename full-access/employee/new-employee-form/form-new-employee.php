@@ -23,6 +23,14 @@ while ($company_data_row = $company_data_result->fetch_assoc()) {
     $company_address_printed = $company_data_row['company_address'];
 }
 
+$user_data_query = "SELECT em.employee_name, ecd.employee_email FROM users us JOIN employee em ON us.employee_id = em.id JOIN employee_contact_details_db ecd ON us.employee_id = ecd.id WHERE us.username = '$username';";
+$user_data_results = $connect->query($user_data_query);
+
+while ($user_data_row = $user_data_results->fetch_assoc()) {
+    $employee_name_printed = $user_data_row['employee_name'];
+    $employee_email_printed = $user_data_row['employee_email'];
+}
+
 //retrieve gender db 
 $gender_db_query = "SELECT * FROM gender_db;";
 $gender_db_result = mysqli_query($connect, $gender_db_query);
@@ -88,7 +96,7 @@ if (isset($_POST['submit'])) {
     } else if ($employee_nationality == null) {
         $message = "Silahkan pilih kewarganegaraan karyawan";
         echo "<script type='text/javascript'>alert('$message');</script>";
-    } else if ($employee_company == null){
+    } else if ($employee_company == null) {
         $message = "Silahkan pilih perusahaan karyawan";
         echo "<script type='text/javascript'>alert('$message');</script>";
     } else if ($employee_department == null || $employee_department == 'DEPT-HR-000') {
@@ -344,8 +352,19 @@ if (isset($_POST['submit'])) {
                                 </div>
                                 <!-- profile name and email -->
                                 <div class="col">
-                                    <div class="profile-name">Kevin Gabriel</div>
-                                    <div class="profile-email">kevingabriel@xyz.com</div>
+                                    <div class="profile-name">
+                                        <?php echo $employee_name_printed ?>
+                                    </div>
+                                    <div class="profile-email">
+                                        <?php
+                                        if ($employee_email_printed == NULL) {
+                                            echo "Email belum terdata";
+                                        } else {
+                                            echo $employee_email_printed;
+                                        }
+
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>

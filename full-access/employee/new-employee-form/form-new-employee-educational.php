@@ -23,6 +23,15 @@ while ($company_data_row = $company_data_result->fetch_assoc()) {
     $company_address_printed = $company_data_row['company_address'];
 }
 
+
+$user_data_query = "SELECT em.employee_name, ecd.employee_email FROM users us JOIN employee em ON us.employee_id = em.id JOIN employee_contact_details_db ecd ON us.employee_id = ecd.id WHERE us.username = '$username';";
+$user_data_results = $connect->query($user_data_query);
+
+while ($user_data_row = $user_data_results->fetch_assoc()) {
+    $employee_name_printed = $user_data_row['employee_name'];
+    $employee_email_printed = $user_data_row['employee_email'];
+}
+
 //retrieve education type
 $education_type_query = "SELECT * FROM education_db";
 $education_type_result = mysqli_query($connect, $education_type_query);
@@ -31,7 +40,7 @@ $education_type_result_3 = mysqli_query($connect, $education_type_query);
 $education_type_result_4 = mysqli_query($connect, $education_type_query);
 $education_type_result_5 = mysqli_query($connect, $education_type_query);
 
-if(isset($_POST['submit'])){
+if (isset($_POST['submit'])) {
 
     //gather employee education
     $education_type_1 = $_POST['education_type_1'];
@@ -77,14 +86,14 @@ if(isset($_POST['submit'])){
     $get_id_query = "SELECT id FROM employee ORDER BY id DESC LIMIT 1";
     $last_id = mysqli_query($connect, $get_id_query);
 
-    while($last_id_row = $last_id->fetch_assoc()){
+    while ($last_id_row = $last_id->fetch_assoc()) {
         $employee_id = $last_id_row['id'];
     }
 
-    $insert_education_history_query = "INSERT IGNORE INTO employee_education_history (id, emp_edu_id_1, emp_name_1, emp_major_1, emp_grade_1, emp_start_1, emp_end_1, emp_desc_1, emp_edu_id_2, emp_edu_id_3, emp_edu_id_4, emp_edu_id_5, emp_name_2, emp_name_3, emp_name_4, emp_name_5, emp_major_2, emp_major_3, emp_major_4, emp_major_5, emp_grade_2, emp_grade_3, emp_grade_4, emp_grade_5, emp_start_2, emp_start_3, emp_start_4, emp_start_5, emp_end_2, emp_end_3, emp_end_4, emp_end_5, emp_desc_2, emp_desc_3, emp_desc_4, emp_desc_5) VALUES ('$employee_id', '$education_type_1', '$education_name_1', '$education_major_1', '$education_grade_1', '$education_start_1', '$education_end_1', '$education_desc_1', '$education_type_2', '$education_type_3', '$education_type_4', '$education_type_5', '$education_name_2', '$education_name_3', '$education_name_4', '$education_name_5', '$education_major_2', '$education_major_3', '$education_major_4', '$education_major_5', '$education_grade_2', '$education_grade_3', '$education_grade_4', '$education_grade_5', '$education_start_2', '$education_start_3', '$education_start_4', '$education_start_5', '$education_end_2', '$education_end_3', '$education_end_4', '$education_end_5', '$education_desc_2', '$education_desc_3', '$education_desc_4', '$education_desc_5');"; 
+    $insert_education_history_query = "INSERT IGNORE INTO employee_education_history (id, emp_edu_id_1, emp_name_1, emp_major_1, emp_grade_1, emp_start_1, emp_end_1, emp_desc_1, emp_edu_id_2, emp_edu_id_3, emp_edu_id_4, emp_edu_id_5, emp_name_2, emp_name_3, emp_name_4, emp_name_5, emp_major_2, emp_major_3, emp_major_4, emp_major_5, emp_grade_2, emp_grade_3, emp_grade_4, emp_grade_5, emp_start_2, emp_start_3, emp_start_4, emp_start_5, emp_end_2, emp_end_3, emp_end_4, emp_end_5, emp_desc_2, emp_desc_3, emp_desc_4, emp_desc_5) VALUES ('$employee_id', '$education_type_1', '$education_name_1', '$education_major_1', '$education_grade_1', '$education_start_1', '$education_end_1', '$education_desc_1', '$education_type_2', '$education_type_3', '$education_type_4', '$education_type_5', '$education_name_2', '$education_name_3', '$education_name_4', '$education_name_5', '$education_major_2', '$education_major_3', '$education_major_4', '$education_major_5', '$education_grade_2', '$education_grade_3', '$education_grade_4', '$education_grade_5', '$education_start_2', '$education_start_3', '$education_start_4', '$education_start_5', '$education_end_2', '$education_end_3', '$education_end_4', '$education_end_5', '$education_desc_2', '$education_desc_3', '$education_desc_4', '$education_desc_5');";
     $insert_education_history_result = mysqli_query($connect, $insert_education_history_query);
 
-    if($insert_education_history_result){
+    if ($insert_education_history_result) {
         header("location: form-new-employee-language-professional.php");
     } else {
         mysqli_error($connect);
@@ -158,170 +167,138 @@ if(isset($_POST['submit'])){
         <div class="row h-100">
             <!-- column left side all -->
             <div class="col-2" style="margin-left: 1%; margin-right: 1%">
-            <!-- row left side company profile-->
-            <div class="row row-company-name-and-logo">
-                <!-- column for company logo -->
-                <div class="col-4">
-                <img src="../../../Assets/company-logo.png" alt="" />
+                <!-- row left side company profile-->
+                <div class="row row-company-name-and-logo">
+                    <!-- column for company logo -->
+                    <div class="col-4">
+                        <img src="../../../Assets/company-logo.png" alt="" />
+                    </div>
+                    <!-- column for company name and address -->
+                    <div class="col">
+                        <div class="company-name">
+                            <?= $company_name_printed ?>
+                        </div>
+                        <div class="company-address">
+                            <?= $company_address_printed ?>
+                        </div>
+                    </div>
                 </div>
-                <!-- column for company name and address -->
-                <div class="col">
-                <div class="company-name">
-                    <?= $company_name_printed ?>
-                </div>
-                <div class="company-address">
-                    <?= $company_address_printed ?>
-                </div>
-                </div>
-            </div>
 
-            <!-- main menu text -->
-            <div class="main-menu-text">Menu utama</div>
+                <!-- main menu text -->
+                <div class="main-menu-text">Menu utama</div>
 
-            <!-- Navigation links in sidebar-->
-            <a href="../../dashboard.php" class="sidebar-menu">
-                <div class="row row-sidebar-menu-inactive">
-                <div class="col-3">
-                    <img
-                    src="../../../Assets/Dashboard-Inactive.png"
-                    alt=""
-                    class="img-right-side"
-                    />
-                </div>
-                <div class="col">Beranda</div>
-                </div>
-            </a>
+                <!-- Navigation links in sidebar-->
+                <a href="../../dashboard.php" class="sidebar-menu">
+                    <div class="row row-sidebar-menu-inactive">
+                        <div class="col-3">
+                            <img src="../../../Assets/Dashboard-Inactive.png" alt="" class="img-right-side" />
+                        </div>
+                        <div class="col">Beranda</div>
+                    </div>
+                </a>
 
-            <!-- Navigation links in sidebar-->
-            <a href="../employee.php" class="sidebar-menu">
-                <div class="row row-sidebar-menu">
-                <div class="col-3">
-                    <img
-                    src="../../../Assets/Asset21.png"
-                    alt=""
-                    class="img-right-side"
-                    />
-                </div>
-                <div class="col">Karyawan</div>
-                </div>
-            </a>
+                <!-- Navigation links in sidebar-->
+                <a href="../employee.php" class="sidebar-menu">
+                    <div class="row row-sidebar-menu">
+                        <div class="col-3">
+                            <img src="../../../Assets/Asset21.png" alt="" class="img-right-side" />
+                        </div>
+                        <div class="col">Karyawan</div>
+                    </div>
+                </a>
 
-            <!-- Navigation links in sidebar-->
-            <a href="../../payroll.php" class="sidebar-menu">
-                <div class="row row-sidebar-menu-inactive">
-                <div class="col-3">
-                    <img
-                    src="../../../Assets/Payroll-Inactive.png"
-                    alt=""
-                    class="img-right-side"
-                    />
-                </div>
-                <div class="col">Gaji</div>
-                </div>
-            </a>
+                <!-- Navigation links in sidebar-->
+                <a href="../../payroll.php" class="sidebar-menu">
+                    <div class="row row-sidebar-menu-inactive">
+                        <div class="col-3">
+                            <img src="../../../Assets/Payroll-Inactive.png" alt="" class="img-right-side" />
+                        </div>
+                        <div class="col">Gaji</div>
+                    </div>
+                </a>
 
-            <!-- Navigation links in sidebar-->
-            <a href="../../performance.php" class="sidebar-menu">
-                <div class="row row-sidebar-menu-inactive">
-                <div class="col-3">
-                    <img src="../../../Assets/Performance-Inactive.png" alt="" class="img-right-side" />
-                </div>
-                <div class="col">Performa</div>
-                </div>
-            </a>
+                <!-- Navigation links in sidebar-->
+                <a href="../../performance.php" class="sidebar-menu">
+                    <div class="row row-sidebar-menu-inactive">
+                        <div class="col-3">
+                            <img src="../../../Assets/Performance-Inactive.png" alt="" class="img-right-side" />
+                        </div>
+                        <div class="col">Performa</div>
+                    </div>
+                </a>
 
-            <!-- Navigation links in sidebar-->
-            <a href="../../training.php" class="sidebar-menu">
-                <div class="row row-sidebar-menu-inactive">
-                <div class="col-3">
-                    <img
-                    src="../../../Assets/Training-Inactive.png"
-                    alt=""
-                    class="img-right-side"
-                    />
-                </div>
-                <div class="col">Pelatihan</div>
-                </div>
-            </a>
+                <!-- Navigation links in sidebar-->
+                <a href="../../training.php" class="sidebar-menu">
+                    <div class="row row-sidebar-menu-inactive">
+                        <div class="col-3">
+                            <img src="../../../Assets/Training-Inactive.png" alt="" class="img-right-side" />
+                        </div>
+                        <div class="col">Pelatihan</div>
+                    </div>
+                </a>
 
-            <!-- Navigation links in sidebar-->
-            <a href="../../event.php" class="sidebar-menu">
-                <div class="row row-sidebar-menu-inactive">
-                <div class="col-3">
-                    <img src="../../../Assets/Event-Inactive.png" alt="" class="img-right-side" />
-                </div>
-                <div class="col">Acara</div>
-                </div>
-            </a>
+                <!-- Navigation links in sidebar-->
+                <a href="../../event.php" class="sidebar-menu">
+                    <div class="row row-sidebar-menu-inactive">
+                        <div class="col-3">
+                            <img src="../../../Assets/Event-Inactive.png" alt="" class="img-right-side" />
+                        </div>
+                        <div class="col">Acara</div>
+                    </div>
+                </a>
 
-            <!-- Navigation links in sidebar-->
-            <a href="../../report.php" class="sidebar-menu">
-                <div class="row row-sidebar-menu-inactive">
-                <div class="col-3">
-                    <img
-                    src="../../../Assets/Report-Inactive.png"
-                    alt=""
-                    class="img-right-side"
-                    />
-                </div>
-                <div class="col">Laporan</div>
-                </div>
-            </a>
+                <!-- Navigation links in sidebar-->
+                <a href="../../report.php" class="sidebar-menu">
+                    <div class="row row-sidebar-menu-inactive">
+                        <div class="col-3">
+                            <img src="../../../Assets/Report-Inactive.png" alt="" class="img-right-side" />
+                        </div>
+                        <div class="col">Laporan</div>
+                    </div>
+                </a>
 
-            <!-- main menu text -->
-            <div class="mt-4 main-menu-text">Pengaturan</div>
+                <!-- main menu text -->
+                <div class="mt-4 main-menu-text">Pengaturan</div>
 
-            <!-- Navigation links in sidebar-->
-            <a href="../../company-setting.php" class="sidebar-menu">
-                <div class="row row-sidebar-menu-inactive">
-                <div class="col-3">
-                    <img
-                    src="../../../Assets/CompanySetting-Inactive.png"
-                    alt=""
-                    class="img-right-side"
-                    />
-                </div>
-                <div class="col">Perusahaan</div>
-                </div>
-            </a>
+                <!-- Navigation links in sidebar-->
+                <a href="../../company-setting.php" class="sidebar-menu">
+                    <div class="row row-sidebar-menu-inactive">
+                        <div class="col-3">
+                            <img src="../../../Assets/CompanySetting-Inactive.png" alt="" class="img-right-side" />
+                        </div>
+                        <div class="col">Perusahaan</div>
+                    </div>
+                </a>
 
-            <!-- Navigation links in sidebar-->
-            <a href="../../structure.php" class="sidebar-menu">
-                <div class="row row-sidebar-menu-inactive">
-                <div class="col-3">
-                    <img
-                    src="../../../Assets/Structure-Inactive.png"
-                    alt=""
-                    class="img-right-side"
-                    />
-                </div>
-                <div class="col">Struktur</div>
-                </div>
-            </a>
+                <!-- Navigation links in sidebar-->
+                <a href="../../structure.php" class="sidebar-menu">
+                    <div class="row row-sidebar-menu-inactive">
+                        <div class="col-3">
+                            <img src="../../../Assets/Structure-Inactive.png" alt="" class="img-right-side" />
+                        </div>
+                        <div class="col">Struktur</div>
+                    </div>
+                </a>
 
-            <!-- Navigation links in sidebar-->
-            <a href="../../attandance-setting.php" class="sidebar-menu">
-                <div class="row row-sidebar-menu-inactive">
-                <div class="col-3">
-                    <img src="../../../Assets/Attandance-Inactive.png" alt="" class="img-right-side" />
-                </div>
-                <div class="col">Kehadiran</div>
-                </div>
-            </a>
+                <!-- Navigation links in sidebar-->
+                <a href="../../attandance-setting.php" class="sidebar-menu">
+                    <div class="row row-sidebar-menu-inactive">
+                        <div class="col-3">
+                            <img src="../../../Assets/Attandance-Inactive.png" alt="" class="img-right-side" />
+                        </div>
+                        <div class="col">Kehadiran</div>
+                    </div>
+                </a>
 
-            <!-- Navigation links in sidebar-->
-            <a href="../../logout.php" class="sidebar-menu">
-                <div class="row row-sidebar-menu-logout">
-                <div class="col-3">
-                    <img
-                    src="../../../Assets/Asset15.png"
-                    alt=""
-                    class="img-right-side"
-                    />
-                </div>
-                <div class="col">Logout</div>
-                </div>
-            </a>
+                <!-- Navigation links in sidebar-->
+                <a href="../../logout.php" class="sidebar-menu">
+                    <div class="row row-sidebar-menu-logout">
+                        <div class="col-3">
+                            <img src="../../../Assets/Asset15.png" alt="" class="img-right-side" />
+                        </div>
+                        <div class="col">Logout</div>
+                    </div>
+                </a>
             </div>
 
             <!-- right side column -->
@@ -360,8 +337,19 @@ if(isset($_POST['submit'])){
                                 </div>
                                 <!-- profile name and email -->
                                 <div class="col">
-                                    <div class="profile-name">Kevin Gabriel</div>
-                                    <div class="profile-email">kevingabriel@xyz.com</div>
+                                    <div class="profile-name">
+                                        <?php echo $employee_name_printed ?>
+                                    </div>
+                                    <div class="profile-email">
+                                        <?php
+                                        if ($employee_email_printed == NULL) {
+                                            echo "Email belum terdata";
+                                        } else {
+                                            echo $employee_email_printed;
+                                        }
+
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -452,25 +440,29 @@ if(isset($_POST['submit'])){
                                 </div>
                                 <div class="col">
                                     <label for="" class="form-new-employee-label mb-1">Nama sekolah</label>
-                                    <input type="text" name="education_name_2" id="education_name_2" class="form-control">
+                                    <input type="text" name="education_name_2" id="education_name_2"
+                                        class="form-control">
                                 </div>
                             </div>
 
                             <div class="row mt-4">
                                 <div class="col">
                                     <label for="" class="form-new-employee-label mb-1">Jurusan</label>
-                                    <input type="text" name="education_major_2" id="education_major_2" class="form-control">
+                                    <input type="text" name="education_major_2" id="education_major_2"
+                                        class="form-control">
                                 </div>
                             </div>
 
                             <div class="row mt-4">
                                 <div class="col">
                                     <label for="" class="form-new-employee-label mb-1">Nilai</label>
-                                    <input type="text" name="education_grade_2" id="education_grade_2" class="form-control">
+                                    <input type="text" name="education_grade_2" id="education_grade_2"
+                                        class="form-control">
                                 </div>
                                 <div class="col">
                                     <label for="" class="form-new-employee-label mb-1">Tahun Masuk</label>
-                                    <input type="date" name="education_start_2" id="education_start_2" class="form-control">
+                                    <input type="date" name="education_start_2" id="education_start_2"
+                                        class="form-control">
                                 </div>
                                 <div class="col">
                                     <label for="" class="form-new-employee-label mb-1">Tahun Selesai</label>
@@ -481,7 +473,8 @@ if(isset($_POST['submit'])){
                             <div class="row mt-4 mb-4">
                                 <div class="col">
                                     <label for="" class="form-new-employee-label mb-1">Deskripsi Pendidikan</label>
-                                    <textarea class="form-control" name="education_desc_2" id="education_desc_2" cols="10" rows="3"></textarea>
+                                    <textarea class="form-control" name="education_desc_2" id="education_desc_2"
+                                        cols="10" rows="3"></textarea>
                                 </div>
                             </div>
 
@@ -507,25 +500,29 @@ if(isset($_POST['submit'])){
                                 </div>
                                 <div class="col">
                                     <label for="" class="form-new-employee-label mb-1">Nama sekolah</label>
-                                    <input type="text" name="education_name_3" id="education_name_3" class="form-control">
+                                    <input type="text" name="education_name_3" id="education_name_3"
+                                        class="form-control">
                                 </div>
                             </div>
 
                             <div class="row mt-4">
                                 <div class="col">
                                     <label for="" class="form-new-employee-label mb-1">Jurusan</label>
-                                    <input type="text" name="education_major_3" id="education_major_3" class="form-control">
+                                    <input type="text" name="education_major_3" id="education_major_3"
+                                        class="form-control">
                                 </div>
                             </div>
 
                             <div class="row mt-4">
                                 <div class="col">
                                     <label for="" class="form-new-employee-label mb-1">Nilai</label>
-                                    <input type="text" name="education_grade_3" id="education_grade_3" class="form-control">
+                                    <input type="text" name="education_grade_3" id="education_grade_3"
+                                        class="form-control">
                                 </div>
                                 <div class="col">
                                     <label for="" class="form-new-employee-label mb-1">Tahun Masuk</label>
-                                    <input type="date" name="education_start_3" id="education_start_3" class="form-control">
+                                    <input type="date" name="education_start_3" id="education_start_3"
+                                        class="form-control">
                                 </div>
                                 <div class="col">
                                     <label for="" class="form-new-employee-label mb-1">Tahun Selesai</label>
@@ -536,7 +533,8 @@ if(isset($_POST['submit'])){
                             <div class="row mt-4 mb-4">
                                 <div class="col">
                                     <label for="" class="form-new-employee-label mb-1">Deskripsi Pendidikan</label>
-                                    <textarea class="form-control" name="education_desc_3" id="education_desc_3" cols="10" rows="3"></textarea>
+                                    <textarea class="form-control" name="education_desc_3" id="education_desc_3"
+                                        cols="10" rows="3"></textarea>
                                 </div>
                             </div>
 
@@ -562,25 +560,29 @@ if(isset($_POST['submit'])){
                                 </div>
                                 <div class="col">
                                     <label for="" class="form-new-employee-label mb-1">Nama sekolah</label>
-                                    <input type="text" name="education_name_4" id="education_name_4" class="form-control">
+                                    <input type="text" name="education_name_4" id="education_name_4"
+                                        class="form-control">
                                 </div>
                             </div>
 
                             <div class="row mt-4">
                                 <div class="col">
                                     <label for="" class="form-new-employee-label mb-1">Jurusan</label>
-                                    <input type="text" name="education_major_4" id="education_major_4" class="form-control">
+                                    <input type="text" name="education_major_4" id="education_major_4"
+                                        class="form-control">
                                 </div>
                             </div>
 
                             <div class="row mt-4">
                                 <div class="col">
                                     <label for="" class="form-new-employee-label mb-1">Nilai</label>
-                                    <input type="text" name="education_grade_4" id="education_grade_4" class="form-control">
+                                    <input type="text" name="education_grade_4" id="education_grade_4"
+                                        class="form-control">
                                 </div>
                                 <div class="col">
                                     <label for="" class="form-new-employee-label mb-1">Tahun Masuk</label>
-                                    <input type="date" name="education_start_4" id="education_start_4" class="form-control">
+                                    <input type="date" name="education_start_4" id="education_start_4"
+                                        class="form-control">
                                 </div>
                                 <div class="col">
                                     <label for="" class="form-new-employee-label mb-1">Tahun Selesai</label>
@@ -591,7 +593,8 @@ if(isset($_POST['submit'])){
                             <div class="row mt-4 mb-4">
                                 <div class="col">
                                     <label for="" class="form-new-employee-label mb-1">Deskripsi Pendidikan</label>
-                                    <textarea class="form-control" name="education_desc_4" id="education_desc_4" cols="10" rows="3"></textarea>
+                                    <textarea class="form-control" name="education_desc_4" id="education_desc_4"
+                                        cols="10" rows="3"></textarea>
                                 </div>
                             </div>
 
@@ -617,25 +620,29 @@ if(isset($_POST['submit'])){
                                 </div>
                                 <div class="col">
                                     <label for="" class="form-new-employee-label mb-1">Nama sekolah</label>
-                                    <input type="text" name="education_name_5" id="education_name_5" class="form-control">
+                                    <input type="text" name="education_name_5" id="education_name_5"
+                                        class="form-control">
                                 </div>
                             </div>
 
                             <div class="row mt-4">
                                 <div class="col">
                                     <label for="" class="form-new-employee-label mb-1">Jurusan</label>
-                                    <input type="text" name="education_major_5" id="education_major_5" class="form-control">
+                                    <input type="text" name="education_major_5" id="education_major_5"
+                                        class="form-control">
                                 </div>
                             </div>
 
                             <div class="row mt-4">
                                 <div class="col">
                                     <label for="" class="form-new-employee-label mb-1">Nilai</label>
-                                    <input type="text" name="education_grade_5" id="education_grade_5" class="form-control">
+                                    <input type="text" name="education_grade_5" id="education_grade_5"
+                                        class="form-control">
                                 </div>
                                 <div class="col">
                                     <label for="" class="form-new-employee-label mb-1">Tahun Masuk</label>
-                                    <input type="date" name="education_start_5" id="education_start_5" class="form-control">
+                                    <input type="date" name="education_start_5" id="education_start_5"
+                                        class="form-control">
                                 </div>
                                 <div class="col">
                                     <label for="" class="form-new-employee-label mb-1">Tahun Selesai</label>
@@ -646,12 +653,13 @@ if(isset($_POST['submit'])){
                             <div class="row mt-4 mb-4">
                                 <div class="col">
                                     <label for="" class="form-new-employee-label mb-1">Deskripsi Pendidikan</label>
-                                    <textarea class="form-control" name="education_desc_5" id="education_desc_5" cols="10" rows="3"></textarea>
+                                    <textarea class="form-control" name="education_desc_5" id="education_desc_5"
+                                        cols="10" rows="3"></textarea>
                                 </div>
                             </div>
 
-                            <button type="submit"
-                                class="btn mt-4 btn-submit-form-employee align-items-end" id="submit" name="submit" >Next</button>
+                            <button type="submit" class="btn mt-4 btn-submit-form-employee align-items-end" id="submit"
+                                name="submit">Next</button>
 
                         </div>
                         <div class="col-3">
