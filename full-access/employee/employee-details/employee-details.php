@@ -25,6 +25,14 @@ while ($company_data_row = $company_data_result->fetch_assoc()) {
 
 $employee_id = $_GET['employee_id'];
 
+$user_data_query = "SELECT em.employee_name, ecd.employee_email FROM users us JOIN employee em ON us.employee_id = em.id JOIN employee_contact_details_db ecd ON us.employee_id = ecd.id WHERE us.username = '$username';";
+$user_data_results = $connect->query($user_data_query);
+
+while ($user_data_row = $user_data_results->fetch_assoc()) {
+    $employee_name_printed = $user_data_row['employee_name'];
+    $employee_email_printed = $user_data_row['employee_email'];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -219,8 +227,19 @@ $employee_id = $_GET['employee_id'];
                                 </div>
                                 <!-- profile name and email -->
                                 <div class="col">
-                                    <div class="profile-name">Kevin Gabriel</div>
-                                    <div class="profile-email">kevingabriel@xyz.com</div>
+                                    <div class="profile-name">
+                                        <?php echo $employee_name_printed ?>
+                                    </div>
+                                    <div class="profile-email">
+                                        <?php
+                                        if ($employee_email_printed == NULL) {
+                                            echo "Email belum terdata";
+                                        } else {
+                                            echo $employee_email_printed;
+                                        }
+
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -231,7 +250,7 @@ $employee_id = $_GET['employee_id'];
 
                 <nav class="nav flex-column flex-sm-row">
                     <a class="flex-sm-fill text-sm-center nav-link active" aria-current="page" href="#">Overview</a>
-                    <a class="flex-sm-fill text-sm-center nav-link" href="employee-details-absensi.html">Absensi</a>
+                    <a class="flex-sm-fill text-sm-center nav-link" href="employee-details-absensi.php?employee_id=<?php echo $employee_id ?>">Absensi</a>
                     <a class="flex-sm-fill text-sm-center nav-link" href="employee-details-perfoma.html">Perfoma</a>
                     <a class="flex-sm-fill text-sm-center nav-link"
                         href="employee-details-permohonan.html">Permohonan</a>
