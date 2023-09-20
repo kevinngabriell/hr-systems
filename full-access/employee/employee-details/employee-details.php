@@ -1,11 +1,13 @@
 <?php
 
+error_reporting(E_ERROR);
+
 //check session when started
 if (!isset($_SESSION)) {
     session_start();
 }
 if (!isset($_SESSION['username'])) {
-    header('location: ../../login.php');
+    header('location: ../../../login.php');
 }
 
 //connection 
@@ -32,6 +34,40 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
     $employee_name_printed = $user_data_row['employee_name'];
     $employee_email_printed = $user_data_row['employee_email'];
 }
+
+
+$employee_data_query = "SELECT em.employee_name, ps.position_name, dp.department_name, ecd.employee_email, ecd.employee_phone_number, es.employee_status_name, em.employee_pob, DATE_FORMAT(em.employee_dob, '%d %M %Y') as employee_dob, gd.gender_name FROM employee em JOIN position_db ps ON em.position_id = ps.position_id JOIN department dp ON em.department_id = dp.department_id JOIN employee_contact_details_db ecd ON em.id = ecd.id JOIN employee_status es ON em.employee_status_id = es.employee_status_id JOIN gender_db gd ON em.gender = gd.gender_id WHERE em.id = '$employee_id';";
+$employee_data_results = $connect->query($employee_data_query);
+
+while ($employee_data_rows = $employee_data_results->fetch_assoc()) {
+    $data_employee_name = $employee_data_rows['employee_name'];
+    $data_employee_position = $employee_data_rows['position_name'];
+    $data_employee_department = $employee_data_rows['department_name'];
+    $data_employee_email = $employee_data_rows['employee_email'];
+    $data_employee_phone = $employee_data_rows['employee_phone_number'];
+    $data_employee_status = $employee_data_rows['employee_status_name'];
+    $data_employee_pob = $employee_data_rows['employee_pob'];
+    $data_employee_dob = $employee_data_rows['employee_dob'];
+    $data_employee_gender = $employee_data_rows['gender_name'];
+}
+
+$supervised_query = "SELECT employee_spv FROM employee WHERE id = '$employee_id' ";
+$supervised_result = $connect->query($supervised_query);
+
+while ($supervised_rows = $supervised_result->fetch_assoc()) {
+    $data_supervisor = $supervised_rows['employee_spv'];
+
+    $find_supervised_name = "SELECT employee_name FROM employee WHERE id = '$data_supervisor' ";
+    $find_supervised_name_result = $connect->query($find_supervised_name);
+
+    while ($find_supervised_name_rows = $find_supervised_name_result->fetch_assoc()) {
+        $superviser_name = $find_supervised_name_rows['employee_name'];
+    }
+
+}
+
+// $find_supervised_name = "SELECT employee_name FROM employee WHERE ";
+
 
 ?>
 
@@ -246,11 +282,23 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
                     </div>
                 </nav>
 
+                <div class="row">
+                    <a href="../employee-list.php" style="text-decoration: none;">
+                        <div class="back">
+                            < Back </div>
+                    </a>
+                </div>
 
+                <div class="row d-flex align-items-center">
+                    <div class="col profile-employee-title">
+                        Profile Karyawan
+                    </div>
+                </div>
 
                 <nav class="nav flex-column flex-sm-row">
                     <a class="flex-sm-fill text-sm-center nav-link active" aria-current="page" href="#">Overview</a>
-                    <a class="flex-sm-fill text-sm-center nav-link" href="employee-details-absensi.php?employee_id=<?php echo $employee_id ?>">Absensi</a>
+                    <a class="flex-sm-fill text-sm-center nav-link"
+                        href="employee-details-absensi.php?employee_id=<?php echo $employee_id ?>">Absensi</a>
                     <a class="flex-sm-fill text-sm-center nav-link" href="employee-details-perfoma.html">Perfoma</a>
                     <a class="flex-sm-fill text-sm-center nav-link"
                         href="employee-details-permohonan.html">Permohonan</a>
@@ -260,72 +308,189 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
                 </nav>
 
                 <div class="row mt-4 d-flex">
-                    <div class="col">
-                        dasdad
-                    </div>
-                    <div class="col-4">
-                        <div class="card">
-                            <div class="row d-flex justify-content-center align-content-center">
-                                <div class="col">
-                                    <a href="create-acc-backend.php?employee_id=<?php echo $employee_id ?>"
-                                        style="text-decoration: none;">
-                                        <img src="../../../Assets/Asset22.png"
-                                            style="display: block;  margin-top: 12%; margin-left: auto; margin-right: auto; width: 70%; margin-bottom: 5%;">
-                                        <div class="menu-name-details-right-corner">
-                                            Akun
-                                        </div>
-                                    </a>
+                    <div class="col-3">
+                        <div class="card card-employee-1">
+                            <img src="../../../Assets/company-logo.png"
+                                style="width: 30%; margin-left: 3%; margin-top:5%;">
+
+                            <!-- employee name -->
+                            <a href="" style="text-decoration: none;">
+                                <div class="employee-name">
+                                    <?= $data_employee_name; ?>
                                 </div>
-                                <div class="col">
-                                    <a href="javascript:resetPass();" style="text-decoration: none;">
-                                        <img src="../../../Assets/Asset23.png" alt=""
-                                            style="display: block;  margin-top: 12%; margin-left: auto; margin-right: auto; width: 70%; margin-bottom: 5%;">
-                                        <div class="menu-name-details-right-corner">
-                                            Reset akun
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col">
-                                    <a href="javascript:deleteAcc();" style="text-decoration: none;">
-                                        <img src="../../../Assets/Asset24.png" alt=""
-                                            style="display: block;  margin-top: 12%; margin-left: auto; margin-right: auto; width: 70%; margin-bottom: 5%;">
-                                        <div class="menu-name-details-right-corner">
-                                            Hapus akun
-                                        </div>
-                                    </a>
-                                </div>
+                            </a>
+                            <!-- employee position -->
+                            <div class="employee-position">
+                                <?= $data_employee_position ?>
                             </div>
 
-                            <div class="row mt-2 mb-4 d-flex justify-content-center align-content-center">
-                                <div class="col">
-                                    <a href="" style="text-decoration: none;">
-                                        <img src="../../../Assets/Asset25.png" alt=""
-                                        style="display: block;  margin-top: 12%; margin-left: auto; margin-right: auto; width: 70%; margin-bottom: 5%;">
-                                        <div class="menu-name-details-right-corner">
-                                            Tinjau
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col">
-                                    <a href="" style="text-decoration: none;">
-                                        <img src="../../../Assets/Asset26.png" alt=""
-                                            style="display: block;  margin-top: 12%; margin-left: auto; margin-right: auto; width: 70%; margin-bottom: 5%;">
-                                        <div class="menu-name-details-right-corner">
-                                            SP
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col">
-                                    <a href="" style="text-decoration: none;">
-                                        <img src="../../../Assets/Asset27.png" alt=""
-                                            style="display: block;  margin-top: 12%; margin-left: auto; margin-right: auto; width: 70%; margin-bottom: 5%;">
-                                        <div class="menu-name-details-right-corner">
-                                            Soon
-                                        </div>
-                                    </a>
-                                </div>
+                            <!-- employee status -->
+                            <div class="status-label">Status</div>
+                            <div class="status-value">
+                                <?= $data_employee_status ?>
                             </div>
+
+                            <!-- employee contact -->
+                            <div class="contact-label mt-3">Kontak</div>
+                            <div class="contact-value">
+                                <?php
+                                if ($data_employee_phone == NULL) {
+                                    echo "-";
+                                } else {
+                                    echo $data_employee_phone;
+                                }
+                                ?>
+                                <br />
+                                <?php
+                                if ($data_employee_email == NULL) {
+                                    echo "-";
+                                } else {
+                                    echo $data_employee_email;
+                                }
+                                ?>
+                            </div>
+
+                            <!-- supervised by -->
+                            <div class="contact-label mt-3">Supervisor</div>
+                            <div class="contact-value mb-4">
+                                <?php
+                                    if($superviser_name == NULL){
+                                        echo "-";
+                                    } else {
+                                        echo $superviser_name;
+                                    }
+
+                                ?>
+                            </div>
+
                         </div>
+
+                        <div class="card mt-4 card-action">
+                            <a href="read-only-employee-data/read-only-personal.php?employee_id=<?php echo $employee_id ?>" style="text-decoration: none;">
+                                <div class="menu-name-details-right-corner">
+                                    Detail karyawan
+                                </div>
+                            </a>
+                        </div>
+
+
+                        <div class="card mt-4 card-action">
+                            <a href="create-acc-backend.php?employee_id=<?php echo $employee_id ?>"
+                                style="text-decoration: none;">
+                                <div class="menu-name-details-right-corner">
+                                    Buat akun
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="card mt-4 card-action">
+                            <a href="javascript:resetPass();" style="text-decoration: none;">
+                                <div class="menu-name-details-right-corner">
+                                    Reset akun
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="card mt-4 card-action">
+                            <a href="javascript:deleteAcc();" style="text-decoration: none;">
+                                <div class="menu-name-details-right-corner">
+                                    Hapus akun
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="card mt-4 card-action mb-5">
+                            <a href="javascript:deleteAcc();" style="text-decoration: none;">
+                                <div class="menu-name-details-right-corner">
+                                    Request Update data
+                                </div>
+                            </a>
+                        </div>
+
+
+
+                    </div>
+                    <div class="col">
+                        <div class="card card-employee-1">
+
+                            <div class="basic-information">
+                                Informasi Umum
+                            </div>
+
+                            <table style="margin-left: 3%; margin-top: 1%; margin-bottom: 3%; ">
+                                <tr>
+                                    <th class="label-basic-information">Nama lengkap</th>
+                                    <th class="value-basic-information">
+                                        <?= $data_employee_name; ?>
+                                    </th>
+                                </tr>
+                                <tr class="separator">
+                                    <th class="label-basic-information">Tanggal lahir</th>
+                                    <th class="value-basic-information">
+                                        <?php echo "$data_employee_pob, $data_employee_dob" ?>
+                                    </th>
+                                </tr>
+                                <tr class="separator">
+                                    <th class="label-basic-information">Nomor handphone</th>
+                                    <th class="value-basic-information">
+                                        <?php
+                                        if ($data_employee_phone == NULL) {
+                                            echo "-";
+                                        } else {
+                                            echo $data_employee_phone;
+                                        }
+                                        ?>
+                                    </th>
+                                </tr>
+                                <tr class="separator">
+                                    <th class="label-basic-information">Jenis kelamin</th>
+                                    <th class="value-basic-information">
+                                        <?= $data_employee_gender; ?>
+                                    </th>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="card card-employee-1 mt-4">
+                            <div class="basic-information">
+                                Catatan posisi
+                            </div>
+
+                            <table style="margin-left: 3%; margin-top: 2%; margin-bottom: 3%; ">
+                                <tr>
+                                    <th class="label-basic-information">Jabatan</th>
+                                    <th class="label-basic-information">Departemen</th>
+                                    <th class="label-basic-information">Periode awal</th>
+                                    <th class="label-basic-information">Periode akhir</th>
+                                </tr>
+                                <?php
+                                    $position_history_query = "SELECT pd.position_name, DATE_FORMAT(pld.start_date, '%d %M %Y') as start_date, DATE_FORMAT(pld.end_date, '%d %M %Y') as end_date, dt.department_name FROM position_log_db pld JOIN position_db pd ON pld.position = pd.position_id JOIN department dt ON pld.department = dt.department_id;";
+                                    $position_history_result = $connect->query($position_history_query);
+
+                                    while($position_history_rows = $position_history_result->fetch_assoc()):
+                                ?>
+                                <tr>
+                                    <td style="height: 50%;"><?= $position_history_rows['position_name']; ?></td>
+                                    <td style="height: 50%;"><?= $position_history_rows['department_name']; ?></td>
+                                    <td style="height: 50%;"><?= $position_history_rows['start_date']; ?></td>
+                                    <td style="height: 50%;">
+                                        <?php  
+                                            if($position_history_rows['end_date'] == NULL){
+                                                echo "-";
+                                            } else {
+                                                echo $position_history_rows['end_date'];
+                                            }
+                                        ?>
+                                    </td>
+                                </tr>
+                                <?php
+                                    endwhile;
+                                ?>
+                            </table>
+
+
+                        </div>
+
                     </div>
                 </div>
 
@@ -351,14 +516,14 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
                 }
             }
 
-            function deleteAcc(){
+            function deleteAcc() {
                 // alert('delete');
 
                 deleteresponse = confirm("Apakah anda yakin ingin menghapus akun ini ?");
 
-                if(deleteresponse){
-                    alert('Proses hapus akun');
-                } else { 
+                if (deleteresponse) {
+                    window.location.href = "delete-acc-backend.php?employee_id=<?php echo $employee_id ?>";
+                } else {
                     alert('Hapus akun dibatalkan');
                 }
             }   

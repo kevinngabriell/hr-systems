@@ -19,34 +19,67 @@ if (isset($_POST['submit'])) {
 
   //check is there any data value or not
   if ($user_row > 0) {
-
     //checking password by decrypt 
     if (password_verify($password, $user_row['password'])) {
       //looking for department
-      $search_dept_query = "SELECT em.department_id FROM users us JOIN employee em ON us.employee_id = em.id WHERE us.username = '$email_username';";
+      $search_dept_query = "SELECT em.position_id, em.department_id  FROM users us JOIN employee em ON us.employee_id = em.id WHERE us.username = '$email_username';";
       $search_dept_result = $connect->query($search_dept_query);
 
-      //retrieve department id
-      while ($dept_row = $search_dept_result->fetch_assoc()) {
-        //set dept_id value
-        $dept_id_result = $dept_row['department_id'];
-        //check dept_id
+      if ($password == '123456') {
+        header('location: change-default-pass.php?username='.$email_username);
+      } else {
+        //retrieve department id
+        while ($dept_row = $search_dept_result->fetch_assoc()) {
+          //set dept_id value
+          $dept_id_result = $dept_row['department_id'];
+          $position_id_result = $dept_row['position_id'];
+          //check dept_id
 
-        //session start
-        session_start();
+          //session start
+          session_start();
 
-        if ($dept_id_result == 'DEPT-HR-002') {
-          //save dept session & user session
-          $_SESSION['username'] = $user_row['username'];
-          $_SESSION['user_department'] = $dept_id_result;
-          //direct user to new page
-          header('location: full-access/dashboard.php');
-        } else {
-          //if except HR department
-          $message = "Anda belum memiliki akses ke sistem ini";
-          echo "<script type='text/javascript'>alert('$message');</script>";
+          if ($position_id_result == 'POS-HR-002') {
+            //save dept session & user session
+            $_SESSION['username'] = $user_row['username'];
+            $_SESSION['user_department'] = $dept_id_result;
+            //direct user to new page
+            header('location: full-access/dashboard.php');
+          } else {
+            //if except HR department
+            $_SESSION['username'] = $user_row['username'];
+            $_SESSION['user_department'] = $dept_id_result;
+            header('location: employee/dashboard.php');
+            // $message = "Anda belum memiliki akses ke sistem ini";
+            // echo "<script type='text/javascript'>alert('$message');</script>";
+          }
         }
       }
+
+      // //retrieve department id
+      // while ($dept_row = $search_dept_result->fetch_assoc()) {
+      //   //set dept_id value
+      //   $dept_id_result = $dept_row['department_id'];
+      //   $position_id_result = $dept_row['position_id'];
+      //   //check dept_id
+
+      //   //session start
+      //   session_start();
+
+      //   if ($position_id_result == 'POS-HR-002') {
+      //     //save dept session & user session
+      //     $_SESSION['username'] = $user_row['username'];
+      //     $_SESSION['user_department'] = $dept_id_result;
+      //     //direct user to new page
+      //     header('location: full-access/dashboard.php');
+      //   } else {
+      //     //if except HR department
+      //     $_SESSION['username'] = $user_row['username'];
+      //     $_SESSION['user_department'] = $dept_id_result;
+      //     header('location: employee/dashboard.php');
+      //     // $message = "Anda belum memiliki akses ke sistem ini";
+      //     // echo "<script type='text/javascript'>alert('$message');</script>";
+      //   }
+      // }
 
     } else {
       //passowrd is not correct

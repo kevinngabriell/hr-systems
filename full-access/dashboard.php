@@ -709,9 +709,9 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
           <div class="col">
             <div class="card card-style-2">
               <div class="title-card-style-2 mt-1">Annual Leave</div>
-              <canvas id="chartId" aria-label="chart"></canvas>
+              <!-- <canvas id="chartId" aria-label="chart"></canvas> -->
               <!-- row for see all and balance -->
-              <div class="row mt-4">
+              <div class="row mt-5">
                 <div class="col">
                   <div class="balance-annual-leave-title">Balance Annual Leave</div>
                 </div>
@@ -748,7 +748,7 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
                 7 Days
               </div>
               <!-- link to request wfh -->
-              <a href="" style="text-decoration: none;">
+              <a href="" style="text-decoration: none;" class=" mb-5">
                 <div class="request-annual-leave">Request Annual Leave</div>
               </a>
             </div>

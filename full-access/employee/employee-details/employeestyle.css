@@ -283,14 +283,18 @@ box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     border-top: #FFFFFF;
     border-right: #FFFFFF;
     border-left: #FFFFFF;
-    border-bottom: 3px solid #578995;
-    color: #578995;
+    border-bottom: 3px solid #00B4DC;
+    color: #00B4DC;
     text-align: center;
     font-family: Nokora;
     font-size: 17px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+}
+
+.nav-link:hover{
+    color: #00B4DC;
 }
 
 .nav-link{
@@ -397,5 +401,150 @@ line-height: normal;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
-    margin-top: 10%;
+    margin-top: 4%;
+    margin-bottom: 4%;
+}
+
+.card-action{
+
+    color: #000;
+    border-color: #00B4DC;
+}
+
+.create-acc{ 
+    text-align: center;
+    color: #000;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin: 3%;
+}
+
+.employee-name{
+    text-align: left;
+    color: #000;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-left: 3%;
+    margin-top: 5%;
+}
+
+.employee-position{
+    text-align: left;
+    margin-left: 3%;
+    color: #000;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-bottom: 10%;
+}
+
+.status-label{
+    text-align: left;
+    color: #909090;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-left: 3%;
+    margin-top: 5%;
+}
+
+.status-value{
+    text-align: left;
+    color: #000;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-left: 3%;
+    margin-top: 2%;
+}
+
+.contact-label{
+    text-align: left;
+    color: #909090;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-left: 3%;
+    margin-top: 5%;
+}
+
+.contact-value{
+    text-align: left;
+    color: #000;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-left: 3%;
+    margin-top: 2%;
+}
+
+.basic-information {
+    text-align: left;
+    color: #000;
+    font-family: Nokora;
+    font-size: 23px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-left: 3%;
+    margin-top: 2%;
+}
+
+.label-basic-information{
+    text-align: left;
+    color: #909090;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    margin-left: 10%;
+}
+
+.value-basic-information{
+    text-align: left;
+    color: #000;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+}
+
+.profile-employee-title{
+    text-align: left    ;
+    color: #000;
+    font-family: Nokora;
+    font-size: 23px;
+    font-style: normal;
+    font-weight: 700;
+    margin-top: 1%;
+}
+
+.back{
+    text-align: left;
+    color: #000;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    margin-top: 1%;
+}
+
+table, td{
+    height: 150px;
 }
