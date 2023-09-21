@@ -277,79 +277,57 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
                         <div class="card card-employee-1 mt-3">
 
                             <div class="basic-information">
-                                Informasi umum
+                                Alamat saat ini
                             </div>
 
                             <?php
-                            $get_employee_query = "SELECT em.employee_id, em.employee_name, gb.gender_name, em.employee_pob, DATE_FORMAT(em.employee_dob, '%d %M %Y') as employee_dob, nb.nationality, cy.company_name, dt.department_name, pb.position_name, em.employee_identity, em.employee_jamsostek, sb.status_name, rb.religion_name FROM employee em JOIN gender_db gb ON em.gender = gb.gender_id JOIN nationality_db nb ON em.employee_nationality = nb.num_code JOIN company cy ON em.company_id = cy.company_id JOIN department dt ON em.department_id = dt.department_id JOIN position_db pb ON em.position_id = pb.position_id JOIN status_db sb ON em.employee_status = sb.status_id JOIN religion_db rb ON em.employee_religion = rb.religion_id WHERE em.id = '$employee_id';";
+                                $get_now_data_query = "SELECT asdb.address_status_name as employee_status_now, psb.name as employee_province_now, kkdb.name as employee_kota_now, kdb.name as employee_kec, keldb.name as employee_kel FROM employee_contact_details_db ecdb JOIN address_status_db asdb ON ecdb.employee_address_status_now = asdb.address_status_id JOIN provinsi_db psb ON ecdb.employee_provinsi_now = psb.id JOIN kotakab_db kkdb ON ecdb.employee_kot_kab_now = kkdb.id JOIN kecamatan_db kdb ON ecdb.employee_kec_now = kdb.id JOIN kelurahan_db keldb ON ecdb.employee_kel_now = keldb.id WHERE ecdb.employee_address_status_now = asdb.address_status_id AND ecdb.employee_provinsi_now = psb.id AND ecdb.employee_kot_kab_now = kkdb.id AND ecdb.employee_kec_now = kdb.id AND ecdb.employee_kel_now = keldb.id AND ecdb.id = '$employee_id';";
+                                $get_now_data_result = $connect->query($get_now_data_query);
+
+                                while ($get_now_data_rows = $get_now_data_result->fetch_assoc()){
+                                    $status_now = $get_now_data_rows['employee_status_now'];
+                                    $province_now = $get_now_data_rows['employee_province_now'];
+                                    $kota_now = $get_now_data_rows['employee_kota_now'];
+                                    $kec_now = $get_now_data_rows['employee_kec'];
+                                    $kel_now = $get_now_data_rows['employee_kel'];
+                                }
+                            ?>
+
+                            <?php
+                            $get_employee_query = "SELECT ecdb.employee_address_now, ecdb.employee_rt_now, ecdb.employee_rw_now FROM employee em JOIN employee_contact_details_db ecdb ON em.id = ecdb.id JOIN address_status_db asdb ON ecdb.employee_address_status_now = asdb.address_status_id WHERE em.id = '$employee_id';";
                             $get_employee_result = $connect->query($get_employee_query);
 
                             while ($get_employee_rows = $get_employee_result->fetch_assoc()) {
                                 ?>
 
-                                <div class="row mt-3 mb-3">
+                                <div class="row mt-3 mb-3"  >
                                     <div class="col">
-                                        <div class="label-basic-information">
-                                            ID karyawan
+                                        <div class="label-basic-2">
+                                            Alamat saat ini
                                         </div>
-                                        <div class="value-basic">
+                                        <div class="value-basic-2">
                                             <?php
-                                            echo $get_employee_rows['employee_id'];
+                                            echo $get_employee_rows['employee_address_now'];
                                             ?>
                                         </div>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-2">
                                         <div class="label-basic-information">
-                                            Nama karyawan
+                                            RT
                                         </div>
                                         <div class="value-basic">
-                                            <?php
-                                            echo $get_employee_rows['employee_name'];
+                                        <?php
+                                            echo $get_employee_rows['employee_rt_now'];
                                             ?>
                                         </div>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-2">
                                         <div class="label-basic-information">
-                                            Jenis kelamin
+                                            RW
                                         </div>
                                         <div class="value-basic">
-                                            <?php
-                                            echo $get_employee_rows['gender_name'];
-                                            ?>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <div class="col">
-                                        <div class="label-basic-information">
-                                            Tempat, tanggal lahir
-                                        </div>
-                                        <div class="value-basic">
-                                            <?php
-                                            $employee_pob = $get_employee_rows['employee_pob'];
-                                            $employee_dob = $get_employee_rows['employee_dob'];
-                                            echo "$employee_pob, $employee_dob";
-                                            ?>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="label-basic-information">
-                                            Kewarganegaraan
-                                        </div>
-                                        <div class="value-basic">
-                                            <?php
-                                            echo $get_employee_rows['nationality'];
-                                            ?>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="label-basic-information">
-                                            Status
-                                        </div>
-                                        <div class="value-basic">
-                                            <?php
-                                            echo $get_employee_rows['status_name'];
+                                        <?php
+                                            echo $get_employee_rows['employee_rw_now'];
                                             ?>
                                         </div>
                                     </div>
@@ -358,40 +336,58 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
                                 <div class="row mb-3">
                                     <div class="col">
                                         <div class="label-basic-information">
-                                            Agama
+                                            Provinsi
                                         </div>
                                         <div class="value-basic">
                                             <?php
-                                            echo $get_employee_rows['religion_name'];
+                                            echo $province_now;
                                             ?>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="label-basic-information">
-                                            Nomor ktp
+                                            Kota/Kab
                                         </div>
                                         <div class="value-basic">
                                             <?php
-                                            echo $get_employee_rows['employee_identity'];
+                                            echo $kota_now;
                                             ?>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="label-basic-information">
-                                            Nomor jamsostek
+                                            Kecamatan
                                         </div>
                                         <div class="value-basic">
                                             <?php
-                                                $employee_jamsostek =  $get_employee_rows['employee_jamsostek'];
+                                            echo $kec_now;
+                                            ?>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                                if($employee_jamsostek == NULL){
-                                                    echo "-";
-                                                } else {
-                                                    echo $employee_jamsostek;
-                                                }
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <div class="label-basic-3">
+                                            Kelurahan
+                                        </div>
+                                        <div class="value-basic-3">
+                                            <?php
+                                            echo $kel_now;
                                             ?>
                                         </div>
                                     </div>
+                                    <div class="col">
+                                        <div class="label-basic-3">
+                                            Status kepemilikan
+                                        </div>
+                                        <div class="value-basic-3">
+                                            <?php
+                                            echo $status_now;
+                                            ?> 
+                                        </div>
+                                    </div>
+                                    
                                 </div>
 
                                 <?php
@@ -403,68 +399,183 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
                         <div class="card card-employee-1 mt-4">
 
                             <div class="basic-information">
-                                Informasi posisi
+                                Alamat ktp
                             </div>
 
                             <?php
-                            $get_employee_query = "SELECT em.employee_id, em.employee_name, gb.gender_name, em.employee_pob, DATE_FORMAT(em.employee_dob, '%d %M %Y') as employee_dob, nb.nationality, cy.company_name, dt.department_name, pb.position_name, em.employee_identity, em.employee_jamsostek, sb.status_name, rb.religion_name FROM employee em JOIN gender_db gb ON em.gender = gb.gender_id JOIN nationality_db nb ON em.employee_nationality = nb.num_code JOIN company cy ON em.company_id = cy.company_id JOIN department dt ON em.department_id = dt.department_id JOIN position_db pb ON em.position_id = pb.position_id JOIN status_db sb ON em.employee_status = sb.status_id JOIN religion_db rb ON em.employee_religion = rb.religion_id WHERE em.id = '$employee_id';";
+                                $get_ktp_data_query = "SELECT asdb.address_status_name as employee_status_ktp, psb.name as employee_province_ktp, kkdb.name as employee_kota_ktp, kdb.name as employee_kec_ktp, keldb.name as employee_kel_ktp FROM employee_contact_details_db ecdb JOIN address_status_db asdb ON ecdb.employee_address_status_ktp = asdb.address_status_id JOIN provinsi_db psb ON ecdb.employee_provinsi_ktp = psb.id JOIN kotakab_db kkdb ON ecdb.employee_kota_kab_ktp = kkdb.id JOIN kecamatan_db kdb ON ecdb.employee_kec_ktp = kdb.id JOIN kelurahan_db keldb ON ecdb.employee_kel_ktp = keldb.id WHERE ecdb.employee_address_status_ktp = asdb.address_status_id AND ecdb.employee_provinsi_ktp = psb.id AND ecdb.employee_kota_kab_ktp = kkdb.id AND ecdb.employee_kec_ktp = kdb.id AND ecdb.employee_kel_ktp = keldb.id AND ecdb.id = '$employee_id';";
+                                $get_ktp_data_result = $connect->query($get_ktp_data_query);
+
+                                while ($get_ktp_data_rows = $get_ktp_data_result->fetch_assoc()){
+                                    $status_ktp = $get_ktp_data_rows['employee_status_ktp'];
+                                    $province_ktp = $get_ktp_data_rows['employee_province_ktp'];
+                                    $kota_ktp = $get_ktp_data_rows['employee_kota_ktp'];
+                                    $kec_ktp = $get_ktp_data_rows['employee_kec_ktp'];
+                                    $kel_ktp = $get_ktp_data_rows['employee_kel_ktp'];
+                                }
+                            ?>
+
+                            <?php
+                            $get_employee_query = "SELECT ecdb.employee_address_ktp, ecdb.employee_rt_ktp, ecdb.employee_rw_ktp FROM employee em JOIN employee_contact_details_db ecdb ON em.id = ecdb.id JOIN address_status_db asdb ON ecdb.employee_address_status_now = asdb.address_status_id WHERE em.id = '$employee_id';";
                             $get_employee_result = $connect->query($get_employee_query);
 
                             while ($get_employee_rows = $get_employee_result->fetch_assoc()) {
                                 ?>
 
-                                <div class="row mt-3 mb-3">
+                                <div class="row mt-3 mb-3"  >
                                     <div class="col">
-                                        <div class="label-basic-information">
-                                            Perusahaan
+                                        <div class="label-basic-2">
+                                            Alamat sesuai ktp
                                         </div>
-                                        <div class="value-basic">
+                                        <div class="value-basic-2">
                                             <?php
-                                            echo $get_employee_rows['company_name'];
+                                            echo $get_employee_rows['employee_address_ktp'];
                                             ?>
                                         </div>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-2">
                                         <div class="label-basic-information">
-                                            Departemen
+                                            RT
                                         </div>
                                         <div class="value-basic">
-                                            <?php
-                                            echo $get_employee_rows['department_name'];
+                                        <?php
+                                            echo $get_employee_rows['employee_rt_ktp'];
                                             ?>
                                         </div>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-2">
                                         <div class="label-basic-information">
-                                            Posisi
+                                            RW
                                         </div>
                                         <div class="value-basic">
-                                            <?php
-                                            echo $get_employee_rows['position_name'];
+                                        <?php
+                                            echo $get_employee_rows['employee_rw_ktp'];
                                             ?>
                                         </div>
                                     </div>
                                 </div>
 
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <div class="label-basic-information">
+                                            Provinsi
+                                        </div>
+                                        <div class="value-basic">
+                                            <?php
+                                            echo $province_ktp;
+                                            ?>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="label-basic-information">
+                                            Kota/Kab
+                                        </div>
+                                        <div class="value-basic">
+                                            <?php
+                                            echo $kota_ktp;
+                                            ?>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="label-basic-information">
+                                            Kecamatan
+                                        </div>
+                                        <div class="value-basic">
+                                            <?php
+                                            echo $kec_ktp;
+                                            ?>
+                                        </div>
+                                    </div>
+                                </div>
 
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <div class="label-basic-3">
+                                            Kelurahan
+                                        </div>
+                                        <div class="value-basic-3">
+                                            <?php
+                                            echo $kel_ktp;
+                                            ?>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="label-basic-3">
+                                            Status kepemilikan
+                                        </div>
+                                        <div class="value-basic-3">
+                                            <?php
+                                            echo $status_ktp;
+                                            ?> 
+                                        </div>
+                                    </div>
+                                    
+                                </div>
 
                                 <?php
                             }
                             ?>
+
                         </div>
+
+                        <div class="card card-employee-1 mt-4 mb-5">
+
+                            <div class="basic-information">
+                                Kontak
+                            </div>
+
+                            <?php
+                                $get_contact_data_query = "SELECT ecdb.employee_phone_number, ecdb.employee_email FROM employee_contact_details_db ecdb WHERE ecdb.id = '$employee_id';";
+                                $get_contact_data_result = $connect->query($get_contact_data_query);
+
+                                while ($get_contact_data_rows = $get_contact_data_result->fetch_assoc()){
+                                    $phone_number = $get_contact_data_rows['employee_phone_number'];
+                                    $email_address = $get_contact_data_rows['employee_email'];
+                                }
+                            ?>
+
+   
+
+                                <div class="row mt-3 mb-3">
+                                    <div class="col">
+                                        <div class="label-basic-3">
+                                            Nomor handphone
+                                        </div>
+                                        <div class="value-basic-3">
+                                            <?php
+                                            echo $phone_number;
+                                            ?>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="label-basic-3">
+                                            Email
+                                        </div>
+                                        <div class="value-basic-3">
+                                            <?php
+                                            echo $email_address;
+                                            ?> 
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+
+                        </div>
+
+                        
 
                     </div>
                     <div class="col-3">
                         <div class="card card-employee-1 pt-3 mt-3 pb-3">
 
                             <a href="read-only-personal.php?employee_id=<?= $employee_id ?>" style="text-decoration: none; margin-left: 5%;">
-                                <div class="employee-name active">
+                                <div class="employee-name">
                                     Informasi pribadi
                                 </div>
                             </a>
 
                             <a href="read-only-address.php?employee_id=<?= $employee_id ?>" style="text-decoration: none; margin-top: 3%; margin-left: 5%;">
-                                <div class="employee-name">
+                                <div class="employee-name active">
                                     Data alamat
                                 </div>
                             </a>

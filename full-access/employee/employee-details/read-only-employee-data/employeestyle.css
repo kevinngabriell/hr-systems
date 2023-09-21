@@ -1,0 +1,646 @@
+body{
+    background: #fff;
+}
+
+.row-company-name-and-logo{
+    margin-top: 9%;
+    margin-bottom: 9%;
+    display: flex;
+    align-items: center;
+}
+
+.company-name{
+    color: #000;
+    font-family: Nokora;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.company-address{
+    color: #000;
+    font-family: Nokora;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+}
+
+.main-menu-text{
+    color: #000;
+    font-family: Nokora;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-bottom: 4%;
+}
+
+.sidebar-menu{
+    text-decoration: none;
+}
+
+.row-sidebar-menu{
+    border-radius: 15px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    background: #4EC3FC;
+    display: flex;
+    align-items: center;
+    color: white;
+    font-family: Nokora;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.img-right-side{
+    width: 100%;
+}
+
+.row-sidebar-menu-inactive{
+    border-radius: 15px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    display: flex;
+    align-items: center;
+    color: #ddd;
+    font-family: Nokora;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.row-sidebar-menu-logout{
+    border-radius: 15px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    display: flex;
+    align-items: center;
+    color: #CA0000;
+    font-family: Nokora;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.row-right-navbar{
+    padding-top: 1%;
+    padding-bottom: 1%;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.nav-text-dashboard{
+    color: #000;
+    font-family: Nokora;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-decoration: none;
+}
+
+.profile-name{
+    color: #000;
+    font-family: Nokora;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.profile-email{
+    color: #909090;
+    font-family: Nokora;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.card-new-job-position{
+    width: max-content;
+    padding: 1%;
+    border-radius: 15px;
+    background: #009C5B;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: white;
+    font-family: Nokora;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.card-employee-1{
+    border-radius: 15px;
+background: #FFF;
+box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.pending-application{
+    color: #000;
+    font-family: Nokora;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.see-all{
+    color: #00B4DC;
+    font-family: Nokora;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-align: end;
+}
+
+.card-applicant{
+    border-radius: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.20);
+    background: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    padding: 1%;
+}
+
+.name-applicant{
+    color: #000;
+    font-family: Nokora;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.last-exp-edu{
+    color: #909090;
+    font-family: Nokora;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.card-position-apply{
+    border-radius: 15px;
+    background: #2F5A76;
+    color: #FFF;
+    font-family: Nokora;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-align: center;
+    padding: 4%;
+}
+
+.card-status-apply{
+    border-radius: 15px;
+    background: #FFB800;
+    color: #000;
+    font-family: Nokora;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-align: center;
+    padding: 4%;
+}
+
+.name-employee{
+    color: #000;
+    font-family: Nokora;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.employee-position{
+    color: #909090;
+    font-family: Nokora;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.employee-division{
+    color: #000;
+    font-family: Nokora;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.card-employee-menu-title{
+    color: #000;
+    text-align: center;
+    font-family: Nokora;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.card-employee-menu-desc{
+    margin-top: 2%;
+    color: #8C8C8C;
+    text-align: center;
+    font-family: Nokora;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.card-employee-menu{
+    border-radius: 15px;
+    background: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    padding-top: 5%;
+    padding-bottom: 5%;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.nav-link.active  {
+    border-top: #FFFFFF;
+    border-right: #FFFFFF;
+    border-left: #FFFFFF;
+    border-bottom: 3px solid #00B4DC;
+    color: #00B4DC;
+    text-align: center;
+    font-family: Nokora;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.nav-link:hover{
+    color: #00B4DC;
+}
+
+.nav-link{
+    color: #000;
+    text-align: center;
+    font-family: Nokora;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.btn-search{
+    border-radius: 15px;
+    background: var(--palette-4, #2F5A76);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #FFF;
+    font-family: Nokora;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    padding: 5%;
+    text-align: center;
+}
+
+.new-employee-card{
+    border-radius: 15px;
+    background: var(--palette-4, #2F5A76);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #FFF;
+    font-family: Nokora;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    padding: 5%;
+    text-align: center;
+}
+
+.form-new-employee-label{
+    color: #000;
+    font-family: Nokora;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.btn-submit-form-employee{
+    border-radius: 15px;
+    background: #2F5A76;
+    width: max-content;
+    color: #FFF;
+    font-family: Nokora;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-align: center;
+}
+
+.form-new-question{
+    color: #000;
+    font-family: Nokora;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.form-check-label{
+    color: #000;
+font-family: Nokora;
+font-size: 18px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+}
+
+.form-new-employee-emergency-label{
+    color: #000;
+    font-family: Nokora;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.right-side-text-nav{
+    color: #000;
+    font-family: Nokora;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.menu-name-details-right-corner{
+    text-align: center;
+    color: #000;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-top: 4%;
+    margin-bottom: 4%;
+}
+
+.card-action{
+
+    color: #000;
+    border-color: #00B4DC;
+}
+
+.create-acc{ 
+    text-align: center;
+    color: #000;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin: 3%;
+}
+
+.employee-name{
+    text-align: left;
+    color: #000;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-left: 3%;
+    margin-top: 5%;
+}
+
+.active {
+    color: #00B4DC;
+}
+
+
+.employee-position{
+    text-align: left;
+    margin-left: 3%;
+    color: #000;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-bottom: 10%;
+}
+
+.status-label{
+    text-align: left;
+    color: #909090;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-left: 3%;
+    margin-top: 5%;
+}
+
+.status-value{
+    text-align: left;
+    color: #000;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-left: 3%;
+    margin-top: 2%;
+}
+
+.contact-label{
+    text-align: left;
+    color: #909090;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-left: 3%;
+    margin-top: 5%;
+}
+
+.contact-value{
+    text-align: left;
+    color: #000;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-left: 3%;
+    margin-top: 2%;
+}
+
+.basic-information {
+    text-align: left;
+    color: #000;
+    font-family: Nokora;
+    font-size: 23px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-left: 3%;
+    margin-top: 2%;
+}
+
+.label-basic-information{
+    text-align: left;
+    color: #909090;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    margin-left: 10%;
+}
+
+.value-basic-information{
+    text-align: left;
+    color: #000;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+}
+
+.profile-employee-title{
+    text-align: left    ;
+    color: #000;
+    font-family: Nokora;
+    font-size: 23px;
+    font-style: normal;
+    font-weight: 700;
+    margin-top: 1%;
+}
+
+.back{
+    text-align: left;
+    color: #000;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    margin-top: 1%;
+}
+
+table, td{
+    height: 150px;
+}
+
+.value-basic{
+    text-align: left;
+    color: #000;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    margin-left: 10%;
+}
+
+.label-basic-2{
+    text-align: left;
+    color: #909090;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    margin-left: 5%;
+}
+
+.value-basic-2{
+    text-align: left;
+    color: #000;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    margin-left: 5%;
+}
+
+
+.label-basic-3{
+    text-align: left;
+    color: #909090;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    margin-left: 6.5%;
+}
+
+.value-basic-3{
+    text-align: left;
+    color: #000;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    margin-left: 6.5%;
+}
+
+.label-basic-4{
+    text-align: left;
+    color: #909090;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    margin-left: 3%;
+}
+
+.value-basic-4{
+    text-align: left;
+    color: #000;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    margin-left: 3%;
+}
+
+.label-basic-5{
+    text-align: left;
+    color: #909090;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    margin-left: 13%;
+}
+
+.value-basic-5{
+    text-align: left;
+    color: #000;
+    font-family: Nokora;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    margin-left: 13%;
+}
