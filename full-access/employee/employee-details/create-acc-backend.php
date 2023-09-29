@@ -47,36 +47,91 @@ if ($check_is_user_already_exist_rows > 0) {
         date_default_timezone_set('Asia/Jakarta');
         $date_now = date('Y-m-d h:i:s', time());
 
+        //company id search
+        $company_id_query = "SELECT employee.company_id FROM employee WHERE employee.id = '$employee_id' ;";
+        $company_id_result = $connect->query($company_id_query);
+
+        while ($company_id_rows = $company_id_result->fetch_assoc()) {
+            $company_id = $company_id_rows['company_id'];
+        }
+
         //insert proses and mailing 
-        $insert_user_query = "INSERT IGNORE INTO users (username,password,employee_id, company_id, created_at, modified_at) VALUES ('$username_set','$password','$employee_id', 'COM-HR-001','$date_now', '$date_now')";
+        $insert_user_query = "INSERT IGNORE INTO users (username,password,employee_id, company_id, created_at, modified_at) VALUES ('$username_set','$password','$employee_id', '$company_id','$date_now', '$date_now');";
         $user_input_process = mysqli_query($connect, $insert_user_query);
 
         if ($user_input_process) {
-            $from = "hradmin@kinglab.co.id";
-            $to = $employee_data_rows['employee_email'];
-            $subject = "NO REPLY - Informasi akun sistem HRD Kinglab";
-            $message =
-                "Dear Bapak/Ibu $employee_name,
+            // $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
 
-Kami dengan senang hati ingin memberikan Anda akses ke sistem HR, yang merupakan bagian internal PT King Lab Indonesia. Sistem ini menyediakan informasi untuk membantu Anda dalam proses personalia.
+            // try {
+            //     $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+            //     $mail->isSMTP();
+            //     $mail->Host = 'smtp.gmail.com';
+            //     $mail->SMTPAuth = true;
+            //     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            //     $mail->Port = 587;
 
-Berikut adalah detail akses Anda:
+            //     $mail->Username = 'hrdkinglab@gmail.com';
+            //     $mail->Password = 'mlbangbang';
 
-URL Website: https://kinglabindonesia.com/HRSystems/login.php
-Username: $username_set
-Password: 123456
+            //     $mail->setFrom('hrdkinglab@gmail.com', 'Sender Name');
+            //     $mail->addAddress($employee_data_rows['employee_email']);
+            //     $mail->addReplyTo('hrdkinglab@gmail.com', 'Sender Name');
 
-Kami sangat menyarankan Anda untuk segera mengakses sistem ini dan mengganti password default dengan yang lebih aman sesuai kebijakan perusahaan. Pastikan untuk menyimpan informasi ini dengan aman dan tidak mengungkapkannya kepada pihak lain yang tidak berwenang.
+            //     $mail->isHTML(true);
+            //     $mail->Subject = "Informasi akun sistem HRD Kinglab";
+            //     $mail->Body = "Dear Bapak/Ibu $employee_name,
 
-Jika Anda mengalami masalah dalam mengakses atau menggunakan sistem ini, jangan ragu untuk menghubungi tim dukungan kami di [Email Dukungan] atau [Nomor Telepon Dukungan]. Kami akan siap membantu Anda.
+            //      Kami dengan senang hati ingin memberikan Anda akses ke sistem HR, yang merupakan bagian internal PT King Lab Indonesia. Sistem ini menyediakan informasi untuk membantu Anda dalam proses personalia.
 
-Terima kasih atas kerja keras Anda dan semangat dalam menjalankan tugas Anda.
+            //      Berikut adalah detail akses Anda:
+
+            //      URL Website: https://kinglabindonesia.com/HRSystems/login.php
+            //      Username: $username_set
+            //      Password: 123456
+
+            //      Kami sangat menyarankan Anda untuk segera mengakses sistem ini dan mengganti password default dengan yang lebih aman sesuai kebijakan perusahaan. Pastikan untuk menyimpan informasi ini dengan aman dan tidak mengungkapkannya kepada pihak lain yang tidak berwenang.
+
+            //      Jika Anda mengalami masalah dalam mengakses atau menggunakan sistem ini, jangan ragu untuk menghubungi tim dukungan kami di [Email Dukungan] atau [Nomor Telepon Dukungan]. Kami akan siap membantu Anda.
+
+            //      Terima kasih atas kerja keras Anda dan semangat dalam menjalankan tugas Anda.
 
 
-Best Regards,
-IT Support HR Systems";
-            $headers = "From:" . $from;
-            mail($to, $subject, $message, $headers);
+            //      Best Regards,
+            //      IT Support HR Systems";
+
+            //     $mail->send();
+
+            //     $message = "User telah berhasil dibuat !!";
+            //     echo "<script type='text/javascript'>alert('$message'); window.location.href='employee-details.php?employee_id=$employee_id';</script>";
+
+            // } catch (Exception $e) {
+            //     echo "Error in sending email. Mailer Error: {$mail->ErrorInfo}";
+            // }
+//             $from = "hradmin@kinglab.co.id";
+//             $to = $employee_data_rows['employee_email'];
+//             $subject = "NO REPLY - Informasi akun sistem HRD Kinglab";
+//             $message =
+//                 "Dear Bapak/Ibu $employee_name,
+
+            //             Kami dengan senang hati ingin memberikan Anda akses ke sistem HR, yang merupakan bagian internal PT King Lab Indonesia. Sistem ini menyediakan informasi untuk membantu Anda dalam proses personalia.
+
+            //             Berikut adalah detail akses Anda:
+
+            //             URL Website: https://kinglabindonesia.com/HRSystems/login.php
+// Username: $username_set
+// Password: 123456
+
+            //             Kami sangat menyarankan Anda untuk segera mengakses sistem ini dan mengganti password default dengan yang lebih aman sesuai kebijakan perusahaan. Pastikan untuk menyimpan informasi ini dengan aman dan tidak mengungkapkannya kepada pihak lain yang tidak berwenang.
+
+            //             Jika Anda mengalami masalah dalam mengakses atau menggunakan sistem ini, jangan ragu untuk menghubungi tim dukungan kami di [Email Dukungan] atau [Nomor Telepon Dukungan]. Kami akan siap membantu Anda.
+
+            //             Terima kasih atas kerja keras Anda dan semangat dalam menjalankan tugas Anda.
+
+
+            //             Best Regards,
+// IT Support HR Systems";
+//             $headers = "From:" . $from;
+//             mail($to, $subject, $message, $headers);
 
             $message = "User telah berhasil dibuat !!";
             echo "<script type='text/javascript'>alert('$message'); window.location.href='employee-details.php?employee_id=$employee_id';</script>";

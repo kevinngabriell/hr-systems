@@ -1,8 +1,5 @@
 <?php
 
-//ignore error
-error_reporting(E_ERROR);
-
 //check session when started
 if (!isset($_SESSION)) {
     session_start();
@@ -33,6 +30,42 @@ $user_data_results = $connect->query($user_data_query);
 while ($user_data_row = $user_data_results->fetch_assoc()) {
     $employee_name_printed = $user_data_row['employee_name'];
     $employee_email_printed = $user_data_row['employee_email'];
+}
+
+function rupiah($angka)
+{
+    $hasil_rupiah = "Rp " . number_format($angka, 0, ',', '.');
+    return $hasil_rupiah;
+}
+
+$get_answer_query = "SELECT js.job_source_name, eq.job_source_answer_exp, eq.contact_last_comp, eq.position_applied, eq.position_alternate, eq.expected_salary, hk.hubungan_kerja_name, eq.is_ever_award, eq.is_ever_award_exp, eq.hobby_answer, eq.is_ever_org, eq.is_ever_org_exp, eq.is_day_unv, eq.is_day_unv_exp, eq.is_any_sim, eq.sim_a_end, eq.sim_c_end, eq.is_fired, eq.is_fired_exp, eq.is_jailed, eq.is_jailed_exp, eq.is_sick, eq.is_sick_exp, eq.is_smoke FROM employee_question eq JOIN job_source_db js ON eq.job_source_answer = js.job_source_id JOIN hubungan_kerja_db hk ON eq.hubungan_kerja_answer = hk.hubungan_kerja_id WHERE eq.id = '$employee_id';";
+$get_answer_result = $connect->query($get_answer_query);
+
+while ($get_answer_row = $get_answer_result->fetch_assoc()) {
+    $job_source = $get_answer_row['job_source_name'];
+    $job_source_exp = $get_answer_row['job_source_answer_exp'];
+    $confirmation_last_company = $get_answer_row['contact_last_comp'];
+    $first_position = $get_answer_row['position_applied'];
+    $alternate_position = $get_answer_row['position_alternate'];
+    $expected_salary = $get_answer_row['expected_salary'];
+    $hubungan_kerja_name = $get_answer_row['hubungan_kerja_name'];
+    $is_ever_award = $get_answer_row['is_ever_award'];
+    $is_ever_award_exp = $get_answer_row['is_ever_award_exp'];
+    $hobby = $get_answer_row['hobby_answer'];
+    $is_ever_org = $get_answer_row['is_ever_org'];
+    $is_ever_org_exp = $get_answer_row['is_ever_org_exp'];
+    $is_day_unavail = $get_answer_row['is_day_unv'];
+    $is_day_unavail_exp = $get_answer_row['is_day_unv_exp'];
+    $is_any_sim = $get_answer_row['is_any_sim'];
+    $sim_a_end = $get_answer_row['sim_a_end'];
+    $sim_c_end = $get_answer_row['sim_c_end'];
+    $is_fired = $get_answer_row['is_fired'];
+    $is_fired_exp = $get_answer_row['is_fired_exp'];
+    $is_jailed = $get_answer_row['is_jailed'];
+    $is_jailed_exp = $get_answer_row['is_jailed_exp'];
+    $is_sick = $get_answer_row['is_sick'];
+    $is_sick_exp = $get_answer_row['is_sick_exp'];
+    $is_smoke = $get_answer_row['is_smoke'];
 }
 
 ?>
@@ -249,7 +282,8 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
                 </nav>
 
                 <div class="row">
-                    <a href="../employee-details.php?employee_id=<?php echo $employee_id ?>" style="text-decoration: none;">
+                    <a href="../employee-details.php?employee_id=<?php echo $employee_id ?>"
+                        style="text-decoration: none;">
                         <div class="back">
                             < Back </div>
                     </a>
@@ -277,188 +311,45 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
                 <div class="row">
                     <div class="col">
 
-                        <?php
-                        $query_one = "SELECT elp.language_name_1, ab.ability_name as mendengar_1 FROM employee_language_professional elp JOIN ability_db ab ON elp.ability_1 = ab.ability_id WHERE elp.ability_1 = ab.ability_id AND elp.id = '$employee_id';";
-                        $result_one = $connect->query($query_one);
-
-                        while ($rows_one = $result_one->fetch_assoc()) {
-                            $language_one = $rows_one['language_name_1'];
-                            $hearing_one = $rows_one['mendengar_1'];
-                        }
-
-                        $query_two = "SELECT ab.ability_name as berbicara_1 FROM employee_language_professional elp JOIN ability_db ab ON elp.ability_2 = ab.ability_id WHERE elp.ability_2 = ab.ability_id AND elp.id = '$employee_id';";
-                        $result_two = $connect->query($query_two);
-
-                        while ($rows_two = $result_two->fetch_assoc()) {
-                            $speak_one = $rows_two['berbicara_1'];
-                        }
-
-                        $query_three = "SELECT ab.ability_name as membaca_1 FROM employee_language_professional elp JOIN ability_db ab ON elp.ability_3 = ab.ability_id WHERE elp.ability_3 = ab.ability_id AND elp.id = '$employee_id';";
-                        $result_three = $connect->query($query_three);
-
-                        while ($rows_three = $result_three->fetch_assoc()) {
-                            $read_one = $rows_three['membaca_1'];
-                        }
-
-                        $query_four = "SELECT ab.ability_name as menulis_1 FROM employee_language_professional elp JOIN ability_db ab ON elp.ability_4 = ab.ability_id WHERE elp.ability_4 = ab.ability_id AND elp.id = '$employee_id';";
-                        $result_four = $connect->query($query_four);
-
-                        while ($rows_four = $result_four->fetch_assoc()) {
-                            $write_one = $rows_four['menulis_1'];
-                        }
-
-                        $query_five = "SELECT elp.language_name_2, ab.ability_name as mendengar_2 FROM employee_language_professional elp JOIN ability_db ab ON elp.ability_5 = ab.ability_id WHERE elp.ability_5 = ab.ability_id AND elp.id = '$employee_id';";
-                        $result_five = $connect->query($query_five);
-
-                        while ($rows_five = $result_five->fetch_assoc()) {
-                            $language_two = $rows_five['language_name_2'];
-                            $hearing_two = $rows_five['mendengar_2'];
-                        }
-
-                        $query_six = "SELECT ab.ability_name as berbicara_2 FROM employee_language_professional elp JOIN ability_db ab ON elp.ability_6 = ab.ability_id WHERE elp.ability_6 = ab.ability_id AND elp.id = '$employee_id';";
-                        $result_six = $connect->query($query_six);
-
-                        while ($rows_six = $result_six->fetch_assoc()) {
-                            $speak_two = $rows_six['berbicara_2'];
-                        }
-
-                        $query_seven = "SELECT ab.ability_name as membaca_2 FROM employee_language_professional elp JOIN ability_db ab ON elp.ability_7 = ab.ability_id WHERE elp.ability_7 = ab.ability_id AND elp.id = '$employee_id';";
-                        $result_seven = $connect->query($query_seven);
-
-                        while ($rows_seven = $result_seven->fetch_assoc()) {
-                            $read_two = $rows_seven['membaca_2'];
-                        }
-
-                        $query_eight = "SELECT ab.ability_name as menulis_2 FROM employee_language_professional elp JOIN ability_db ab ON elp.ability_8 = ab.ability_id WHERE elp.ability_8 = ab.ability_id AND elp.id = '$employee_id';";
-                        $result_eight = $connect->query($query_eight);
-
-                        while ($rows_eight = $result_eight->fetch_assoc()) {
-                            $write_two = $rows_eight['menulis_2'];
-                        }
-
-                        $query_nine = "SELECT elp.language_name_3, ab.ability_name as mendengar_3 FROM employee_language_professional elp JOIN ability_db ab ON elp.ability_9 = ab.ability_id WHERE elp.ability_9 = ab.ability_id AND elp.id = '$employee_id';";
-                        $result_nine = $connect->query($query_nine);
-
-                        while ($rows_nine = $result_nine->fetch_assoc()) {
-                            $language_three = $rows_nine['language_name_3'];
-                            $hearing_three = $rows_nine['mendengar_3'];
-                        }
-
-                        $query_ten = "SELECT ab.ability_name as berbicara_3 FROM employee_language_professional elp JOIN ability_db ab ON elp.ability_10 = ab.ability_id WHERE elp.ability_10 = ab.ability_id AND elp.id = '$employee_id';";
-                        $result_ten = $connect->query($query_ten);
-
-                        while ($rows_ten = $result_ten->fetch_assoc()) {
-                            $speak_three = $rows_ten['berbicara_3'];
-                        }
-
-                        $query_eleven = "SELECT ab.ability_name as membaca_3 FROM employee_language_professional elp JOIN ability_db ab ON elp.ability_11 = ab.ability_id WHERE elp.ability_11 = ab.ability_id AND elp.id = '$employee_id';";
-                        $result_eleven = $connect->query($query_eleven);
-
-                        while ($rows_eleven = $result_eleven->fetch_assoc()) {
-                            $read_three = $rows_eleven['membaca_3'];
-                        }
-
-                        $query_twelve = "SELECT ab.ability_name as menulis_3 FROM employee_language_professional elp JOIN ability_db ab ON elp.ability_12 = ab.ability_id WHERE elp.ability_12 = ab.ability_id AND elp.id = '$employee_id';";
-                        $result_twelve = $connect->query($query_twelve);
-
-                        while ($rows_twelve = $result_twelve->fetch_assoc()) {
-                            $write_three = $rows_twelve['menulis_3'];
-                        }
-
-                        $query_thirteen = "SELECT elp.language_name_4, ab.ability_name as mendengar_4 FROM employee_language_professional elp JOIN ability_db ab ON elp.ability_13 = ab.ability_id WHERE elp.ability_13 = ab.ability_id AND elp.id = '$employee_id';";
-                        $result_thirteen = $connect->query($query_thirteen);
-
-                        while ($rows_thirteen = $result_thirteen->fetch_assoc()) {
-                            $language_four = $rows_thirteen['language_name_4'];
-                            $hearing_four = $rows_thirteen['mendengar_4'];
-                        }
-
-                        $query_fourteen = "SELECT ab.ability_name as berbicara_4 FROM employee_language_professional elp JOIN ability_db ab ON elp.ability_14 = ab.ability_id WHERE elp.ability_14 = ab.ability_id AND elp.id = '$employee_id';";
-                        $result_fourteen = $connect->query($query_fourteen);
-
-                        while ($rows_fourteen = $result_fourteen->fetch_assoc()) {
-                            $speak_four = $rows_fourteen['berbicara_4'];
-                        }
-
-                        $query_fifteen = "SELECT ab.ability_name as membaca_4 FROM employee_language_professional elp JOIN ability_db ab ON elp.ability_15 = ab.ability_id WHERE elp.ability_15 = ab.ability_id AND elp.id = '$employee_id';";
-                        $result_fifteen = $connect->query($query_fifteen);
-
-                        while ($rows_fifteen = $result_fifteen->fetch_assoc()) {
-                            $read_four = $rows_fifteen['membaca_4'];
-                        }
-
-                        $query_sixteen = "SELECT ab.ability_name as menulis_4 FROM employee_language_professional elp JOIN ability_db ab ON elp.ability_16 = ab.ability_id WHERE elp.ability_16 = ab.ability_id AND elp.id = '$employee_id';";
-                        $result_sixteen = $connect->query($query_sixteen);
-
-                        while ($rows_sixteen = $result_sixteen->fetch_assoc()) {
-                            $write_four = $rows_sixteen['menulis_4'];
-                        }
-
-                        ?>
-
                         <div class="card card-employee-1 mt-3">
 
                             <div class="basic-information">
-                                Kemampuan Bahasa
+                                Pertanyaan
                             </div>
 
                             <div class="row mt-3 mb-3">
-                                <div class="col-3">
-                                    <div class="label-basic-5">Bahasa</div>
-                                    <div class="value-basic-5">
+                                <div class="col">
+                                    <div class="label-basic-information">Informasi lowongan</div>
+                                    <div class="value-basic">
                                         <?php
-                                        if ($language_one == NULL) {
-                                            echo "-";
+                                        if ($job_source || $job_source_exp != NULL) {
+                                            echo $job_source . ", " . $job_source_exp;
                                         } else {
-                                            echo $language_one;
+                                            echo "-";
                                         }
                                         ?>
                                     </div>
                                 </div>
-                                <div class="col-2">
-                                    <div class="label-basic-5">Mendengar</div>
-                                    <div class="value-basic-5">
+                                <div class="col">
+                                    <div class="label-basic-information">Persetujuan konfirmasi</div>
+                                    <div class="value-basic">
                                         <?php
-                                        if ($hearing_one == NULL) {
-                                            echo "-";
+                                        if ($confirmation_last_company != NULL) {
+                                            echo $confirmation_last_company;
                                         } else {
-                                            echo $hearing_one;
+                                            echo "-";
                                         }
                                         ?>
                                     </div>
                                 </div>
-                                <div class="col-2">
-                                    <div class="label-basic-5">Berbicara</div>
-                                    <div class="value-basic-5">
+                                <div class="col">
+                                    <div class="label-basic-information">Hubungan kerja</div>
+                                    <div class="value-basic">
                                         <?php
-                                        if ($speak_one == NULL) {
-                                            echo "-";
+                                        if ($hubungan_kerja_name != NULL) {
+                                            echo $hubungan_kerja_name;
                                         } else {
-                                            echo $speak_one;
-                                        }
-                                        ?>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="label-basic-5">Membaca</div>
-                                    <div class="value-basic-5">
-                                        <?php
-                                        if ($read_one == NULL) {
                                             echo "-";
-                                        } else {
-                                            echo $read_one;
-                                        }
-                                        ?>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="label-basic-5">Menulis</div>
-                                    <div class="value-basic-5">
-                                        <?php
-                                        if ($write_one == NULL) {
-                                            echo "-";
-                                        } else {
-                                            echo $write_one;
                                         }
                                         ?>
                                     </div>
@@ -466,62 +357,38 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
                             </div>
 
                             <div class="row mb-3">
-                                <div class="col-3">
-                                    <div class="label-basic-5">Bahasa</div>
-                                    <div class="value-basic-5">
+                                <div class="col">
+                                    <div class="label-basic-information">Posisi utama</div>
+                                    <div class="value-basic">
                                         <?php
-                                        if ($language_two == NULL) {
-                                            echo "-";
+                                        if ($first_position != NULL) {
+                                            echo $first_position;
                                         } else {
-                                            echo $language_two;
+                                            echo "-";
                                         }
                                         ?>
                                     </div>
                                 </div>
-                                <div class="col-2">
-                                    <div class="label-basic-5">Mendengar</div>
-                                    <div class="value-basic-5">
+                                <div class="col">
+                                    <div class="label-basic-information">Posisi alternatif</div>
+                                    <div class="value-basic">
                                         <?php
-                                        if ($hearing_two == NULL) {
-                                            echo "-";
+                                        if ($alternate_position != NULL) {
+                                            echo $alternate_position;
                                         } else {
-                                            echo $hearing_two;
+                                            echo "-";
                                         }
                                         ?>
                                     </div>
                                 </div>
-                                <div class="col-2">
-                                    <div class="label-basic-5">Berbicara</div>
-                                    <div class="value-basic-5">
+                                <div class="col">
+                                    <div class="label-basic-information">Gaji yang diharapkan</div>
+                                    <div class="value-basic">
                                         <?php
-                                        if ($speak_two == NULL) {
-                                            echo "-";
+                                        if ($expected_salary != NULL) {
+                                            echo rupiah($expected_salary);
                                         } else {
-                                            echo $speak_two;
-                                        }
-                                        ?>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="label-basic-5">Membaca</div>
-                                    <div class="value-basic-5">
-                                        <?php
-                                        if ($read_two == NULL) {
                                             echo "-";
-                                        } else {
-                                            echo $read_two;
-                                        }
-                                        ?>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="label-basic-5">Menulis</div>
-                                    <div class="value-basic-5">
-                                        <?php
-                                        if ($write_two == NULL) {
-                                            echo "-";
-                                        } else {
-                                            echo $write_two;
                                         }
                                         ?>
                                     </div>
@@ -529,62 +396,48 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
                             </div>
 
                             <div class="row mb-3">
-                                <div class="col-3">
-                                    <div class="label-basic-5">Bahasa</div>
-                                    <div class="value-basic-5">
+                                <div class="col">
+                                    <div class="label-basic-information">Prestasi</div>
+                                    <div class="value-basic">
                                         <?php
-                                        if ($language_three == NULL) {
-                                            echo "-";
+                                        if ($is_ever_award != NULL) {
+                                            echo $is_ever_award;
+                                            if ($is_ever_award_exp != NULL) {
+                                                echo ", " . $is_ever_award_exp;
+                                            } else {
+
+                                            }
                                         } else {
-                                            echo $language_three;
+                                            echo "-";
                                         }
                                         ?>
                                     </div>
                                 </div>
-                                <div class="col-2">
-                                    <div class="label-basic-5">Mendengar</div>
-                                    <div class="value-basic-5">
+                                <div class="col">
+                                    <div class="label-basic-information">Hobi</div>
+                                    <div class="value-basic">
                                         <?php
-                                        if ($hearing_three == NULL) {
-                                            echo "-";
+                                        if ($hobby != NULL) {
+                                            echo $hobby;
                                         } else {
-                                            echo $hearing_three;
+                                            echo "-";
                                         }
                                         ?>
                                     </div>
                                 </div>
-                                <div class="col-2">
-                                    <div class="label-basic-5">Berbicara</div>
-                                    <div class="value-basic-5">
+                                <div class="col">
+                                    <div class="label-basic-information">Organisasi</div>
+                                    <div class="value-basic">
                                         <?php
-                                        if ($speak_three == NULL) {
-                                            echo "-";
+                                        if ($is_ever_org != NULL) {
+                                            echo $is_ever_org;
+                                            if ($is_ever_org_exp != NULL) {
+                                                echo ", " . $is_ever_org_exp;
+                                            } else {
+
+                                            }
                                         } else {
-                                            echo $speak_three;
-                                        }
-                                        ?>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="label-basic-5">Membaca</div>
-                                    <div class="value-basic-5">
-                                        <?php
-                                        if ($read_three == NULL) {
                                             echo "-";
-                                        } else {
-                                            echo $read_three;
-                                        }
-                                        ?>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="label-basic-5">Menulis</div>
-                                    <div class="value-basic-5">
-                                        <?php
-                                        if ($write_three == NULL) {
-                                            echo "-";
-                                        } else {
-                                            echo $write_three;
                                         }
                                         ?>
                                     </div>
@@ -592,62 +445,85 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
                             </div>
 
                             <div class="row mb-3">
-                                <div class="col-3">
-                                    <div class="label-basic-5">Bahasa</div>
-                                    <div class="value-basic-5">
+                                <div class="col">
+                                    <div class="label-basic-information">Hari tertentu</div>
+                                    <div class="value-basic">
                                         <?php
-                                        if ($language_four == NULL) {
-                                            echo "-";
+                                        if ($is_day_unavail != NULL) {
+                                            echo $is_day_unavail;
+                                            if ($is_day_unavail_exp != NULL) {
+                                                echo ", " . $is_day_unavail_exp;
+                                            } else {
+
+                                            }
                                         } else {
-                                            echo $language_four;
+                                            echo "-";
                                         }
                                         ?>
                                     </div>
                                 </div>
-                                <div class="col-2">
-                                    <div class="label-basic-5">Mendengar</div>
-                                    <div class="value-basic-5">
+                                <div class="col">
+                                    <div class="label-basic-information">Diberhentikan</div>
+                                    <div class="value-basic">
                                         <?php
-                                        if ($hearing_four == NULL) {
-                                            echo "-";
+                                        if ($is_fired != NULL) {
+                                            echo $is_fired;
+                                            if ($is_fired_exp != NULL) {
+                                                echo ", " . $is_fired_exp;
+                                            } else {
+
+                                            }
                                         } else {
-                                            echo $hearing_four;
+                                            echo "-";
                                         }
                                         ?>
                                     </div>
                                 </div>
-                                <div class="col-2">
-                                    <div class="label-basic-5">Berbicara</div>
-                                    <div class="value-basic-5">
+                                <div class="col">
+                                    <div class="label-basic-information">Dipenjara</div>
+                                    <div class="value-basic">
                                         <?php
-                                        if ($speak_four == NULL) {
-                                            echo "-";
+                                        if ($is_jailed != NULL) {
+                                            echo $is_jailed;
+                                            if ($is_jailed_exp != NULL) {
+                                                echo ", " . $is_jailed_exp;
+                                            } else {
+
+                                            }
                                         } else {
-                                            echo $speak_four;
+                                            echo "-";
                                         }
                                         ?>
                                     </div>
                                 </div>
-                                <div class="col-2">
-                                    <div class="label-basic-5">Membaca</div>
-                                    <div class="value-basic-5">
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <div class="label-basic-3">Penyakit/Cacat</div>
+                                    <div class="value-basic-3">
                                         <?php
-                                        if ($read_four == NULL) {
-                                            echo "-";
+                                        if ($is_sick != NULL) {
+                                            echo $is_sick;
+                                            if ($is_sick_exp != NULL) {
+                                                echo ", " . $is_sick_exp;
+                                            } else {
+
+                                            }
                                         } else {
-                                            echo $read_four;
+                                            echo "-";
                                         }
                                         ?>
                                     </div>
                                 </div>
-                                <div class="col-2">
-                                    <div class="label-basic-5">Menulis</div>
-                                    <div class="value-basic-5">
+                                <div class="col">
+                                    <div class="label-basic-3">Merokok</div>
+                                    <div class="value-basic-3">
                                         <?php
-                                        if ($write_four == NULL) {
-                                            echo "-";
+                                        if ($is_smoke != NULL) {
+                                            echo $is_smoke;
                                         } else {
-                                            echo $write_four;
+                                            echo "-";
                                         }
                                         ?>
                                     </div>
@@ -656,11 +532,37 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
 
                         </div>
 
-
-
-
-
-
+                        <div class="card card-employee-1 mt-3">
+                            <div class="basic-information">
+                                SIM
+                            </div>
+                            <div class="row mt-3 mb-3">
+                                <div class="col">
+                                    <div class="label-basic-3">SIM A</div>
+                                    <div class="value-basic-3">
+                                    <?php
+                                        if ($sim_a_end != NULL) {
+                                            echo $sim_a_end;
+                                        } else {
+                                            echo "-";
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="label-basic-3">SIM C</div>
+                                    <div class="value-basic-3">
+                                    <?php
+                                        if ($sim_c_end != NULL) {
+                                            echo $sim_c_end;
+                                        } else {
+                                            echo "-";
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
 
                     </div>
@@ -697,19 +599,21 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
 
                             <a href="read-only-language.php?employee_id=<?= $employee_id ?>"
                                 style="text-decoration: none; margin-top: 3%; margin-left: 5%;">
-                                <div class="employee-name active">
+                                <div class="employee-name">
                                     Kemampuan bahasa
                                 </div>
                             </a>
 
-                            <a href="read-only-family.php?employee_id=<?= $employee_id ?>" style="text-decoration: none; margin-top: 3%; margin-left: 5%;">
+                            <a href="read-only-family.php?employee_id=<?= $employee_id ?>"
+                                style="text-decoration: none; margin-top: 3%; margin-left: 5%;">
                                 <div class="employee-name">
                                     Data keluarga
                                 </div>
                             </a>
 
-                            <a href="read-only-question.php?employee_id=<?= $employee_id ?>" style="text-decoration: none; margin-top: 3%; margin-left: 5%;">
-                                <div class="employee-name">
+                            <a href="read-only-question.php?employee_id=<?= $employee_id ?>"
+                                style="text-decoration: none; margin-top: 3%; margin-left: 5%;">
+                                <div class="employee-name active">
                                     Pertanyaan
                                 </div>
                             </a>

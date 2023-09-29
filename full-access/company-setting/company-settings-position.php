@@ -229,10 +229,10 @@ while ($company_data_row = $company_data_result->fetch_assoc()) {
 
           </div>
           <div class="col-2">
-            <a href="company-settings-add-division.php" style="text-decoration: none; text-align: center;">
+            <a href="company-settings-add-position.php" style="text-decoration: none; text-align: center;">
               <div class="card card-style-add-division">
                 <div class="card-employee-menu-title">
-                  Tambah divisi
+                  Tambah posisi
                 </div>
               </div>
             </a>
@@ -242,18 +242,24 @@ while ($company_data_row = $company_data_result->fetch_assoc()) {
         <table class="table align-middle mb-0 ">
           <thead>
             <tr>
+               <th>Nama Posisi</th>
               <th>Nama Departemen</th>
               <th>Perusahaan</th>
             </tr>
           </thead>
           <tbody>
             <?php
-              $department_list_query = "SELECT dpt.department_name, cp.company_name FROM department dpt JOIN company cp ON dpt.company_id = cp.company_id WHERE NOT dpt.department_id = 'DEPT-HR-000';";
+              $department_list_query = "SELECT pd.position_name, dp.department_name, cp.company_name FROM position_db pd JOIN department dp ON pd.department_id = dp.department_id JOIN company cp ON pd.company_id = cp.company_id WHERE NOT dp.department_id = 'DEPT-HR-000';";
               $department_list_result = mysqli_query($connect, $department_list_query);
 
               while ($department_rows = mysqli_fetch_array($department_list_result)) {
             ?>
               <tr>
+                    <td>
+                      <p>
+                        <?php echo $department_rows['position_name'] ?>
+                      </p>
+                    </td>
                     <td>
                       <p>
                         <?php echo $department_rows['department_name'] ?>

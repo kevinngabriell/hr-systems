@@ -430,13 +430,13 @@ line-height: normal;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
-    margin-left: 3%;
+    margin-left: 5%;
     margin-top: 5%;
 }
 
 .employee-position{
     text-align: left;
-    margin-left: 3%;
+    margin-left: 5%;
     color: #000;
     font-family: Nokora;
     font-size: 15px;
@@ -454,7 +454,7 @@ line-height: normal;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
-    margin-left: 3%;
+    margin-left: 5%;
     margin-top: 5%;
 }
 
@@ -466,7 +466,7 @@ line-height: normal;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
-    margin-left: 3%;
+    margin-left: 5%;
     margin-top: 2%;
 }
 
@@ -478,7 +478,7 @@ line-height: normal;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
-    margin-left: 3%;
+    margin-left: 5%;
     margin-top: 5%;
 }
 
@@ -490,7 +490,7 @@ line-height: normal;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
-    margin-left: 3%;
+    margin-left: 5%;
     margin-top: 2%;
 }
 
@@ -502,7 +502,7 @@ line-height: normal;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-    margin-left: 3%;
+    margin-left: 2%;
     margin-top: 2%;
 }
 
@@ -513,7 +513,7 @@ line-height: normal;
     font-size: 15px;
     font-style: normal;
     font-weight: 600;
-    margin-left: 10%;
+    margin-left: 0%;
 }
 
 .value-basic-information{

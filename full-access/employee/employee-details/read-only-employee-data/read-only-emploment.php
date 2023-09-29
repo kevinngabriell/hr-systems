@@ -255,7 +255,7 @@ function rupiah($angka)
                 </nav>
 
                 <div class="row">
-                    <a href="../../employee-list.php" style="text-decoration: none;">
+                    <a href="../employee-details.php?employee_id=<?php echo $employee_id ?>" style="text-decoration: none;">
                         <div class="back">
                             < Back </div>
                     </a>
@@ -267,7 +267,7 @@ function rupiah($angka)
                     </div>
                 </div>
 
-                <nav class="nav flex-column flex-sm-row">
+                <!-- <nav class="nav flex-column flex-sm-row">
                     <a class="flex-sm-fill text-sm-center nav-link active" aria-current="page"
                         href="../employee-details.php?employee_id=<?php echo $employee_id ?>">Overview</a>
                     <a class="flex-sm-fill text-sm-center nav-link"
@@ -278,7 +278,7 @@ function rupiah($angka)
                     <a class="flex-sm-fill text-sm-center nav-link" href="employee-details-dokumen.html">Dokumen</a>
                     <a class="flex-sm-fill text-sm-center nav-link" href="employee-details-catatan.html">Catatan</a>
                     <a class="flex-sm-fill text-sm-center nav-link" href="employee-details-riwayat.html">Riwayat</a>
-                </nav>
+                </nav> -->
 
                 <div class="row">
                     <div class="col">
@@ -868,23 +868,23 @@ function rupiah($angka)
                                 </div>
                             </a>
 
-                            <a href="" style="text-decoration: none; margin-top: 3%; margin-left: 5%;">
+                            <a href="read-only-family.php?employee_id=<?= $employee_id ?>" style="text-decoration: none; margin-top: 3%; margin-left: 5%;">
                                 <div class="employee-name">
                                     Data keluarga
                                 </div>
                             </a>
 
-                            <a href="" style="text-decoration: none; margin-top: 3%; margin-left: 5%;">
+                            <a href="read-only-question.php?employee_id=<?= $employee_id ?>" style="text-decoration: none; margin-top: 3%; margin-left: 5%;">
                                 <div class="employee-name">
                                     Pertanyaan
                                 </div>
                             </a>
 
-                            <a href="" style="text-decoration: none; margin-top: 3%; margin-left: 5%;">
+                            <!-- <a href="" style="text-decoration: none; margin-top: 3%; margin-left: 5%;">
                                 <div class="employee-name">
                                     Pernyataan
                                 </div>
-                            </a>
+                            </a> -->
 
                         </div>
                     </div>

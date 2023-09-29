@@ -35,7 +35,6 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
     $employee_email_printed = $user_data_row['employee_email'];
 }
 
-
 $employee_data_query = "SELECT em.employee_name, ps.position_name, dp.department_name, ecd.employee_email, ecd.employee_phone_number, es.employee_status_name, em.employee_pob, DATE_FORMAT(em.employee_dob, '%d %M %Y') as employee_dob, gd.gender_name FROM employee em JOIN position_db ps ON em.position_id = ps.position_id JOIN department dp ON em.department_id = dp.department_id JOIN employee_contact_details_db ecd ON em.id = ecd.id JOIN employee_status es ON em.employee_status_id = es.employee_status_id JOIN gender_db gd ON em.gender = gd.gender_id WHERE em.id = '$employee_id';";
 $employee_data_results = $connect->query($employee_data_query);
 
@@ -66,8 +65,12 @@ while ($supervised_rows = $supervised_result->fetch_assoc()) {
 
 }
 
-// $find_supervised_name = "SELECT employee_name FROM employee WHERE ";
+$find_username_query = "SELECT username FROM users WHERE employee_id = '$employee_id';";
+$find_username_result = $connect->query($find_username_query);
 
+while ($find_username_rows = $find_username_result->fetch_assoc()) {
+    $username_registered = $find_username_rows['username'];
+}
 
 ?>
 
@@ -289,11 +292,6 @@ while ($supervised_rows = $supervised_result->fetch_assoc()) {
                     </a>
                 </div>
 
-                <div class="row d-flex align-items-center">
-                    <div class="col profile-employee-title">
-                        Profile Karyawan
-                    </div>
-                </div>
 
                 <nav class="nav flex-column flex-sm-row">
                     <a class="flex-sm-fill text-sm-center nav-link active" aria-current="page" href="#">Overview</a>
@@ -311,17 +309,35 @@ while ($supervised_rows = $supervised_result->fetch_assoc()) {
                     <div class="col-3">
                         <div class="card card-employee-1">
                             <img src="../../../Assets/company-logo.png"
-                                style="width: 30%; margin-left: 3%; margin-top:5%;">
+                                style="width: 30%; margin-left: 5%; margin-top:5%;">
 
                             <!-- employee name -->
                             <a href="" style="text-decoration: none;">
                                 <div class="employee-name">
-                                    <?= $data_employee_name; ?>
+                                    <?php
+                                    if ($data_employee_name != NULL) {
+                                        echo $data_employee_name;
+                                    } else {
+                                        echo '-';
+                                    }
+                                    ?>
                                 </div>
                             </a>
                             <!-- employee position -->
                             <div class="employee-position">
                                 <?= $data_employee_position ?>
+                            </div>
+
+                            <!-- employee username -->
+                            <div class="status-label">Username</div>
+                            <div class="status-value">
+                                <?php
+                                if ($username_registered != NULL) {
+                                    echo $username_registered;
+                                } else {
+                                    echo "User belum didaftarkan";
+                                }
+                                ?>
                             </div>
 
                             <!-- employee status -->
@@ -354,11 +370,11 @@ while ($supervised_rows = $supervised_result->fetch_assoc()) {
                             <div class="contact-label mt-3">Supervisor</div>
                             <div class="contact-value mb-4">
                                 <?php
-                                    if($superviser_name == NULL){
-                                        echo "-";
-                                    } else {
-                                        echo $superviser_name;
-                                    }
+                                if ($superviser_name == NULL) {
+                                    echo "-";
+                                } else {
+                                    echo $superviser_name;
+                                }
 
                                 ?>
                             </div>
@@ -366,7 +382,8 @@ while ($supervised_rows = $supervised_result->fetch_assoc()) {
                         </div>
 
                         <div class="card mt-4 card-action">
-                            <a href="read-only-employee-data/read-only-personal.php?employee_id=<?php echo $employee_id ?>" style="text-decoration: none;">
+                            <a href="read-only-employee-data/read-only-personal.php?employee_id=<?php echo $employee_id ?>"
+                                style="text-decoration: none;">
                                 <div class="menu-name-details-right-corner">
                                     Detail karyawan
                                 </div>
@@ -417,7 +434,7 @@ while ($supervised_rows = $supervised_result->fetch_assoc()) {
                                 Informasi Umum
                             </div>
 
-                            <table style="margin-left: 3%; margin-top: 1%; margin-bottom: 3%; ">
+                            <table style="margin-left: 1.8%; margin-top: 1%; margin-bottom: 3%; ">
                                 <tr>
                                     <th class="label-basic-information">Nama lengkap</th>
                                     <th class="value-basic-information">
@@ -456,7 +473,7 @@ while ($supervised_rows = $supervised_result->fetch_assoc()) {
                                 Catatan posisi
                             </div>
 
-                            <table style="margin-left: 3%; margin-top: 2%; margin-bottom: 3%; ">
+                            <table style="margin-left: 1.8%; margin-top: 2%; margin-bottom: 3%; ">
                                 <tr>
                                     <th class="label-basic-information">Jabatan</th>
                                     <th class="label-basic-information">Departemen</th>
@@ -464,27 +481,33 @@ while ($supervised_rows = $supervised_result->fetch_assoc()) {
                                     <th class="label-basic-information">Periode akhir</th>
                                 </tr>
                                 <?php
-                                    $position_history_query = "SELECT pd.position_name, DATE_FORMAT(pld.start_date, '%d %M %Y') as start_date, DATE_FORMAT(pld.end_date, '%d %M %Y') as end_date, dt.department_name FROM position_log_db pld JOIN position_db pd ON pld.position = pd.position_id JOIN department dt ON pld.department = dt.department_id;";
-                                    $position_history_result = $connect->query($position_history_query);
+                                $position_history_query = "SELECT pd.position_name, DATE_FORMAT(pld.start_date, '%d %M %Y') as start_date, DATE_FORMAT(pld.end_date, '%d %M %Y') as end_date, dt.department_name FROM position_log_db pld JOIN position_db pd ON pld.position = pd.position_id JOIN department dt ON pld.department = dt.department_id;";
+                                $position_history_result = $connect->query($position_history_query);
 
-                                    while($position_history_rows = $position_history_result->fetch_assoc()):
-                                ?>
-                                <tr>
-                                    <td style="height: 50%;"><?= $position_history_rows['position_name']; ?></td>
-                                    <td style="height: 50%;"><?= $position_history_rows['department_name']; ?></td>
-                                    <td style="height: 50%;"><?= $position_history_rows['start_date']; ?></td>
-                                    <td style="height: 50%;">
-                                        <?php  
-                                            if($position_history_rows['end_date'] == NULL){
+                                while ($position_history_rows = $position_history_result->fetch_assoc()):
+                                    ?>
+                                    <tr>
+                                        <td style="height: 50%;">
+                                            <?= $position_history_rows['position_name']; ?>
+                                        </td>
+                                        <td style="height: 50%;">
+                                            <?= $position_history_rows['department_name']; ?>
+                                        </td>
+                                        <td style="height: 50%;">
+                                            <?= $position_history_rows['start_date']; ?>
+                                        </td>
+                                        <td style="height: 50%;">
+                                            <?php
+                                            if ($position_history_rows['end_date'] == NULL) {
                                                 echo "-";
                                             } else {
                                                 echo $position_history_rows['end_date'];
                                             }
-                                        ?>
-                                    </td>
-                                </tr>
-                                <?php
-                                    endwhile;
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                endwhile;
                                 ?>
                             </table>
 

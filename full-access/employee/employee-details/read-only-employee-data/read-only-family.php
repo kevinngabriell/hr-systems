@@ -35,12 +35,6 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
     $employee_email_printed = $user_data_row['employee_email'];
 }
 
-function rupiah($angka)
-{
-    $hasil_rupiah = "Rp " . number_format($angka, 0, ',', '.');
-    return $hasil_rupiah;
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -283,62 +277,51 @@ function rupiah($angka)
                 <div class="row">
                     <div class="col">
 
+                        <!-- family data 1 -->
                         <?php
+                        $family_query_one = "SELECT fd.family_name as type_1 , efb.family_name_1, efb.family_address_1, efb.family_pob_1, efb.family_dob_1, ed.education_name as education_1 , efb.family_job_1 FROM employee_family_background efb JOIN family_db fd ON efb.family_type_1 = fd.id_family JOIN education_db ed ON efb.family_last_edu_1 = ed.education_id WHERE efb.family_type_1 = fd.id_family AND efb.family_last_edu_1 = ed.education_id AND efb.id = '$employee_id';";
+                        $family_result_one = $connect->query($family_query_one);
 
-                        $education_one_query = "SELECT edb.education_name, eeh.emp_name_1, eeh.emp_major_1, eeh.emp_grade_1, eeh.emp_start_1, eeh.emp_end_1, eeh.emp_desc_1 FROM employee_education_history eeh JOIN education_db edb ON eeh.emp_edu_id_1 = edb.education_id WHERE eeh.emp_edu_id_1 = edb.education_id AND eeh.id = '$employee_id';";
-                        $education_one_result = $connect->query($education_one_query);
-
-                        while ($education_one_rows = $education_one_result->fetch_assoc()) {
-                            $edu_type_one = $education_one_rows['education_name'];
-                            $edu_name_one = $education_one_rows['emp_name_1'];
-                            $edu_major_one = $education_one_rows['emp_major_1'];
-                            $edu_grade_one = $education_one_rows['emp_grade_1'];
-                            $edu_start_one = $education_one_rows['emp_start_1'];
-                            $edu_end_one = $education_one_rows['emp_end_1'];
-                            $edu_desc_one = $education_one_rows['emp_desc_1'];
+                        while ($family_rows_one = $family_result_one->fetch_array()) {
+                            $type_1 = $family_rows_one['type_1'];
+                            $name_1 = $family_rows_one['family_name_1'];
+                            $address_1 = $family_rows_one['family_address_1'];
+                            $pob_1 = $family_rows_one['family_pob_1'];
+                            $dob_1 = $family_rows_one['family_dob_1'];
+                            $education_1 = $family_rows_one['education_1'];
+                            $job_1 = $family_rows_one['family_job_1'];
                         }
-
                         ?>
 
-                        <!-- education data 1  -->
                         <div class="card card-employee-1 mt-3">
-                            <div class="basic-information">
-                                Pendidikan #1
-                            </div>
+
+                            <div class="basic-information">Data keluarga #1</div>
 
                             <div class="row mt-3 mb-3">
                                 <div class="col">
-                                    <div class="label-basic-information">Tingkat pendidikan</div>
-                                    <div class="value-basic">
+                                    <div class="label-basic-3">
+                                        Hubungan keluarga
+                                    </div>
+                                    <div class="value-basic-3">
                                         <?php
-                                        if ($edu_type_one == NULL) {
+                                        if ($type_1 == NULL) {
                                             echo "-";
                                         } else {
-                                            echo $edu_type_one;
+                                            echo $type_1;
                                         }
                                         ?>
                                     </div>
                                 </div>
                                 <div class="col">
-                                    <div class="label-basic-information">Nama sekolah</div>
-                                    <div class="value-basic">
-                                        <?php
-                                        if ($edu_name_one == NULL) {
-                                            echo "-";
-                                        } else {
-                                            echo $edu_name_one;
-                                        }
-                                        ?>
+                                    <div class="label-basic-3">
+                                        Nama lengkap
                                     </div>
-                                </div>
-                                <div class="col">
-                                    <div class="label-basic-information">Jurusan</div>
-                                    <div class="value-basic">
+                                    <div class="value-basic-3">
                                         <?php
-                                        if ($edu_major_one == NULL) {
+                                        if ($name_1 == NULL) {
                                             echo "-";
                                         } else {
-                                            echo $edu_major_one;
+                                            echo $name_1;
                                         }
                                         ?>
                                     </div>
@@ -347,39 +330,35 @@ function rupiah($angka)
 
                             <div class="row mb-3">
                                 <div class="col">
-                                    <div class="label-basic-information">Nilai</div>
-                                    <div class="value-basic">
+                                    <div class="label-basic-3">
+                                        Tempat, tanggal lahir
+                                    </div>
+                                    <div class="value-basic-3">
                                         <?php
-                                        if ($edu_grade_one == NULL) {
+                                        if ($pob_1 == NULL || $dob_1 == NULL) {
                                             echo "-";
                                         } else {
-                                            echo $edu_grade_one;
+                                            $dob1 = date("d M Y", strtotime($dob_1));
+                                            $today = date("y-m-d");
+                                            $diff = abs(strtotime($today) - strtotime($dob_1));
+                                            $years = floor($diff / (365 * 60 * 60 * 24));
+
+                                            echo "$pob_1, $dob1 ($years tahun)";
                                         }
+
                                         ?>
                                     </div>
                                 </div>
                                 <div class="col">
-                                    <div class="label-basic-information">Tahun masuk</div>
-                                    <div class="value-basic">
-                                        <?php
-                                        if ($edu_start_one == NULL) {
-                                            echo "-";
-                                        } else {
-                                            $newStartDate1 = date("d M Y", strtotime($edu_start_one));
-                                            echo $newStartDate1;
-                                        }
-                                        ?>
+                                    <div class="label-basic-3">
+                                        Alamat
                                     </div>
-                                </div>
-                                <div class="col">
-                                    <div class="label-basic-information">Tahun selesai</div>
-                                    <div class="value-basic">
+                                    <div class="value-basic-3">
                                         <?php
-                                        if ($edu_end_one == NULL) {
+                                        if ($address_1 == NULL) {
                                             echo "-";
                                         } else {
-                                            $newEndDate1 = date("d M Y", strtotime($edu_end_one));
-                                            echo $newEndDate1;
+                                            echo $address_1;
                                         }
                                         ?>
                                     </div>
@@ -387,78 +366,85 @@ function rupiah($angka)
                             </div>
 
                             <div class="row mb-3">
-                                <div class="label-basic-4">Deskripsi pendidikan</div>
-                                <div class="value-basic-4">
-                                    <?php
-                                    if ($edu_desc_one == NULL) {
-                                        echo "-";
-                                    } else {
-                                        echo $edu_desc_one;
-                                    }
-                                    ?>
+                                <div class="col">
+                                    <div class="label-basic-3">
+                                        Pendidikan terakhir
+                                    </div>
+                                    <div class="value-basic-3">
+                                        <?php
+                                        if ($education_1 == NULL) {
+                                            echo "-";
+                                        } else {
+                                            echo $education_1;
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="label-basic-3">
+                                        Pekerjaan
+                                    </div>
+                                    <div class="value-basic-3">
+                                        <?php
+                                        if ($job_1 == NULL) {
+                                            echo "-";
+                                        } else {
+                                            echo $job_1;
+                                        }
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
 
                         </div>
 
+                        <!-- family data 2 -->
                         <?php
-                        $education_two_query = "SELECT edb.education_name, eeh.emp_name_2, eeh.emp_major_2, eeh.emp_grade_2, eeh.emp_start_2, eeh.emp_end_2, eeh.emp_desc_2 FROM employee_education_history eeh JOIN education_db edb ON eeh.emp_edu_id_2 = edb.education_id WHERE eeh.emp_edu_id_2 = edb.education_id AND eeh.id = '$employee_id';";
-                        $education_two_result = $connect->query($education_two_query);
+                        $family_query_two = "SELECT fd.family_name as type_2 , efb.family_name_2, efb.family_address_2, efb.family_pob_2, efb.family_dob_2, ed.education_name as education_2 , efb.family_job_2 FROM employee_family_background efb JOIN family_db fd ON efb.family_type_2 = fd.id_family JOIN education_db ed ON efb.family_last_edu_2 = ed.education_id WHERE efb.family_type_2 = fd.id_family AND efb.family_last_edu_2 = ed.education_id AND efb.id = '$employee_id';";
+                        $family_result_two = $connect->query($family_query_two);
 
-                        while ($education_two_rows = $education_two_result->fetch_assoc()) {
-                            $edu_type_two = $education_two_rows['education_name'];
-                            $edu_name_two = $education_two_rows['emp_name_2'];
-                            $edu_major_two = $education_two_rows['emp_major_2'];
-                            $edu_grade_two = $education_two_rows['emp_grade_2'];
-                            $edu_start_two = $education_two_rows['emp_start_2'];
-                            $edu_end_two = $education_two_rows['emp_end_2'];
-                            $edu_desc_two = $education_two_rows['emp_desc_2'];
+                        while ($family_rows_two = $family_result_two->fetch_array()) {
+                            $type_2 = $family_rows_two['type_2'];
+                            $name_2 = $family_rows_two['family_name_2'];
+                            $address_2 = $family_rows_two['family_address_2'];
+                            $pob_2 = $family_rows_two['family_pob_2'];
+                            $dob_2 = $family_rows_two['family_dob_2'];
+                            $education_2 = $family_rows_two['education_2'];
+                            $job_2 = $family_rows_two['family_job_2'];
                         }
-                        ?>
 
-                        <?php
-                        if ($edu_type_two != NULL) {
+                        if ($type_2 != NULL) {
                             ?>
 
-                            <!-- education data 2  -->
                             <div class="card card-employee-1 mt-4">
-                                <div class="basic-information">
-                                    Pendidikan #2
-                                </div>
+
+                                <div class="basic-information">Data keluarga #2</div>
 
                                 <div class="row mt-3 mb-3">
                                     <div class="col">
-                                        <div class="label-basic-information">Tingkat pendidikan</div>
-                                        <div class="value-basic">
+                                        <div class="label-basic-3">
+                                            Hubungan keluarga
+                                        </div>
+                                        <div class="value-basic-3">
                                             <?php
-                                            if ($edu_type_two == NULL) {
+                                            if ($type_2 == NULL) {
                                                 echo "-";
                                             } else {
-                                                echo $edu_type_two;
+                                                echo $type_2;
                                             }
                                             ?>
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <div class="label-basic-information">Nama sekolah</div>
-                                        <div class="value-basic">
-                                            <?php
-                                            if ($edu_name_two == NULL) {
-                                                echo "-";
-                                            } else {
-                                                echo $edu_name_two;
-                                            }
-                                            ?>
+                                        <div class="label-basic-3">
+                                            Nama lengkap
                                         </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="label-basic-information">Jurusan</div>
-                                        <div class="value-basic">
+                                        <div class="value-basic-3">
                                             <?php
-                                            if ($edu_major_two == NULL) {
+                                            if ($name_2 == NULL) {
                                                 echo "-";
                                             } else {
-                                                echo $edu_major_two;
+                                                echo $name_2;
                                             }
                                             ?>
                                         </div>
@@ -467,39 +453,35 @@ function rupiah($angka)
 
                                 <div class="row mb-3">
                                     <div class="col">
-                                        <div class="label-basic-information">Nilai</div>
-                                        <div class="value-basic">
+                                        <div class="label-basic-3">
+                                            Tempat, tanggal lahir
+                                        </div>
+                                        <div class="value-basic-3">
                                             <?php
-                                            if ($edu_grade_two == NULL) {
+                                            if ($pob_2 == NULL || $dob_2 == NULL) {
                                                 echo "-";
                                             } else {
-                                                echo $edu_grade_two;
+                                                $dob2 = date("d M Y", strtotime($dob_2));
+                                                $today = date("y-m-d");
+                                                $diff = abs(strtotime($today) - strtotime($dob_2));
+                                                $years = floor($diff / (365 * 60 * 60 * 24));
+
+                                                echo "$pob_2, $dob2 ($years tahun)";
                                             }
+
                                             ?>
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <div class="label-basic-information">Tahun masuk</div>
-                                        <div class="value-basic">
-                                            <?php
-                                            if ($edu_start_two == NULL) {
-                                                echo "-";
-                                            } else {
-                                                $newStartDate1 = date("d M Y", strtotime($edu_start_two));
-                                                echo $newStartDate1;
-                                            }
-                                            ?>
+                                        <div class="label-basic-3">
+                                            Alamat
                                         </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="label-basic-information">Tahun selesai</div>
-                                        <div class="value-basic">
+                                        <div class="value-basic-3">
                                             <?php
-                                            if ($edu_end_two == NULL) {
+                                            if ($address_2 == NULL) {
                                                 echo "-";
                                             } else {
-                                                $newEndDate1 = date("d M Y", strtotime($edu_end_two));
-                                                echo $newEndDate1;
+                                                echo $address_2;
                                             }
                                             ?>
                                         </div>
@@ -507,82 +489,91 @@ function rupiah($angka)
                                 </div>
 
                                 <div class="row mb-3">
-                                    <div class="label-basic-4">Deskripsi pendidikan</div>
-                                    <div class="value-basic-4">
-                                        <?php
-                                        if ($edu_desc_two == NULL) {
-                                            echo "-";
-                                        } else {
-                                            echo $edu_desc_two;
-                                        }
-                                        ?>
+                                    <div class="col">
+                                        <div class="label-basic-3">
+                                            Pendidikan terakhir
+                                        </div>
+                                        <div class="value-basic-3">
+                                            <?php
+                                            if ($education_2 == NULL) {
+                                                echo "-";
+                                            } else {
+                                                echo $education_2;
+                                            }
+                                            ?>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="label-basic-3">
+                                            Pekerjaan
+                                        </div>
+                                        <div class="value-basic-3">
+                                            <?php
+                                            if ($job_2 == NULL) {
+                                                echo "-";
+                                            } else {
+                                                echo $job_2;
+                                            }
+                                            ?>
+                                        </div>
                                     </div>
                                 </div>
 
                             </div>
 
                             <?php
+                        } else {
+
                         }
                         ?>
 
+                        <!-- family data 3-->
                         <?php
-                        $education_three_query = "SELECT edb.education_name, eeh.emp_name_3, eeh.emp_major_3, eeh.emp_grade_3, eeh.emp_start_3, eeh.emp_end_3, eeh.emp_desc_3 FROM employee_education_history eeh JOIN education_db edb ON eeh.emp_edu_id_3 = edb.education_id WHERE eeh.emp_edu_id_3 = edb.education_id AND eeh.id = '$employee_id';";
-                        $education_three_result = $connect->query($education_three_query);
+                        $family_query_three = "SELECT fd.family_name as type_3 , efb.family_name_3, efb.family_address_3, efb.family_pob_3, efb.family_dob_3, ed.education_name as education_3 , efb.family_job_3 FROM employee_family_background efb JOIN family_db fd ON efb.family_type_3 = fd.id_family JOIN education_db ed ON efb.family_last_edu_3 = ed.education_id WHERE efb.family_type_3 = fd.id_family OR efb.family_last_edu_3 = ed.education_id AND efb.id = '$employee_id';";
+                        $family_result_three = $connect->query($family_query_three);
 
-                        while ($education_three_rows = $education_three_result->fetch_assoc()) {
-                            $edu_type_three = $education_three_rows['education_name'];
-                            $edu_name_three = $education_three_rows['emp_name_3'];
-                            $edu_major_three = $education_three_rows['emp_major_3'];
-                            $edu_grade_three = $education_three_rows['emp_grade_3'];
-                            $edu_start_three = $education_three_rows['emp_start_3'];
-                            $edu_end_three = $education_three_rows['emp_end_3'];
-                            $edu_desc_three = $education_three_rows['emp_desc_3'];
+                        while ($family_rows_three = $family_result_three->fetch_array()) {
+                            $type_3 = $family_rows_three['type_3'];
+                            $name_3 = $family_rows_three['family_name_3'];
+                            $address_3 = $family_rows_three['family_address_3'];
+                            $pob_3 = $family_rows_three['family_pob_3'];
+                            $dob_3 = $family_rows_three['family_dob_3'];
+                            $education_3 = $family_rows_three['education_3'];
+                            $job_3 = $family_rows_three['family_job_3'];
                         }
-                        ?>
 
-                        <?php
-                        if ($edu_type_three != NULL) {
+                        if ($type_3 != NULL) {
                             ?>
 
-                            <!-- education data 3  -->
                             <div class="card card-employee-1 mt-4">
-                                <div class="basic-information">
-                                    Pendidikan #3
-                                </div>
+
+                                <div class="basic-information">Data keluarga #3</div>
 
                                 <div class="row mt-3 mb-3">
                                     <div class="col">
-                                        <div class="label-basic-information">Tingkat pendidikan</div>
-                                        <div class="value-basic">
+                                        <div class="label-basic-3">
+                                            Hubungan keluarga
+                                        </div>
+                                        <div class="value-basic-3">
                                             <?php
-                                            if ($edu_type_three == NULL) {
+                                            if ($type_3 == NULL) {
                                                 echo "-";
                                             } else {
-                                                echo $edu_type_three;
+                                                echo $type_3;
                                             }
                                             ?>
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <div class="label-basic-information">Nama sekolah</div>
-                                        <div class="value-basic">
-                                            <?php
-                                            if ($edu_name_three == NULL) {
-                                                echo "-";
-                                            } else {
-                                                echo $edu_name_three;
-                                            }
-                                            ?>
+                                        <div class="label-basic-3">
+                                            Nama lengkap
                                         </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="label-basic-information">Jurusan</div>
-                                        <div class="value-basic">
+                                        <div class="value-basic-3">
                                             <?php
-                                            if ($edu_major_three == NULL) {
+                                            if ($name_3 == NULL) {
                                                 echo "-";
                                             } else {
-                                                echo $edu_major_three;
+                                                echo $name_3;
                                             }
                                             ?>
                                         </div>
@@ -591,39 +582,35 @@ function rupiah($angka)
 
                                 <div class="row mb-3">
                                     <div class="col">
-                                        <div class="label-basic-information">Nilai</div>
-                                        <div class="value-basic">
+                                        <div class="label-basic-3">
+                                            Tempat, tanggal lahir
+                                        </div>
+                                        <div class="value-basic-3">
                                             <?php
-                                            if ($edu_grade_three == NULL) {
+                                            if ($pob_3 == NULL || $dob_3 == NULL) {
                                                 echo "-";
                                             } else {
-                                                echo $edu_grade_three;
+                                                $dob3 = date("d M Y", strtotime($dob_3));
+                                                $today = date("y-m-d");
+                                                $diff = abs(strtotime($today) - strtotime($dob_3));
+                                                $years = floor($diff / (365 * 60 * 60 * 24));
+
+                                                echo "$pob_3, $dob3 ($years tahun)";
                                             }
+
                                             ?>
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <div class="label-basic-information">Tahun masuk</div>
-                                        <div class="value-basic">
-                                            <?php
-                                            if ($edu_start_three == NULL) {
-                                                echo "-";
-                                            } else {
-                                                $newStartDate1 = date("d M Y", strtotime($edu_start_three));
-                                                echo $newStartDate1;
-                                            }
-                                            ?>
+                                        <div class="label-basic-3">
+                                            Alamat
                                         </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="label-basic-information">Tahun selesai</div>
-                                        <div class="value-basic">
+                                        <div class="value-basic-3">
                                             <?php
-                                            if ($edu_end_three == NULL) {
+                                            if ($address_3 == NULL) {
                                                 echo "-";
                                             } else {
-                                                $newEndDate1 = date("d M Y", strtotime($edu_end_three));
-                                                echo $newEndDate1;
+                                                echo $address_3;
                                             }
                                             ?>
                                         </div>
@@ -631,82 +618,91 @@ function rupiah($angka)
                                 </div>
 
                                 <div class="row mb-3">
-                                    <div class="label-basic-4">Deskripsi pendidikan</div>
-                                    <div class="value-basic-4">
-                                        <?php
-                                        if ($edu_desc_three == NULL) {
-                                            echo "-";
-                                        } else {
-                                            echo $edu_desc_three;
-                                        }
-                                        ?>
+                                    <div class="col">
+                                        <div class="label-basic-3">
+                                            Pendidikan terakhir
+                                        </div>
+                                        <div class="value-basic-3">
+                                            <?php
+                                            if ($education_3 == NULL) {
+                                                echo "-";
+                                            } else {
+                                                echo $education_3;
+                                            }
+                                            ?>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="label-basic-3">
+                                            Pekerjaan
+                                        </div>
+                                        <div class="value-basic-3">
+                                            <?php
+                                            if ($job_3 == NULL) {
+                                                echo "-";
+                                            } else {
+                                                echo $job_3;
+                                            }
+                                            ?>
+                                        </div>
                                     </div>
                                 </div>
 
                             </div>
 
                             <?php
+                        } else {
+
                         }
                         ?>
 
+                        <!-- family data 4-->
                         <?php
-                        $education_four_query = "SELECT edb.education_name, eeh.emp_name_4, eeh.emp_major_4, eeh.emp_grade_4, eeh.emp_start_4, eeh.emp_end_4, eeh.emp_desc_4 FROM employee_education_history eeh JOIN education_db edb ON eeh.emp_edu_id_4 = edb.education_id WHERE eeh.emp_edu_id_4 = edb.education_id AND eeh.id = '$employee_id';";
-                        $education_four_result = $connect->query($education_four_query);
+                        $family_query_four = "SELECT fd.family_name as type_4 , efb.family_name_4, efb.family_address_4, efb.family_pob_4, efb.family_dob_4, ed.education_name as education_4 , efb.family_job_4 FROM employee_family_background efb JOIN family_db fd ON efb.family_type_4 = fd.id_family JOIN education_db ed ON efb.family_last_edu_4 = ed.education_id WHERE efb.family_type_4 = fd.id_family OR efb.family_last_edu_4 = ed.education_id AND efb.id = '$employee_id';";
+                        $family_result_four = $connect->query($family_query_four);
 
-                        while ($education_four_rows = $education_four_result->fetch_assoc()) {
-                            $edu_type_four = $education_four_rows['education_name'];
-                            $edu_name_four = $education_four_rows['emp_name_4'];
-                            $edu_major_four = $education_four_rows['emp_major_4'];
-                            $edu_grade_four = $education_four_rows['emp_grade_4'];
-                            $edu_start_four = $education_four_rows['emp_start_4'];
-                            $edu_end_four = $education_four_rows['emp_end_4'];
-                            $edu_desc_four = $education_four_rows['emp_desc_4'];
+                        while ($family_rows_four = $family_result_four->fetch_array()) {
+                            $type_4 = $family_rows_four['type_4'];
+                            $name_4 = $family_rows_four['family_name_4'];
+                            $address_4 = $family_rows_four['family_address_4'];
+                            $pob_4 = $family_rows_four['family_pob_4'];
+                            $dob_4 = $family_rows_four['family_dob_4'];
+                            $education_4 = $family_rows_four['education_4'];
+                            $job_4 = $family_rows_four['family_job_4'];
                         }
-                        ?>
 
-                        <?php
-                        if ($edu_type_four != NULL) {
+                        if ($type_4 != NULL) {
                             ?>
 
-                            <!-- education data 4  -->
                             <div class="card card-employee-1 mt-4">
-                                <div class="basic-information">
-                                    Pendidikan #4
-                                </div>
+
+                                <div class="basic-information">Data keluarga #4</div>
 
                                 <div class="row mt-3 mb-3">
                                     <div class="col">
-                                        <div class="label-basic-information">Tingkat pendidikan</div>
-                                        <div class="value-basic">
+                                        <div class="label-basic-3">
+                                            Hubungan keluarga
+                                        </div>
+                                        <div class="value-basic-3">
                                             <?php
-                                            if ($edu_type_four == NULL) {
+                                            if ($type_4 == NULL) {
                                                 echo "-";
                                             } else {
-                                                echo $edu_type_four;
+                                                echo $type_4;
                                             }
                                             ?>
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <div class="label-basic-information">Nama sekolah</div>
-                                        <div class="value-basic">
-                                            <?php
-                                            if ($edu_name_four == NULL) {
-                                                echo "-";
-                                            } else {
-                                                echo $edu_name_four;
-                                            }
-                                            ?>
+                                        <div class="label-basic-3">
+                                            Nama lengkap
                                         </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="label-basic-information">Jurusan</div>
-                                        <div class="value-basic">
+                                        <div class="value-basic-3">
                                             <?php
-                                            if ($edu_major_four == NULL) {
+                                            if ($name_4 == NULL) {
                                                 echo "-";
                                             } else {
-                                                echo $edu_major_four;
+                                                echo $name_4;
                                             }
                                             ?>
                                         </div>
@@ -715,39 +711,35 @@ function rupiah($angka)
 
                                 <div class="row mb-3">
                                     <div class="col">
-                                        <div class="label-basic-information">Nilai</div>
-                                        <div class="value-basic">
+                                        <div class="label-basic-3">
+                                            Tempat, tanggal lahir
+                                        </div>
+                                        <div class="value-basic-3">
                                             <?php
-                                            if ($edu_grade_four == NULL) {
+                                            if ($pob_4 == NULL || $dob_4 == NULL) {
                                                 echo "-";
                                             } else {
-                                                echo $edu_grade_four;
+                                                $dob4 = date("d M Y", strtotime($dob_4));
+                                                $today = date("y-m-d");
+                                                $diff = abs(strtotime($today) - strtotime($dob_4));
+                                                $years = floor($diff / (365 * 60 * 60 * 24));
+
+                                                echo "$pob_4, $dob4 ($years tahun)";
                                             }
+
                                             ?>
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <div class="label-basic-information">Tahun masuk</div>
-                                        <div class="value-basic">
-                                            <?php
-                                            if ($edu_start_four == NULL) {
-                                                echo "-";
-                                            } else {
-                                                $newStartDate1 = date("d M Y", strtotime($edu_start_four));
-                                                echo $newStartDate1;
-                                            }
-                                            ?>
+                                        <div class="label-basic-3">
+                                            Alamat
                                         </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="label-basic-information">Tahun selesai</div>
-                                        <div class="value-basic">
+                                        <div class="value-basic-3">
                                             <?php
-                                            if ($edu_end_four == NULL) {
+                                            if ($address_4 == NULL) {
                                                 echo "-";
                                             } else {
-                                                $newEndDate1 = date("d M Y", strtotime($edu_end_four));
-                                                echo $newEndDate1;
+                                                echo $address_4;
                                             }
                                             ?>
                                         </div>
@@ -755,15 +747,33 @@ function rupiah($angka)
                                 </div>
 
                                 <div class="row mb-3">
-                                    <div class="label-basic-4">Deskripsi pendidikan</div>
-                                    <div class="value-basic-4">
-                                        <?php
-                                        if ($edu_desc_four == NULL) {
-                                            echo "-";
-                                        } else {
-                                            echo $edu_desc_four;
-                                        }
-                                        ?>
+                                    <div class="col">
+                                        <div class="label-basic-3">
+                                            Pendidikan terakhir
+                                        </div>
+                                        <div class="value-basic-3">
+                                            <?php
+                                            if ($education_4 == NULL) {
+                                                echo "-";
+                                            } else {
+                                                echo $education_4;
+                                            }
+                                            ?>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="label-basic-3">
+                                            Pekerjaan
+                                        </div>
+                                        <div class="value-basic-3">
+                                            <?php
+                                            if ($job_4 == NULL) {
+                                                echo "-";
+                                            } else {
+                                                echo $job_4;
+                                            }
+                                            ?>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -772,71 +782,60 @@ function rupiah($angka)
                             <?php
                         } else {
                             ?>
-                            <div class="space mt-5">
+                            <div class="spacer mt-5">
                                 <p> </p>
                             </div>
-                            <?php
+                        <?php
                         }
                         ?>
 
-
+                        <!-- family data 5-->
                         <?php
-                        $education_five_query = "SELECT edb.education_name, eeh.emp_name_5, eeh.emp_major_5, eeh.emp_grade_5, eeh.emp_start_5, eeh.emp_end_5, eeh.emp_desc_5 FROM employee_education_history eeh JOIN education_db edb ON eeh.emp_edu_id_5 = edb.education_id WHERE eeh.emp_edu_id_5 = edb.education_id AND eeh.id = '$employee_id';";
-                        $education_five_result = $connect->query($education_five_query);
+                        $family_query_five = "SELECT fd.family_name as type_5 , efb.family_name_5, efb.family_address_5, efb.family_pob_5, efb.family_dob_5, ed.education_name as education_5 , efb.family_job_5 FROM employee_family_background efb JOIN family_db fd ON efb.family_type_5 = fd.id_family JOIN education_db ed ON efb.family_last_edu_5 = ed.education_id WHERE efb.family_type_5 = fd.id_family OR efb.family_last_edu_5 = ed.education_id AND efb.id = '$employee_id';";
+                        $family_result_five = $connect->query($family_query_five);
 
-                        while ($education_five_rows = $education_five_result->fetch_assoc()) {
-                            $edu_type_five = $education_five_rows['education_name'];
-                            $edu_name_five = $education_five_rows['emp_name_5'];
-                            $edu_major_five = $education_five_rows['emp_major_5'];
-                            $edu_grade_five = $education_five_rows['emp_grade_5'];
-                            $edu_start_five = $education_five_rows['emp_start_5'];
-                            $edu_end_five = $education_five_rows['emp_end_5'];
-                            $edu_desc_five = $education_five_rows['emp_desc_5'];
+                        while ($family_rows_five = $family_result_five->fetch_array()) {
+                            $type_5 = $family_rows_five['type_5'];
+                            $name_5 = $family_rows_five['family_name_5'];
+                            $address_5 = $family_rows_five['family_address_5'];
+                            $pob_5 = $family_rows_five['family_pob_5'];
+                            $dob_5 = $family_rows_five['family_dob_5'];
+                            $education_5 = $family_rows_five['education_5'];
+                            $job_5 = $family_rows_five['family_job_5'];
                         }
-                        ?>
 
-                        <?php
-                            if($edu_type_five != NULL){
-                        ?>
-                         <!-- education data 5  -->
-                         <div class="card card-employee-1 mt-4">
-                                <div class="basic-information">
-                                    Pendidikan #5
-                                </div>
+                        if ($type_5 != NULL) {
+                            ?>
+
+                            <div class="card card-employee-1 mt-4 mb-5">
+
+                                <div class="basic-information">Data keluarga #5</div>
 
                                 <div class="row mt-3 mb-3">
                                     <div class="col">
-                                        <div class="label-basic-information">Tingkat pendidikan</div>
-                                        <div class="value-basic">
+                                        <div class="label-basic-3">
+                                            Hubungan keluarga
+                                        </div>
+                                        <div class="value-basic-3">
                                             <?php
-                                            if ($edu_type_five == NULL) {
+                                            if ($type_5 == NULL) {
                                                 echo "-";
                                             } else {
-                                                echo $edu_type_five;
+                                                echo $type_5;
                                             }
                                             ?>
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <div class="label-basic-information">Nama sekolah</div>
-                                        <div class="value-basic">
-                                            <?php
-                                            if ($edu_name_five == NULL) {
-                                                echo "-";
-                                            } else {
-                                                echo $edu_name_five;
-                                            }
-                                            ?>
+                                        <div class="label-basic-3">
+                                            Nama lengkap
                                         </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="label-basic-information">Jurusan</div>
-                                        <div class="value-basic">
+                                        <div class="value-basic-3">
                                             <?php
-                                            if ($edu_major_five == NULL) {
+                                            if ($name_5 == NULL) {
                                                 echo "-";
                                             } else {
-                                                echo $edu_major_five;
+                                                echo $name_5;
                                             }
                                             ?>
                                         </div>
@@ -845,39 +844,35 @@ function rupiah($angka)
 
                                 <div class="row mb-3">
                                     <div class="col">
-                                        <div class="label-basic-information">Nilai</div>
-                                        <div class="value-basic">
+                                        <div class="label-basic-3">
+                                            Tempat, tanggal lahir
+                                        </div>
+                                        <div class="value-basic-3">
                                             <?php
-                                            if ($edu_grade_five == NULL) {
+                                            if ($pob_5 == NULL || $dob_5 == NULL) {
                                                 echo "-";
                                             } else {
-                                                echo $edu_grade_five;
+                                                $dob5 = date("d M Y", strtotime($dob_5));
+                                                $today = date("y-m-d");
+                                                $diff = abs(strtotime($today) - strtotime($dob_5));
+                                                $years = floor($diff / (365 * 60 * 60 * 24));
+
+                                                echo "$pob_5, $dob5 ($years tahun)";
                                             }
+
                                             ?>
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <div class="label-basic-information">Tahun masuk</div>
-                                        <div class="value-basic">
-                                            <?php
-                                            if ($edu_start_five == NULL) {
-                                                echo "-";
-                                            } else {
-                                                $newStartDate1 = date("d M Y", strtotime($edu_start_five));
-                                                echo $newStartDate1;
-                                            }
-                                            ?>
+                                        <div class="label-basic-3">
+                                            Alamat
                                         </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="label-basic-information">Tahun selesai</div>
-                                        <div class="value-basic">
+                                        <div class="value-basic-3">
                                             <?php
-                                            if ($edu_end_five == NULL) {
+                                            if ($address_5 == NULL) {
                                                 echo "-";
                                             } else {
-                                                $newEndDate1 = date("d M Y", strtotime($edu_end_five));
-                                                echo $newEndDate1;
+                                                echo $address_5;
                                             }
                                             ?>
                                         </div>
@@ -885,28 +880,49 @@ function rupiah($angka)
                                 </div>
 
                                 <div class="row mb-3">
-                                    <div class="label-basic-4">Deskripsi pendidikan</div>
-                                    <div class="value-basic-4">
-                                        <?php
-                                        if ($edu_desc_five == NULL) {
-                                            echo "-";
-                                        } else {
-                                            echo $edu_desc_five;
-                                        }
-                                        ?>
+                                    <div class="col">
+                                        <div class="label-basic-3">
+                                            Pendidikan terakhir
+                                        </div>
+                                        <div class="value-basic-3">
+                                            <?php
+                                            if ($education_5 == NULL) {
+                                                echo "-";
+                                            } else {
+                                                echo $education_5;
+                                            }
+                                            ?>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="label-basic-3">
+                                            Pekerjaan
+                                        </div>
+                                        <div class="value-basic-3">
+                                            <?php
+                                            if ($job_5 == NULL) {
+                                                echo "-";
+                                            } else {
+                                                echo $job_5;
+                                            }
+                                            ?>
+                                        </div>
                                     </div>
                                 </div>
 
                             </div>
+
+                            <?php
+                        } else {
+                            ?>
+                            <div class="spacer mt-5">
+                                <p> </p>
+                            </div>
                         <?php
-                            } else {
+                        }
                         ?>
-                        <div class="space mt-5">
-                            <p> </p>
-                        </div>
-                        <?php
-                            }
-                        ?>
+
+
 
 
 
@@ -937,19 +953,21 @@ function rupiah($angka)
 
                             <a href="read-only-education.php?employee_id=<?= $employee_id ?>"
                                 style="text-decoration: none; margin-top: 3%; margin-left: 5%;">
-                                <div class="employee-name active">
+                                <div class="employee-name">
                                     Pendidikan
                                 </div>
                             </a>
 
-                            <a href="read-only-language.php?employee_id=<?= $employee_id ?>" style="text-decoration: none; margin-top: 3%; margin-left: 5%;">
+                            <a href="read-only-language.php?employee_id=<?= $employee_id ?>"
+                                style="text-decoration: none; margin-top: 3%; margin-left: 5%;">
                                 <div class="employee-name">
                                     Kemampuan bahasa
                                 </div>
                             </a>
 
-                            <a href="read-only-family.php?employee_id=<?= $employee_id ?>" style="text-decoration: none; margin-top: 3%; margin-left: 5%;">
-                                <div class="employee-name">
+                            <a href="read-only-family.php?employee_id=<?= $employee_id ?>"
+                                style="text-decoration: none; margin-top: 3%; margin-left: 5%;">
+                                <div class="employee-name active">
                                     Data keluarga
                                 </div>
                             </a>

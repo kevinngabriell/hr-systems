@@ -13,7 +13,6 @@ include("../../../Conn/connection.php");
 
 //set username variable from session
 $username = $_SESSION['username'];
-
 //retrieve company name
 $company_data_query = "SELECT cy.company_name, cy.company_address FROM users us JOIN company cy ON us.company_id = cy.company_id;";
 $company_data_result = $connect->query($company_data_query);
@@ -67,12 +66,13 @@ if (isset($_POST['submit'])) {
     //get last id employee
     $get_id_query = "SELECT id FROM employee ORDER BY id DESC LIMIT 1";
     $last_id = mysqli_query($connect, $get_id_query);
+
     while ($last_id_row = $last_id->fetch_assoc()) {
         $employee_id = $last_id_row['id'];
     }
 
     //insert contact query
-    $insert_contact_details_query = "INSERT IGNORE INTO employee_contact_details_db (employee_address_ktp, employee_address_status_ktp, employee_rt_ktp, employee_rw_ktp, employee_provinsi_ktp, employee_kota_kab_ktp, employee_kec_ktp, employee_kel_ktp, employee_address_now, employee_address_status_now, employee_rt_now, employee_rw_now, employee_provinsi_now, employee_kot_kab_now, employee_kec_now, employee_kel_now, employee_email, employee_phone_number, id) VALUES ('$employee_address_ktp', '$employee_address_status_ktp', '$employee_rt_ktp', '$employee_rw_ktp', '$employee_province_ktp', '$employee_city_ktp', '$employee_kec_ktp', '$employee_kel_ktp', '$employee_address_now', '$employee_address_status_now', '$employee_rt_now', '$employee_rw_now', '$employee_province_now', '$employee_city_now', '$employee_kec_now', '$employee_kel_now', '$employee_email', 'employee_phone_number', '$employee_id')";
+    $insert_contact_details_query = "INSERT INTO `employee_contact_details_db` (`employee_address_ktp`, `employee_address_status_ktp`, `employee_rt_ktp`, `employee_rw_ktp`, `employee_provinsi_ktp`, `employee_kota_kab_ktp`, `employee_kec_ktp`, `employee_kel_ktp`, `employee_address_now`, `employee_address_status_now`, `employee_rt_now`, `employee_rw_now`, `employee_provinsi_now`, `employee_kot_kab_now`, `employee_kec_now`, `employee_kel_now`, `employee_email`, `employee_phone_number`, `id`) VALUES ('$employee_address_ktp', '$employee_address_status_ktp', '$employee_rt_ktp', '$employee_rw_ktp', '$employee_province_ktp', '$employee_city_ktp', '$employee_kec_ktp', '$employee_kel_ktp', '$employee_address_now', '$employee_address_status_now', '$employee_rt_now', '$employee_rw_now', '$employee_province_now', '$employee_city_now', '$employee_kec_now', '$employee_kel_now', '$employee_email', '$employee_phone', '$employee_id');";
     $insert_contact_details_result = mysqli_query($connect, $insert_contact_details_query);
     if ($insert_contact_details_result) {
         header("location: form-new-employee-employment-history.php");

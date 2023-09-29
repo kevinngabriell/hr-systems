@@ -258,7 +258,7 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
             </a>
           </div>
           <div class="col">
-            <a href="" style="text-decoration: none;">
+            <a href="company-setting/company-settings-position.php" style="text-decoration: none;">
               <div class="card card-style-1">
                 <div class="card-employee-menu-title mt-3">
                   Divisi

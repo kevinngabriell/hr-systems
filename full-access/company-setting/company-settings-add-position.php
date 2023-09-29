@@ -28,32 +28,32 @@ $company_db_query = "SELECT * FROM company;";
 $company_db_result = mysqli_query($connect, $company_db_query);
 
 //submit action
-if(isset($_POST['submit'])){
+if (isset($_POST['submit'])) {
 
+    $department_id = $_POST['department_id'];
     $company_id = $_POST['company_id'];
-    $department_name = $_POST['dept_name'];
+    $position = $_POST['position'];
 
-    $get_last_dept_query = "SELECT RIGHT(department_id, 3) AS department_id FROM department;";
-    $get_last_dept_result = mysqli_query($connect, $get_last_dept_query);
+    $get_last_position_query = "SELECT RIGHT(position_id, 3) AS position_id FROM position_db ORDER BY position_id ASC;";
+    $get_last_position_result = mysqli_query($connect, $get_last_position_query);
 
-    while ($get_last_dept_rows = $get_last_dept_result->fetch_assoc()){
-        $last_dept_id = $get_last_dept_rows['department_id'];
+    while ($get_last_position_rows = $get_last_position_result->fetch_assoc()) {
+        $last_position_id = $get_last_position_rows['position_id'];
     }
 
-    $new_id = $last_dept_id + 1;
-    $prefix = "DEPT-HR-";
+    $new_id = $last_position_id + 1;
+    $prefix = "POS-HR-";
     $new_id = str_pad($new_id, 3, '0', STR_PAD_LEFT);
-    $combine = $prefix.$new_id;
+    $combine = $prefix . $new_id;
 
-    $insert_department_query = "INSERT IGNORE INTO department (department_id, department_name, company_id) VALUES ('$combine', '$department_name', '$company_id');";
-    $insert_department_result = mysqli_query($connect, $insert_department_query);
+    $insert_position_query = "INSERT INTO position_db (position_id, position_name, department_id, company_id) VALUES ('$combine','$position','$department_id','$company_id');";
+    $insert_position_result = mysqli_query($connect, $insert_position_query);
 
-    if($insert_department_result){
-        header("location: company-settings-dept.php");
+    if ($insert_position_result) {
+        header("location: company-settings-position.php");
     } else {
         mysqli_error($connect);
     }
-   
 
 }
 
@@ -75,6 +75,8 @@ if(isset($_POST['submit'])){
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Nokora:wght@100;300;400;700;900&display=swap"
         rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="position.js"></script>
 </head>
 
 <body>
@@ -280,7 +282,13 @@ if(isset($_POST['submit'])){
                             </div>
                             <div class="col-3">
                                 <label for="">Departemen</label>
-                                <input class="mt-2 form-control" type="text" name="dept_name" id="dept_name">
+                                <select class="mt-2 form-select" name="department_id" id="department_id">
+                                    <option></option>
+                                </select>
+                            </div>
+                            <div class="col-3">
+                                <label for="">Posisi</label>
+                                <input class="mt-2 form-control" type="text" name="position" id="position">
                             </div>
                         </div>
 
