@@ -447,18 +447,6 @@ line-height: normal;
     font-family: Work Sans;
     font-size: 16px;
     font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-}
-
-.btn-submit-permission:hover{
-    border-radius: 4px;
-    background: #4EC3FC;
-    color: #FFF;
-    text-align: center;
-    font-family: Work Sans;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
+    font-weight: 400;
     line-height: normal;
 }

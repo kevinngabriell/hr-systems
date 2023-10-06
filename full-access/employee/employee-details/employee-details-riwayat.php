@@ -256,26 +256,41 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
                 <nav class="nav flex-column flex-sm-row">
                     <a class="flex-sm-fill text-sm-center nav-link" aria-current="page"
                         href="employee-details.php?employee_id=<?php echo $employee_id ?>">Overview</a>
-                    <a class="flex-sm-fill text-sm-center nav-link active"
-                        href="employee-details-absensi.php">Absensi</a>
+                    <a class="flex-sm-fill text-sm-center nav-link"
+                        href="employee-details-absensi.php?employee_id=<?php echo $employee_id ?>">Absensi</a>
                     <a class="flex-sm-fill text-sm-center nav-link" href="employee-details-perfoma.html">Perfoma</a>
                     <a class="flex-sm-fill text-sm-center nav-link"
                         href="employee-details-permohonan.php?employee_id=<?php echo $employee_id ?>">Permohonan</a>
                     <a class="flex-sm-fill text-sm-center nav-link" href="employee-details-dokumen.html">Dokumen</a>
                     <a class="flex-sm-fill text-sm-center nav-link" href="employee-details-catatan.html">Catatan</a>
-                    <a class="flex-sm-fill text-sm-center nav-link" href="employee-details-riwayat.php?employee_id=<?php echo $employee_id ?>"">Riwayat</a>
+                    <a class="flex-sm-fill text-sm-center nav-link active"
+                        href="employee-details-riwayat.php?employee_id=<?php echo $employee_id ?>">Riwayat</a>
                 </nav>
 
                 
-
-
-
+                <div class=" row">
+                        <div class="col-3">
+                            <div class="card mt-4 card-action">
+                                <a href="leave-manage.php?employee_id=<?php echo $employee_id ?>"
+                                    style="text-decoration: none;">
+                                    <div class="menu-name-details-right-corner">
+                                        Reset cuti karyawan
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col">
+                            yut
+                        </div>
             </div>
-        </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-            crossorigin="anonymous"></script>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
 
 </body>
 

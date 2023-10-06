@@ -299,10 +299,10 @@ while ($find_username_rows = $find_username_result->fetch_assoc()) {
                         href="employee-details-absensi.php?employee_id=<?php echo $employee_id ?>">Absensi</a>
                     <a class="flex-sm-fill text-sm-center nav-link" href="employee-details-perfoma.html">Perfoma</a>
                     <a class="flex-sm-fill text-sm-center nav-link"
-                        href="employee-details-permohonan.html">Permohonan</a>
+                        href="employee-details-permohonan.php?employee_id=<?php echo $employee_id ?>">Permohonan</a>
                     <a class="flex-sm-fill text-sm-center nav-link" href="employee-details-dokumen.html">Dokumen</a>
                     <a class="flex-sm-fill text-sm-center nav-link" href="employee-details-catatan.html">Catatan</a>
-                    <a class="flex-sm-fill text-sm-center nav-link" href="employee-details-riwayat.html">Riwayat</a>
+                    <a class="flex-sm-fill text-sm-center nav-link" href="employee-details-riwayat.php?employee_id=<?php echo $employee_id ?>"">Riwayat</a>
                 </nav>
 
                 <div class="row mt-4 d-flex">

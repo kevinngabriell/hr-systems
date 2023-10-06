@@ -256,17 +256,17 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
                 <nav class="nav flex-column flex-sm-row">
                     <a class="flex-sm-fill text-sm-center nav-link" aria-current="page"
                         href="employee-details.php?employee_id=<?php echo $employee_id ?>">Overview</a>
-                    <a class="flex-sm-fill text-sm-center nav-link active"
-                        href="employee-details-absensi.php">Absensi</a>
-                    <a class="flex-sm-fill text-sm-center nav-link" href="employee-details-perfoma.html">Perfoma</a>
                     <a class="flex-sm-fill text-sm-center nav-link"
+                        href="employee-details-absensi.php?employee_id=<?php echo $employee_id ?>">Absensi</a>
+                    <a class="flex-sm-fill text-sm-center nav-link" href="employee-details-perfoma.html">Perfoma</a>
+                    <a class="flex-sm-fill text-sm-center nav-link active"
                         href="employee-details-permohonan.php?employee_id=<?php echo $employee_id ?>">Permohonan</a>
                     <a class="flex-sm-fill text-sm-center nav-link" href="employee-details-dokumen.html">Dokumen</a>
                     <a class="flex-sm-fill text-sm-center nav-link" href="employee-details-catatan.html">Catatan</a>
                     <a class="flex-sm-fill text-sm-center nav-link" href="employee-details-riwayat.php?employee_id=<?php echo $employee_id ?>"">Riwayat</a>
                 </nav>
 
-                
+
 
 
 

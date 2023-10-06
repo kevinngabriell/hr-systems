@@ -60,6 +60,52 @@ if ($check_is_user_already_exist_rows > 0) {
         $user_input_process = mysqli_query($connect, $insert_user_query);
 
         if ($user_input_process) {
+
+            $search_chat_id = "SELECT chat_id FROM telegram_info WHERE employee_id = '$employee_id'";
+            $chat_id_result = $connect->query($search_chat_id);
+
+            while ($chat_id_rows = $chat_id_result->fetch_assoc()) {
+                $chat_id = $chat_id_rows['chat_id'];
+            }
+
+            function sendMessage($chatID, $messaggio, $token)
+            {
+                $url = "https://api.telegram.org/bot" . $token . "/sendMessage?chat_id=" . $chatID;
+                $url = $url . "&text=" . urlencode($messaggio);
+                $ch = curl_init();
+                $optArray = array(
+                    CURLOPT_URL => $url,
+                    CURLOPT_RETURNTRANSFER => true
+                );
+                curl_setopt_array($ch, $optArray);
+                $result = curl_exec($ch);
+                curl_close($ch);
+                return $result;
+            }
+
+            $token = "6663215498:AAHPYjolpr-i4ti0clZrxEVNKVXJnqwUT4s";
+            $chatid = $chat_id;
+            sendMessage($chatid, "Dear Bapak/Ibu $employee_name,
+
+Kami dengan senang hati ingin memberikan Anda akses ke sistem HR, yang merupakan bagian internal PT King Lab Indonesia. Sistem ini menyediakan informasi untuk membantu Anda dalam proses personalia.
+
+Berikut adalah detail akses Anda:
+
+URL Website: https://kinglabindonesia.com/HRSystems/login.php
+Username: $username_set
+Password: 123456
+
+Kami sangat menyarankan Anda untuk segera mengakses sistem ini dan mengganti password default dengan yang lebih aman sesuai kebijakan perusahaan. Pastikan untuk menyimpan informasi ini dengan aman dan tidak mengungkapkannya kepada pihak lain yang tidak berwenang.
+
+Jika Anda mengalami masalah dalam mengakses atau menggunakan sistem ini, jangan ragu untuk menghubungi tim dukungan kami di [Email Dukungan] atau [Nomor Telepon Dukungan]. Kami akan siap membantu Anda.
+
+Terima kasih atas kerja keras Anda dan semangat dalam menjalankan tugas Anda.
+
+
+Best Regards,
+IT Support HR Systems", $token);
+
+
             // $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
 
             // try {
