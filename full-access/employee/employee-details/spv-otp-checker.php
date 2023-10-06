@@ -10,6 +10,24 @@ if (!isset($_SESSION['username'])) {
     header('location: ../../../login.php');
 }
 
+$employee_id = $_GET['employee_id'];
+
+function sendMessage($chatID, $messaggio, $token)
+{
+    //echo "sending message to " . $chatID . "\n";
+    $url = "https://api.telegram.org/bot" . $token . "/sendMessage?chat_id=" . $chatID;
+    $url = $url . "&text=" . urlencode($messaggio);
+    $ch = curl_init();
+    $optArray = array(
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true
+    );
+    curl_setopt_array($ch, $optArray);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    return $result;
+}
+
 //connection 
 include("../../../Conn/connection.php");
 
@@ -27,10 +45,11 @@ while ($company_data_row = $company_data_result->fetch_assoc()) {
 
 $employee_id = $_GET['employee_id'];
 
-$user_data_query = "SELECT em.employee_name, ecd.employee_email FROM users us JOIN employee em ON us.employee_id = em.id JOIN employee_contact_details_db ecd ON us.employee_id = ecd.id WHERE us.username = '$username';";
+$user_data_query = "SELECT em.id, em.employee_name, ecd.employee_email FROM users us JOIN employee em ON us.employee_id = em.id JOIN employee_contact_details_db ecd ON us.employee_id = ecd.id WHERE us.username = '$username';";
 $user_data_results = $connect->query($user_data_query);
 
 while ($user_data_row = $user_data_results->fetch_assoc()) {
+    $employee_id_printed = $user_data_row['id'];
     $employee_name_printed = $user_data_row['employee_name'];
     $employee_email_printed = $user_data_row['employee_email'];
 }
@@ -50,26 +69,82 @@ while ($employee_data_rows = $employee_data_results->fetch_assoc()) {
     $data_employee_gender = $employee_data_rows['gender_name'];
 }
 
-$supervised_query = "SELECT employee_spv FROM employee WHERE id = '$employee_id' ";
-$supervised_result = $connect->query($supervised_query);
+$spv_id = $_SESSION['spv_id'];
 
-while ($supervised_rows = $supervised_result->fetch_assoc()) {
-    $data_supervisor = $supervised_rows['employee_spv'];
+if (isset($_POST['resend-otp'])) {
 
-    $find_supervised_name = "SELECT employee_name FROM employee WHERE id = '$data_supervisor' ";
-    $find_supervised_name_result = $connect->query($find_supervised_name);
+    $search_chat_id = "SELECT chat_id FROM telegram_info WHERE employee_id = '$employee_id_printed'";
+    $chat_id_result = $connect->query($search_chat_id);
 
-    while ($find_supervised_name_rows = $find_supervised_name_result->fetch_assoc()) {
-        $superviser_name = $find_supervised_name_rows['employee_name'];
+    while ($chat_id_rows = $chat_id_result->fetch_assoc()) {
+        $chat_id = $chat_id_rows['chat_id'];
+    }
+
+    $id_otp = rand(0, 9999999999);
+    $otp = rand(0000000, 999999);
+    date_default_timezone_set('Asia/Jakarta');
+    $created_date = date('Y-m-d H:i:s');
+    $expired_date = date('Y-m-d H:i:s', strtotime('+ 15 minutes', strtotime($created_date)));
+
+    $token = "6663215498:AAHPYjolpr-i4ti0clZrxEVNKVXJnqwUT4s";
+    $chatid = "$chat_id";
+    sendMessage($chatid, "Dear Bapak/Ibu Kevin,
+
+Kode OTP anda adalah $otp. Kode tersebut akan berakhir dalam 15 menit. 
+
+Abaikan pesan ini jika anda tidak melakukan hal apapun yang membutuhkan verifikasi lebih lanjut
+
+Best Regards,
+IT Support HR Systems", $token);
+
+    $insert_otp_query = "INSERT IGNORE INTO otp_log (otp, created_time, expired_time) VALUES ('$otp', '$created_date', '$expired_date');";
+    $insert_otp_process = mysqli_query($connect, $insert_otp_query);
+
+    if ($insert_otp_process) {
+        $message = "OTP Berhasil Dikirim!!";
+        echo "<script type='text/javascript'>alert('$message');</script>";
+    } else {
+        $message = "OTP Gagal Dikirim!!";
+        echo "<script type='text/javascript'>alert('$message'); window.location.href='employee-details.php?employee_id=$employee_id';</script>";
     }
 
 }
 
-$find_username_query = "SELECT username FROM users WHERE employee_id = '$employee_id';";
-$find_username_result = $connect->query($find_username_query);
+if (isset($_POST['submit'])) {
 
-while ($find_username_rows = $find_username_result->fetch_assoc()) {
-    $username_registered = $find_username_rows['username'];
+    $kode_otp = $_POST['kode_otp'];
+
+    $look_expired_time = "SELECT expired_time FROM otp_log WHERE otp = '$kode_otp';";
+    $look_expired_process = $connect->query($look_expired_time);
+
+    while ($look_expired_rows = $look_expired_process->fetch_assoc()) {
+        $exp_time = $look_expired_rows['expired_time'];
+    }
+
+    date_default_timezone_set('Asia/Jakarta');
+    $date_now = date('Y-m-d H:i:s');
+
+    if($exp_time > $date_now){
+
+    $delete_otp_query = "DELETE FROM otp_log WHERE otp = '$kode_otp';";
+    $delete_otp_process = mysqli_query($connect, $delete_otp_query);
+
+    $updated_spv_query = "UPDATE employee SET employee_spv = '$spv_id' WHERE id = '$employee_id'";
+    $updated_spv_process = mysqli_query($connect, $updated_spv_query);
+
+    if($updated_spv_process){
+        $message = "Supervisor telah berhasil diupdate !!";
+        echo "<script type='text/javascript'>alert('$message'); window.location.href='employee-details.php?employee_id=$employee_id';</script>";
+    } else {
+        $message = "Supervisor gagal diupdate!!";
+        echo "<script type='text/javascript'>alert('$message'); window.location.href='employee-details.php?employee_id=$employee_id';</script>";
+    }
+    } else {
+        $message = "OTP Expired!! Silahkan ajukan kembali kode OTP anda !!";
+        echo "<script type='text/javascript'>alert('$message');</script>";
+    }
+
+
 }
 
 ?>
@@ -303,243 +378,41 @@ while ($find_username_rows = $find_username_result->fetch_assoc()) {
                     <a class="flex-sm-fill text-sm-center nav-link" href="employee-details-dokumen.html">Dokumen</a>
                     <a class="flex-sm-fill text-sm-center nav-link" href="employee-details-catatan.html">Catatan</a>
                     <a class="flex-sm-fill text-sm-center nav-link"
-                        href="employee-details-riwayat.php?employee_id=<?php echo $employee_id ?>"">Riwayat</a>
+                        href="employee-details-riwayat.php?employee_id=<?php echo $employee_id ?>">Riwayat</a>
                 </nav>
 
-                <div class=" row mt-4 d-flex">
-                        <div class="col-3">
-                            <div class="card card-employee-1">
-                                <img src="../../../Assets/company-logo.png"
-                                    style="width: 30%; margin-left: 5%; margin-top:5%;">
-
-                                <!-- employee name -->
-                                <a href="" style="text-decoration: none;">
-                                    <div class="employee-name">
-                                        <?php
-                                        if ($data_employee_name != NULL) {
-                                            echo $data_employee_name;
-                                        } else {
-                                            echo '-';
-                                        }
-                                        ?>
-                                    </div>
-                                </a>
-                                <!-- employee position -->
-                                <div class="employee-position">
-                                    <?= $data_employee_position ?>
+                <form action="" method="post">
+                    <div class="row mt-3 mb-4" style="text-align : left;">
+                        <div class="col">
+                            <div class="row d-flex align-items-center mt-1">
+                                <div class="col-4">
+                                    <label for="">Kode OTP</label>
                                 </div>
-
-                                <!-- employee username -->
-                                <div class="status-label">Username</div>
-                                <div class="status-value">
-                                    <?php
-                                    if ($username_registered != NULL) {
-                                        echo $username_registered;
-                                    } else {
-                                        echo "User belum didaftarkan";
-                                    }
-                                    ?>
+                                <div class="col">
+                                    <input class="form-control" type="text" name="kode_otp" id="kode_otp">
                                 </div>
-
-                                <!-- employee status -->
-                                <div class="status-label">Status</div>
-                                <div class="status-value">
-                                    <?= $data_employee_status ?>
-                                </div>
-
-                                <!-- employee contact -->
-                                <div class="contact-label mt-3">Kontak</div>
-                                <div class="contact-value">
-                                    <?php
-                                    if ($data_employee_phone == NULL) {
-                                        echo "-";
-                                    } else {
-                                        echo $data_employee_phone;
-                                    }
-                                    ?>
-                                    <br />
-                                    <?php
-                                    if ($data_employee_email == NULL) {
-                                        echo "-";
-                                    } else {
-                                        echo $data_employee_email;
-                                    }
-                                    ?>
-                                </div>
-
-                                <!-- supervised by -->
-                                <div class="contact-label mt-3">Supervisor</div>
-                                <div class="contact-value mb-4">
-                                    <?php
-                                    if ($superviser_name == NULL) {
-                                        echo "-";
-                                    } else {
-                                        echo $superviser_name;
-                                    }
-
-                                    ?>
-                                </div>
-
                             </div>
-
-                            <div class="card mt-4 card-action">
-                                <a href="read-only-employee-data/read-only-personal.php?employee_id=<?php echo $employee_id ?>"
-                                    style="text-decoration: none;">
-                                    <div class="menu-name-details-right-corner">
-                                        Detail karyawan
-                                    </div>
-                                </a>
-                            </div>
-
-
-                            <div class="card mt-4 card-action">
-                                <a href="create-acc-backend.php?employee_id=<?php echo $employee_id ?>"
-                                    style="text-decoration: none;">
-                                    <div class="menu-name-details-right-corner">
-                                        Buat akun
-                                    </div>
-                                </a>
-                            </div>
-
-                            <div class="card mt-4 card-action">
-                                <a href="javascript:resetPass();" style="text-decoration: none;">
-                                    <div class="menu-name-details-right-corner">
-                                        Reset akun
-                                    </div>
-                                </a>
-                            </div>
-
-                            <div class="card mt-4 card-action">
-                                <a href="javascript:deleteAcc();" style="text-decoration: none;">
-                                    <div class="menu-name-details-right-corner">
-                                        Hapus akun
-                                    </div>
-                                </a>
-                            </div>
-
-                            <div class="card mt-4 card-action">
-                                <a href="javascript:deleteAcc();" style="text-decoration: none;">
-                                    <div class="menu-name-details-right-corner">
-                                        Request Update data
-                                    </div>
-                                </a>
-                            </div>
-
-                            <div class="card mt-4 card-action mb-5">
-                                <a href="supervisor-settings.php?employee_id=<?php echo $employee_id ?>" style="text-decoration: none;">
-                                    <div class="menu-name-details-right-corner">
-                                        Atur Supervisor
-                                    </div>
-                                </a>
-                            </div>
-
-                           
-
-
-
                         </div>
                         <div class="col">
-                            <div class="card card-employee-1">
-
-                                <div class="basic-information">
-                                    Informasi Umum
-                                </div>
-
-                                <table style="margin-left: 1.8%; margin-top: 1%; margin-bottom: 3%; ">
-                                    <tr>
-                                        <th class="label-basic-information">Nama lengkap</th>
-                                        <th class="value-basic-information">
-                                            <?= $data_employee_name; ?>
-                                        </th>
-                                    </tr>
-                                    <tr class="separator">
-                                        <th class="label-basic-information">Tanggal lahir</th>
-                                        <th class="value-basic-information">
-                                            <?php echo "$data_employee_pob, $data_employee_dob" ?>
-                                        </th>
-                                    </tr>
-                                    <tr class="separator">
-                                        <th class="label-basic-information">Nomor handphone</th>
-                                        <th class="value-basic-information">
-                                            <?php
-                                            if ($data_employee_phone == NULL) {
-                                                echo "-";
-                                            } else {
-                                                echo $data_employee_phone;
-                                            }
-                                            ?>
-                                        </th>
-                                    </tr>
-                                    <tr class="separator">
-                                        <th class="label-basic-information">Jenis kelamin</th>
-                                        <th class="value-basic-information">
-                                            <?= $data_employee_gender; ?>
-                                        </th>
-                                    </tr>
-                                </table>
-                            </div>
-
-                            <div class="card card-employee-1 mt-4">
-                                <div class="basic-information">
-                                    Catatan posisi
-                                </div>
-
-                                <table style="margin-left: 1.8%; margin-top: 2%; margin-bottom: 3%; ">
-                                    <tr>
-                                        <th class="label-basic-information">Jabatan</th>
-                                        <th class="label-basic-information">Departemen</th>
-                                        <th class="label-basic-information">Periode awal</th>
-                                        <th class="label-basic-information">Periode akhir</th>
-                                    </tr>
-                                    <?php
-                                    $position_history_query = "SELECT pd.position_name, DATE_FORMAT(pld.start_date, '%d %M %Y') as start_date, DATE_FORMAT(pld.end_date, '%d %M %Y') as end_date, dt.department_name FROM position_log_db pld JOIN position_db pd ON pld.position = pd.position_id JOIN department dt ON pld.department = dt.department_id;";
-                                    $position_history_result = $connect->query($position_history_query);
-
-                                    while ($position_history_rows = $position_history_result->fetch_assoc()):
-                                        ?>
-                                        <tr>
-                                            <td style="height: 50%;">
-                                                <?= $position_history_rows['position_name']; ?>
-                                            </td>
-                                            <td style="height: 50%;">
-                                                <?= $position_history_rows['department_name']; ?>
-                                            </td>
-                                            <td style="height: 50%;">
-                                                <?= $position_history_rows['start_date']; ?>
-                                            </td>
-                                            <td style="height: 50%;">
-                                                <?php
-                                                if ($position_history_rows['end_date'] == NULL) {
-                                                    echo "-";
-                                                } else {
-                                                    echo $position_history_rows['end_date'];
-                                                }
-                                                ?>
-                                            </td>
-                                        </tr>
-                                        <?php
-                                    endwhile;
-                                    ?>
-                                </table>
-
-
-                            </div>
 
                         </div>
+                    </div>
+                    <button class="btn btn-submit-form-employee" id="resend-otp" name="resend-otp" type="submit">Kirim
+                        ulang OTP</button>
+                    <button class="btn btn-submit-form-employee" id="submit" name="submit" type="submit">Submit</button>
+                </form>
+
+
             </div>
-
-
-
         </div>
-    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-        crossorigin="anonymous"></script>
-    <script>
-     
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+            crossorigin="anonymous"></script>
+        <script>
 
-    </script>
+
+        </script>
 </body>
 
 </html>
