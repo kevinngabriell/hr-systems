@@ -114,10 +114,13 @@ IT Support HR Systems", $token);
         <!-- form login -->
         <section id="trouble-form">
           <form action="" method="post" class="form-login d-flex flex-column justify-content-center">
-            <div class="mb-5">
+            <div class="mt-2">
               <label class="label-form mb-2">Masukkan username</label>
               <input type="text" class="form-control" id="username" name="username" aria-describedby="emailHelp"
                 placeholder="Mohon masukkan username anda">
+            </div>
+            <div class="mb-4 d-flex justify-content-end">
+              <a href="login.php" class="trouble-text">Kembali Sign In</a>
             </div>
             <div class="mt-5 mb-3 d-flex justify-content-center">
               <button type="submit" id="submit" name="submit" class="btn btn-signin">Kirim</button>
