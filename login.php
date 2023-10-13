@@ -26,14 +26,13 @@ if (isset($_POST['submit'])) {
       $search_dept_result = $connect->query($search_dept_query);
 
       if ($password == '123456') {
-        header('location: change-default-pass.php?username='.$email_username);
+        header('location: change-default-pass.php?username=' . $email_username);
       } else {
         //retrieve department id
         while ($dept_row = $search_dept_result->fetch_assoc()) {
           //set dept_id value
           $dept_id_result = $dept_row['department_id'];
           $position_id_result = $dept_row['position_id'];
-          //check dept_id
 
           //session start
           session_start();
@@ -49,37 +48,9 @@ if (isset($_POST['submit'])) {
             $_SESSION['username'] = $user_row['username'];
             $_SESSION['user_department'] = $dept_id_result;
             header('location: employee/dashboard.php');
-            // $message = "Anda belum memiliki akses ke sistem ini";
-            // echo "<script type='text/javascript'>alert('$message');</script>";
           }
         }
       }
-
-      // //retrieve department id
-      // while ($dept_row = $search_dept_result->fetch_assoc()) {
-      //   //set dept_id value
-      //   $dept_id_result = $dept_row['department_id'];
-      //   $position_id_result = $dept_row['position_id'];
-      //   //check dept_id
-
-      //   //session start
-      //   session_start();
-
-      //   if ($position_id_result == 'POS-HR-002') {
-      //     //save dept session & user session
-      //     $_SESSION['username'] = $user_row['username'];
-      //     $_SESSION['user_department'] = $dept_id_result;
-      //     //direct user to new page
-      //     header('location: full-access/dashboard.php');
-      //   } else {
-      //     //if except HR department
-      //     $_SESSION['username'] = $user_row['username'];
-      //     $_SESSION['user_department'] = $dept_id_result;
-      //     header('location: employee/dashboard.php');
-      //     // $message = "Anda belum memiliki akses ke sistem ini";
-      //     // echo "<script type='text/javascript'>alert('$message');</script>";
-      //   }
-      // }
 
     } else {
       //passowrd is not correct
@@ -116,9 +87,7 @@ if (isset($_POST['submit'])) {
 
 <body>
   <div class="container-fluid">
-
     <div class="row d-flex align-items-center">
-
       <div class="col d-flex flex-column justify-content-center">
         <!-- title login -->
         <div class="login-title">Masuk</div>
@@ -127,24 +96,26 @@ if (isset($_POST['submit'])) {
           Silahkan masukkan username dan password anda </br> untuk masuk
         </div>
         <!-- form login -->
-        <form action="" method="post" class="form-login d-flex flex-column justify-content-center">
-          <div class="mb-3">
-            <label class="label-form mb-2">Masukkan username</label>
-            <input type="text" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-              placeholder="Mohon masukkan username anda">
-          </div>
-          <div class="mt-2">
-            <label class="label-form mb-2">Masukkan password</label>
-            <input type="password" name="password" class="form-control" id="exampleInputPassword1"
-              placeholder="Mohon masukkan password anda">
-          </div>
-          <div class="mb-4 d-flex justify-content-end">
-            <a href="trouble.php" class="trouble-text">Lupa password ?</a>
-          </div>
-          <div class="mb-3 d-flex justify-content-center">
-            <button type="submit" name="submit" class="btn btn-signin">Masuk</button>
-          </div>
-        </form>
+        <section id="login form">
+          <form action="" method="post" class="form-login d-flex flex-column justify-content-center">
+            <div class="mb-3">
+              <label class="label-form mb-2">Masukkan username</label>
+              <input type="text" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                placeholder="Mohon masukkan username anda">
+            </div>
+            <div class="mt-2">
+              <label class="label-form mb-2">Masukkan password</label>
+              <input type="password" name="password" class="form-control" id="exampleInputPassword1"
+                placeholder="Mohon masukkan password anda">
+            </div>
+            <div class="mb-4 d-flex justify-content-end">
+              <a href="trouble.php" class="trouble-text">Lupa password ?</a>
+            </div>
+            <div class="mb-3 d-flex justify-content-center">
+              <button type="submit" name="submit" class="btn btn-signin">Masuk</button>
+            </div>
+          </form>
+        </section>
         <!-- end of the form -->
       </div>
       <div class="col col-right-side d-flex justify-content-center" style="height: 100vh">

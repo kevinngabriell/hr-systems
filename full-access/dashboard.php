@@ -24,14 +24,22 @@ while ($company_data_row = $company_data_result->fetch_assoc()) {
   $company_id_printed = $company_data_row['company_id'];
 }
 
-$user_data_query = "SELECT em.employee_name, ecd.employee_email FROM users us JOIN employee em ON us.employee_id = em.id JOIN employee_contact_details_db ecd ON us.employee_id = ecd.id WHERE us.username = '$username';";
+$user_data_query = "SELECT em.id, em.employee_name, ecd.employee_email FROM users us JOIN employee em ON us.employee_id = em.id JOIN employee_contact_details_db ecd ON us.employee_id = ecd.id WHERE us.username = '$username';";
 $user_data_results = $connect->query($user_data_query);
 
 while ($user_data_row = $user_data_results->fetch_assoc()) {
+  $employee_id_logged = $user_data_row['id'];
   $employee_name_printed = $user_data_row['employee_name'];
   $employee_email_printed = $user_data_row['employee_email'];
 }
 
+//looking for permohonan
+$lp_query = "SELECT lal.id_leave_log, em.employee_name, ls.leave_status_name, lal.request_date FROM leave_allowance_log lal JOIN leave_status ls ON lal.id_leave_status = ls.id_leave_status JOIN employee em ON lal.employee_id = em.id WHERE lal.employee_id = '$employee_id_logged' ORDER BY lal.request_date DESC LIMIT 3;";
+$lp_result = $connect->query($lp_query);
+
+//looking for masuk telat
+$lil_query = "SELECT lil.id_late_in ,em.employee_name, ls.leave_status_name, lil.request_date FROM late_in_log lil JOIN employee em ON lil.employee_id = em.id JOIN leave_status ls ON lil.status = ls.id_leave_status WHERE lil.employee_id = '$employee_id_logged' ORDER BY lil.request_date DESC;";
+$lil_result = $connect->query($lil_query);
 
 ?>
 
@@ -391,10 +399,70 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
                       </a>
                     </div>
                   </div>
-                  
+
                 </div>
               </div>
             </div>
+            <!-- <div class="row mt-3">
+              <div class="col">
+                permohonan section 
+                <section id="permohonan-section">
+                  <div class="card card-style-2">
+                    <div class="title-card-style-2">Permohonan</div>
+                    <?php
+                    while ($lp_rows = $lp_result->fetch_assoc()):
+                      if ($lp_rows > 0) {
+                        ?>
+                        <a href="" style="text-decoration: none;">
+                          <div class="card card-style-2">
+                            <div class="">
+                              <?php echo $lp_rows['employee_name'] ?>
+                            </div>
+                            <div class="">Cuti |
+                              <?php echo $lp_rows['leave_status_name'] ?>
+                            </div>
+                          </div>
+                        </a>
+                        <?php
+                      }
+                    endwhile;
+                    ?>
+                    <div class="card card-style-2">
+                      <div class="">Nama</div>
+                      <div class="">Jenis permohanan | Status</div>
+                    </div>
+                    <div class="card card-style-2">
+                      <div class="">Nama</div>
+                      <div class="">Jenis permohanan | Status</div>
+                    </div>
+                    <div class="card card-style-2">
+                      <div class="">Nama</div>
+                      <div class="">Jenis permohanan | Status</div>
+                    </div> 
+                  </div>
+                </section>
+              </div>
+              <div class="col">
+                persetujuan section 
+                <section>
+                  <div class="card card-style-2">
+                    <div class="title-card-style-2">Persetujuan</div>
+                    <div class="card card-style-2">
+                      <div class="">Nama</div>
+                      <div class="">Jenis permohanan | Status</div>
+                    </div>
+                    <div class="card card-style-2">
+                      <div class="">Nama</div>
+                      <div class="">Jenis permohanan | Status</div>
+                    </div>
+                    <div class="card card-style-2">
+                      <div class="">Nama</div>
+                      <div class="">Jenis permohanan | Status</div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div> -->
           </div>
           <div class="col-4">
             <div class="row">
@@ -464,11 +532,11 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
               </div>
             </div>
             <div class="row mt-4">
-                  <div class="col">
-                    <!-- <div class="card card-style-1">
+              <div class="col">
+                <!-- <div class="card card-style-1">
                       te
                     </div> -->
-                  </div>
+              </div>
             </div>
           </div>
         </div>

@@ -1,5 +1,23 @@
 <?php
 
+date_default_timezone_set('Asia/Jakarta');
+
+function sendMessage($chatID, $messaggio, $token)
+{
+    //echo "sending message to " . $chatID . "\n";
+    $url = "https://api.telegram.org/bot" . $token . "/sendMessage?chat_id=" . $chatID;
+    $url = $url . "&text=" . urlencode($messaggio);
+    $ch = curl_init();
+    $optArray = array(
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true
+    );
+    curl_setopt_array($ch, $optArray);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    return $result;
+}
+
 //check session when started
 if (!isset($_SESSION)) {
     session_start();
@@ -13,6 +31,7 @@ include("../../Conn/connection.php");
 
 //set username variable from session
 $username = $_SESSION['username'];
+$permission_id = $_GET['permission_id'];
 
 //retrieve company name
 $company_data_query = "SELECT cy.company_id, cy.company_name, cy.company_address FROM users us JOIN company cy ON us.company_id = cy.company_id WHERE us.username = '$username';";
@@ -32,10 +51,6 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
     $employee_name_printed = $user_data_row['employee_name'];
     $employee_email_printed = $user_data_row['employee_email'];
 }
-
-//retrieve permission type
-$permission_type_query = "SELECT * FROM permission_type";
-$permission_type_result = mysqli_query($connect, $permission_type_query);
 
 //get employee data
 $employee_summary_query = "SELECT em.employee_name, pd.position_name, dp.department_name FROM employee em JOIN department dp ON em.department_id = dp.department_id JOIN position_db pd ON em.position_id = pd.position_id JOIN users us ON em.id = us.employee_id WHERE us.username = '$username';";
@@ -59,47 +74,118 @@ while ($remain_rows = $remain_result->fetch_assoc()) {
 $list_employee = "SELECT employee.id,employee.employee_name FROM employee;";
 $list_result = mysqli_query($connect, $list_employee);
 
-//cek if submit
+//check if kirim otp is not ?
+if (isset($_POST['send-otp'])) {
+
+    $search_chat_id = "SELECT chat_id FROM telegram_info WHERE employee_id = '$employee_id'";
+    $chat_id_result = $connect->query($search_chat_id);
+
+    while ($chat_id_rows = $chat_id_result->fetch_assoc()) {
+        $chat_id = $chat_id_rows['chat_id'];
+    }
+
+    $id_otp = rand(0, 9999999999);
+    $otp = rand(000000, 999999);
+    $created_date = date('Y-m-d H:i:s');
+    $expired_date = date('Y-m-d H:i:s', strtotime('+ 15 minutes', strtotime($created_date)));
+
+    $token = "6663215498:AAHPYjolpr-i4ti0clZrxEVNKVXJnqwUT4s";
+    $chatid = "$chat_id";
+    sendMessage($chatid, "Dear Bapak/Ibu $employee_name_printed,
+
+    Kode OTP anda adalah $otp. Kode tersebut akan berakhir dalam 15 menit. 
+
+    Abaikan pesan ini jika anda tidak melakukan hal apapun yang membutuhkan verifikasi lebih lanjut
+
+    Best Regards,
+    IT Support HR Systems", $token);
+
+    $insert_otp_query = "INSERT IGNORE INTO otp_log (otp, created_time, expired_time) VALUES ('$otp', '$created_date', '$expired_date');";
+    $insert_otp_process = mysqli_query($connect, $insert_otp_query);
+
+}
+
+//check if submit
 if (isset($_POST['submit'])) {
 
-    $start_leave = $_POST['start_leave'];
-    $end_leave = $_POST['end_leave'];
-    $phone_number = $_POST['phone_number'];
-    $reason = $_POST['reason'];
-    $employee_change = $_POST['employee_change'];
+    $look_expired_time = "SELECT expired_time FROM otp_log WHERE otp = '$otp';";
+    $look_expired_process = $connect->query($look_expired_time);
 
-    $random_id = rand(100, 9999999999);
-    $set_leave_status = "1";
+    while ($look_expired_rows = $look_expired_process->fetch_assoc()) {
+        $exp_time = $look_expired_rows['expired_time'];
+    }
 
-    $start_leave_formatted = strtotime($start_leave);
-    $end_leave_formatted = strtotime($end_leave);
-    $countdays = $end_leave_formatted - $start_leave_formatted;
-    $countdays = $countdays / (60 * 60 * 24);
-    $leave_operation = $leave_remaining - $countdays;
+    $date_now = date('Y-m-d H:i:s');
 
-    date_default_timezone_set('Asia/Jakarta');
-    $current_date = date('Y-m-d H:i:s');
+    if ($exp_time > $date_now) {
 
-    if ($countdays > $leave_remaining) {
-        $message = "Jatah cuti anda tidak mencukupi !!";
-        echo "<script type='text/javascript'>alert('$message'); window.location.href='../dashboard.php';</script>";
-    } else {
-        $insert_log_query = "INSERT IGNORE INTO leave_allowance_log (id_leave_log, employee_id, start_leave, end_leave, phone_number, reason, employee_change, id_leave_status, reject_reason, request_date, last_update_date) VALUES ('$random_id', '$employee_id', '$start_leave', '$end_leave', '$phone_number', '$reason', '$employee_change', '$set_leave_status', NULL, '$current_date', '$current_date');";
-        $insert_log_process = mysqli_query($connect, $insert_log_query);
-
+        $id_permission_log = rand(0, 9999999999);
+        $insert_permission_query = "INSERT IGNORE INTO permission_log (id_permission_log, permission_type, employee, permission_status, request_date, last_update_date, start_date, end_date, phone_number, reason, employee_change) VALUES ('$id_permission_log', '$permission_id', '$employee_id', '1', '$date_now', '$date_now', '$start_leave', '$end_leave', '$phone_number', '$reason', '$employee_change');";
+        $insert_log_process = mysqli_query($connect, $insert_permission_query);
         $update_leave_query = "UPDATE leave_allowance SET leave_remaining = '$leave_operation' WHERE employee_id = '$employee_id';";
         $update_leave_process = mysqli_query($connect, $update_leave_query);
 
-        if ($insert_log_process) {
-            $message = "Sukses !!";
-            echo "<script type='text/javascript'>alert('$message'); window.location.href='../dashboard.php';</script>";
-        } else {
-            $message = "Gagal !!";
-            echo "<script type='text/javascript'>alert('$message'); window.location.href='../dashboard.php';</script>";
+        if ($insert_log_process && $update_leave_process) {
+            $token = "6663215498:AAHPYjolpr-i4ti0clZrxEVNKVXJnqwUT4s";
+            $chatid = "$chat_id";
+            sendMessage($chatid, "Dear Bapak/Ibu $employee_name_printed,
+
+            Pengajuan cuti anda saat ini telah berhasil dilakukan. Anda akan menerima notifikasi jika cuti anda telah disetujui. 
+            Pantau terus permohonan cuti anda pada halaman dashboard.
+
+            Best Regards,
+            IT Support HR Systems", $token);
         }
+
+    } else {
+
     }
 
 }
+
+// //cek if submit
+// if (isset($_POST['submit'])) {
+//     //get all data
+//     $start_leave = $_POST['start_leave'];
+//     $end_leave = $_POST['end_leave'];
+//     $phone_number = $_POST['phone_number'];
+//     $reason = $_POST['reason'];
+//     $employee_change = $_POST['employee_change'];
+
+//     //generate id and set value
+//     $random_id = rand(100, 9999999999);
+//     $set_leave_status = "1";
+//     $permission_type = "PMTYPE-001";
+
+//     //calculate time 
+//     $start_leave_formatted = strtotime($start_leave);
+//     $end_leave_formatted = strtotime($end_leave);
+//     $countdays = $end_leave_formatted - $start_leave_formatted;
+//     $countdays = $countdays / (60 * 60 * 24);
+//     $leave_operation = $leave_remaining - $countdays;
+//     $current_date = date('Y-m-d H:i:s');
+
+//     if ($countdays > $leave_remaining) {
+//         $message = "Jatah cuti anda tidak mencukupi !!";
+//         echo "<script type='text/javascript'>alert('$message'); window.location.href='../dashboard.php';</script>";
+//     } else {
+
+//         $insert_log_query = "INSERT IGNORE INTO permission_log (id_permission_log, employee_id, start_leave, end_leave, phone_number, reason, employee_change, id_leave_status, reject_reason, request_date, last_update_date) VALUES ('$random_id', '$employee_id', '$start_leave', '$end_leave', '$phone_number', '$reason', '$employee_change', '$set_leave_status', NULL, '$current_date', '$current_date');";
+//         $insert_log_process = mysqli_query($connect, $insert_log_query);
+
+//         $update_leave_query = "UPDATE leave_allowance SET leave_remaining = '$leave_operation' WHERE employee_id = '$employee_id';";
+//         $update_leave_process = mysqli_query($connect, $update_leave_query);
+
+//         if ($insert_log_process) {
+//             $message = "Sukses !!";
+//             echo "<script type='text/javascript'>alert('$message'); window.location.href='../dashboard.php';</script>";
+//         } else {
+//             $message = "Gagal !!";
+//             echo "<script type='text/javascript'>alert('$message'); window.location.href='../dashboard.php';</script>";
+//         }
+//     }
+
+// }
 
 ?>
 
@@ -354,14 +440,12 @@ if (isset($_POST['submit'])) {
                             <div class="form-group row mt-3">
                                 <label for="" class="col-sm-3 col-form-label">Sisa cuti</label>
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" readonly
-                                        value=" <?php $isset = isset($leave_remaining);
-                                        if ($isset == false) {
-                                            echo "Belum ada data cuti";
-                                        } else {
-                                            echo $leave_remaining;
-                                        } ?>"
-                                        name="" id="">
+                                    <input type="text" class="form-control" readonly value=" <?php $isset = isset($leave_remaining);
+                                    if ($isset == false) {
+                                        echo "Belum ada data cuti";
+                                    } else {
+                                        echo $leave_remaining;
+                                    } ?>" name="" id="">
                                 </div>
                             </div>
                             <div class="form-group row mt-3">
@@ -393,9 +477,20 @@ if (isset($_POST['submit'])) {
                                     </select>
                                 </div>
                             </div>
+                            <div class="form-group row mt-3 d-flex align-items-center">
+                                <label for="" class="col-sm-3 col-form-label">Kode OTP</label>
+                                <div class="col-sm-3">
+                                    <input type="number" name="" class="form-control" id="">
+                                </div>
+                                <div class="col-sm-3">
+                                    <button class="btn btn-submit-permission" id="send-otp" name="send-otp"
+                                        type="submit">Kirim OTP</button>
+                                </div>
+                            </div>
                             <button class="btn btn-submit-permission mt-4" id="submit" name="submit"
                                 type="submit">Submit</button>
                         </form>
+
                     </div>
                     <div class="col-4">
                         <!-- <div class="card card-style-1">
@@ -417,24 +512,7 @@ if (isset($_POST['submit'])) {
 
 
 
-    <script>
-        var chrt = document.getElementById("chartId").getContext("2d");
-        var chartId = new Chart(chrt, {
-            type: 'doughnut',
-            data: {
-                labels: ["HTML", "CSS", "JAVASCRIPT", "CHART.JS", "JQUERY", "BOOTSTRP"],
-                datasets: [{
-                    label: "online tutorial subjects",
-                    data: [20, 40, 13, 35, 20, 38],
-                    backgroundColor: ['yellow', 'aqua', 'pink', 'lightgreen', 'gold', 'lightblue'],
-                    hoverOffset: 5
-                }],
-            },
-            options: {
-                responsive: false,
-            },
-        });
-    </script>
+
 </body>
 
 </html>
