@@ -33,6 +33,10 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
   $employee_email_printed = $user_data_row['employee_email'];
 }
 
+//looking for permission log
+$list_permission_query = "SELECT pl.id_permission_log, em.employee_name, ls.leave_status_name, pl.request_date, pt.permission_type_name FROM permission_log pl JOIN permission_type pt ON pl.permission_type = pt.id_permission_type JOIN leave_status ls ON pl.permission_status = ls.id_leave_status JOIN employee em ON pl.employee = em.id WHERE pl.employee = '$employee_id_logged' ORDER BY pl.last_update_date DESC LIMIT 3;";
+$list_permission_result = $connect->query($list_permission_query);
+
 //looking for permohonan
 $lp_query = "SELECT lal.id_leave_log, em.employee_name, ls.leave_status_name, lal.request_date FROM leave_allowance_log lal JOIN leave_status ls ON lal.id_leave_status = ls.id_leave_status JOIN employee em ON lal.employee_id = em.id WHERE lal.employee_id = '$employee_id_logged' ORDER BY lal.request_date DESC LIMIT 3;";
 $lp_result = $connect->query($lp_query);
@@ -403,22 +407,22 @@ $lil_result = $connect->query($lil_query);
                 </div>
               </div>
             </div>
-            <!-- <div class="row mt-3">
+            <div class="row mt-2">
               <div class="col">
-                permohonan section 
+                <!-- permohonan section  -->
                 <section id="permohonan-section">
                   <div class="card card-style-2">
                     <div class="title-card-style-2">Permohonan</div>
                     <?php
-                    while ($lp_rows = $lp_result->fetch_assoc()):
+                    while ($lp_rows = $list_permission_result->fetch_assoc()):
                       if ($lp_rows > 0) {
                         ?>
                         <a href="" style="text-decoration: none;">
                           <div class="card card-style-2">
-                            <div class="">
+                            <div class="event-detail-text-style">
                               <?php echo $lp_rows['employee_name'] ?>
                             </div>
-                            <div class="">Cuti |
+                            <div class=""><?php echo $lp_rows['permission_type_name'] ?> |
                               <?php echo $lp_rows['leave_status_name'] ?>
                             </div>
                           </div>
@@ -427,24 +431,21 @@ $lil_result = $connect->query($lil_query);
                       }
                     endwhile;
                     ?>
-                    <div class="card card-style-2">
-                      <div class="">Nama</div>
-                      <div class="">Jenis permohanan | Status</div>
-                    </div>
-                    <div class="card card-style-2">
-                      <div class="">Nama</div>
-                      <div class="">Jenis permohanan | Status</div>
-                    </div>
-                    <div class="card card-style-2">
-                      <div class="">Nama</div>
-                      <div class="">Jenis permohanan | Status</div>
-                    </div> 
                   </div>
                 </section>
               </div>
               <div class="col">
-                persetujuan section 
+                <!-- persetujuan section  -->
                 <section>
+                  <?php 
+                    $check_is_spv_query = "SELECT COUNT(*) as count FROM employee WHERE employee.employee_spv = '$employee_id_logged';";
+                    $check_is_spv_result = $connect->query($check_is_spv_query);
+                    $check_is_spv_rows = $check_is_spv_result->fetch_assoc();
+                    $is_spv = $check_is_spv_rows['count'];
+
+                    if($is_spv > 0){
+                    
+                  ?>
                   <div class="card card-style-2">
                     <div class="title-card-style-2">Persetujuan</div>
                     <div class="card card-style-2">
@@ -460,9 +461,14 @@ $lil_result = $connect->query($lil_query);
                       <div class="">Jenis permohanan | Status</div>
                     </div>
                   </div>
+                  <?php 
+                    } else {
+                      
+                    }
+                  ?>
                 </section>
               </div>
-            </div> -->
+            </div>
           </div>
           <div class="col-4">
             <div class="row">

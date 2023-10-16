@@ -352,9 +352,47 @@ while ($user_data_row = $user_data_results->fetch_assoc()) {
 
         <div class="row">
           <div class="col-8">
-            <div class="card card-style-2">
-              <p>ssssss</p>
-            </div>
+            <div class="card card-style-1 mt-4">
+                  <div class="row d-flex align-items-center justify-content-center mb-3">
+                    <div class="col d-flex justify-content-center">
+                      <a href="" style="text-decoration: none; text-align: center;">
+                        <img src="../Assets/time-record.png" alt="" style="width: 70%;">
+                        <div class="title-card-style-1 mt-2">Absen</div>
+                      </a>
+                    </div>
+                    <div class="col d-flex justify-content-center">
+                      <a href="permission-form.php" style="text-decoration: none; text-align: center;">
+                        <img src="../Assets/leave-permission.png" alt="" style="width: 70%;">
+                        <div class="title-card-style-1 mt-2">Izin</div>
+                      </a>
+                    </div>
+                    <div class="col d-flex justify-content-center">
+                      <a href="" style="text-decoration: none; text-align: center;">
+                        <img src="../Assets/unknown-menu.png" alt="" style="width: 70%;">
+                        <div class="title-card-style-1 mt-2">Soon</div>
+                      </a>
+                    </div>
+                    <div class="col d-flex justify-content-center">
+                      <a href="" style="text-decoration: none; text-align: center;">
+                        <img src="../Assets/unknown-menu.png" alt="" style="width: 70%;">
+                        <div class="title-card-style-1 mt-2">Soon</div>
+                      </a>
+                    </div>
+                    <div class="col d-flex justify-content-center">
+                      <a href="" style="text-decoration: none; text-align: center;">
+                        <img src="../Assets/unknown-menu.png" alt="" style="width: 70%;">
+                        <div class="title-card-style-1 mt-2">Soon</div>
+                      </a>
+                    </div>
+                    <div class="col d-flex justify-content-center">
+                      <a href="" style="text-decoration: none; text-align: center;">
+                        <img src="../Assets/unknown-menu.png" alt="" style="width: 70%;">
+                        <div class="title-card-style-1 mt-2">Soon</div>
+                      </a>
+                    </div>
+                  </div>
+
+                </div>
           </div>
           <div class="col">
             <div class="card card-style-2">
