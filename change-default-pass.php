@@ -5,6 +5,23 @@ include("Conn/connection.php");
 
 $username = $_GET['username'];
 
+function sendMessage($chatID, $messaggio, $token)
+{
+  //echo "sending message to " . $chatID . "\n";
+
+  $url = "https://api.telegram.org/bot" . $token . "/sendMessage?chat_id=" . $chatID;
+  $url = $url . "&text=" . urlencode($messaggio);
+  $ch = curl_init();
+  $optArray = array(
+    CURLOPT_URL => $url,
+    CURLOPT_RETURNTRANSFER => true
+  );
+  curl_setopt_array($ch, $optArray);
+  $result = curl_exec($ch);
+  curl_close($ch);
+  return $result;
+}
+
 if (isset($_POST['submit'])) {
 
   $new_pass = $_POST['new_pass'];
@@ -21,6 +38,7 @@ if (isset($_POST['submit'])) {
       $updated_password_process = mysqli_query($connect, $updated_password_query);
 
       if ($updated_password_process) {
+        
         $message = "Password telah berhasil diubah !!";
         echo "<script type='text/javascript'>alert('$message');</script>";
 

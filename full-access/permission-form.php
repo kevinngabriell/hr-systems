@@ -46,7 +46,7 @@ if (isset($_POST['submit'])) {
     } else if ($permission_id == 'PMTYPE-002') {
         header("location: permission-form/late-in.php?permission_id=$permission_id");
     } else if ($permission_id == 'PMTYPE-003') {
-        header("location: permission-form/leave-early.php?permission_id=$permisssion_id");
+        header("location: permission-form/leave-early.php?permission_id=$permission_id");
     }
 
 }

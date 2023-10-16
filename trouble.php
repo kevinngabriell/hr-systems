@@ -5,7 +5,7 @@ include("Conn/connection.php");
 
 function sendMessage($chatID, $messaggio, $token)
 {
-  echo "sending message to " . $chatID . "\n";
+  //echo "sending message to " . $chatID . "\n";
 
   $url = "https://api.telegram.org/bot" . $token . "/sendMessage?chat_id=" . $chatID;
   $url = $url . "&text=" . urlencode($messaggio);

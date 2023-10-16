@@ -1,5 +1,6 @@
 <?php
-
+//set timezone
+date_default_timezone_set('Asia/Jakarta');
 //check session when started
 if (!isset($_SESSION)) {
     session_start();
@@ -7,13 +8,41 @@ if (!isset($_SESSION)) {
 if (!isset($_SESSION['username'])) {
     header('location: ../../login.php');
 }
-
 //connection 
 include("../../Conn/connection.php");
-
 //set username variable from session
 $username = $_SESSION['username'];
+//send message function
+function sendMessage($chatID, $messaggio, $token)
+{
+    $url = "https://api.telegram.org/bot" . $token . "/sendMessage?chat_id=" . $chatID;
+    $url = $url . "&text=" . urlencode($messaggio);
+    $ch = curl_init();
+    $optArray = array(CURLOPT_URL => $url, CURLOPT_RETURNTRANSFER => true);
+    curl_setopt_array($ch, $optArray);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    return $result;
+}
+//Function to generate a random ID
+function generateRandomID()
+{
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $randomID = '';
+    $length = 8; // You can adjust the length of the ID as needed
 
+    for ($i = 0; $i < $length; $i++) {
+        $randomID .= $characters[rand(0, strlen($characters) - 1)];
+    }
+
+    return $randomID;
+}
+function isPermissionIdUnique($connect, $id_permission_log)
+{
+    $check_same_query = "SELECT id_permission_log FROM permission_log WHERE id_permission_log = '$id_permission_log'";
+    $check_same_result = $connect->query($check_same_query);
+    return $check_same_result->num_rows === 0;
+}
 //retrieve company name
 $company_data_query = "SELECT cy.company_id, cy.company_name, cy.company_address FROM users us JOIN company cy ON us.company_id = cy.company_id WHERE us.username = '$username';";
 $company_data_result = $connect->query($company_data_query);
@@ -53,21 +82,70 @@ if (isset($_POST['submit'])) {
     $date = $_POST['date'];
     $reason = $_POST['reason'];
     $absen_time = $_POST['absen_time'];
-
-    $random_id = rand(100, 9999999999);
-    $set_status = "1";
-    date_default_timezone_set('Asia/Jakarta');
     $current_date = date('Y-m-d H:i:s');
+    $set_leave_status = "1";
+    $permission_type = "PMTYPE-003";
 
-    $insert_late_in_query = "INSERT IGNORE INTO leave_early_log (id_late_in, employee_id, date, reason, absen_time, status, reject_reason, request_date, last_updated_date) VALUES ('$random_id', '$employee_id', '$date', '$reason', '$absen_time', '$set_status', NULL, '$current_date', '$current_date');";
-    $insert_late_in_process = mysqli_query($connect, $insert_late_in_query);
+    //generate random id 
+    do {
+        $randomIdPermission = generateRandomID();
+    } while (!isPermissionIdUnique($connect, $randomIdPermission));
+    //insert proses 
+    $insert_permission_query = "INSERT IGNORE INTO permission_log (id_permission_log, permission_type, employee, permission_status, request_date, last_update_date, date, reason, time) VALUES ('$randomIdPermission', '$permission_type', '$employee_id', '1', '$current_date', '$current_date', '$date', '$reason', '$absen_time');";
+    $insert_log_process = mysqli_query($connect, $insert_permission_query);
+    if ($insert_log_process) {
+        //looking for chat id data query
+        $telegram_id_query = "SELECT chat_id FROM telegram_info WHERE employee_id = '$employee_id'";
+        $telegram_id_result = $connect->query($telegram_id_query);
+        //retrieve chat id
+        while ($telegram_id_rows = $telegram_id_result->fetch_assoc()) {
+            $chat_id = $telegram_id_rows['chat_id'];
+        }
+        //looking for spv employee id 
+        $spv_query = "SELECT employee_spv FROM employee WHERE id = '$employee_id'";
+        $spv_result = $connect->query($spv_query);
+        //retrieve spv id
+        while ($spv_rows = $spv_result->fetch_assoc()) {
+            $spv_id = $spv_rows['employee_spv'];
+        }
+        //looking for spv chat id
+        $telegram_spv_query = "SELECT chat_id FROM telegram_info WHERE employee_id = '$spv_id'";
+        $telegram_spv_result = $connect->query($telegram_spv_query);
+        //retrieve spv chat id
+        while ($telegram_spv_rows = $telegram_spv_result->fetch_assoc()) {
+            $spv_chat_id = $telegram_spv_rows['chat_id'];
+        }
+        //token and call chat id
+        $token = "6663215498:AAHPYjolpr-i4ti0clZrxEVNKVXJnqwUT4s";
+        $chatid = "$chat_id";
+        sendMessage($chatid, "Dear Bapak/Ibu $employee_name_printed,
 
-    if($insert_late_in_process){
-        $message = "Sukses !!";
-        echo "<script type='text/javascript'>alert('$message'); window.location.href='../dashboard.php';</script>";
+Pengajuan izin anda saat ini telah berhasil dilakukan. Anda akan menerima notifikasi jika izin anda telah disetujui. 
+Pantau terus permohonan izin anda pada halaman dashboard.
+
+Best Regards,
+IT Support HR Systems", $token);
+        $formatted_date = date("d M Y", strtotime($date));
+        sendMessage($spv_chat_id, "Dear Bapak/Ibu, 
+
+Saat ini salah satu anggota tim anda telah mengajukan izin pulang lebih awal melalui dashboard HR. Detail dari permohonan izin tersebut sebagai berikut : 
+
+Nama karyawan : $employee_name_printed 
+Izin : pulang lebih awal
+Tanggal : $formatted_date 
+Waktu : $absen_time
+Alasan : $reason
+
+Sebagai bagian dari prosedur perusahaan, kami membutuhkan konfirmasi dari Bapak/Ibu sebagai atasan agar dapat diproses lebih lanjut. 
+
+Akses konfirmasi dapat Bapak/Ibu temukan pada halaman beranda sistem HR. 
+
+Best Regards, 
+IT Support HR Systems", $token);
+        $message = "Pengajuan izin anda telah berhasil diajukan!!";
+        echo "<script type='text/javascript'>alert('$message'); window.location.href='../dashboard.php'; </script>";
     } else {
-        $message = "Gagal !!";
-        echo "<script type='text/javascript'>alert('$message'); window.location.href='../dashboard.php';</script>";
+
     }
 }
 

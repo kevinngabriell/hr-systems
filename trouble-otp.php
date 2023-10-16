@@ -3,7 +3,6 @@ date_default_timezone_set('Asia/Jakarta');
 
 //retrieve connection data
 include("Conn/connection.php");
-
 //get employee id
 $employee_id = $_GET['employee_id'];
 //get employee name 
@@ -19,10 +18,9 @@ $username_result = $connect->query($get_username_query);
 while ($username_rows = $username_result->fetch_assoc()) {
     $username = $username_rows['username'];
 }
-
+//function to send message 
 function sendMessage($chatID, $messaggio, $token)
 {
-    //echo "sending message to " . $chatID . "\n";
     $url = "https://api.telegram.org/bot" . $token . "/sendMessage?chat_id=" . $chatID;
     $url = $url . "&text=" . urlencode($messaggio);
     $ch = curl_init();
@@ -36,7 +34,7 @@ function sendMessage($chatID, $messaggio, $token)
     return $result;
 }
 
-// //looking for chat id data query
+//looking for chat id data query
 $telegram_id_query = "SELECT chat_id FROM telegram_info WHERE employee_id = '$employee_id'";
 $telegram_id_result = $connect->query($telegram_id_query);
 //retrieve chat id
